@@ -1,0 +1,18 @@
+{
+  "name": "makedle-server",
+  "version": "1.0.0",
+  "description": "express server for makdele client",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./index.js",
+    "test": "test"
+  },
+  "author": "jon-zawada",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
