@@ -1,8 +1,11 @@
 import express, { Request, Response } from 'express';
 import pool from './db';
+import userRoutes from './Routes/userRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use('/api', userRoutes);
 
 app.get('/test-db', async (req: Request, res: Response) => {
   try {
