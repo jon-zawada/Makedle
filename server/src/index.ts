@@ -1,9 +1,12 @@
 import express, { Request, Response } from 'express';
 import pool from './db';
-import userRoutes from './Routes/userRoutes';
+import userRoutes from './routes/userRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', userRoutes);
 
