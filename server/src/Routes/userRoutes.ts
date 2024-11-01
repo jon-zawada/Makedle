@@ -1,18 +1,19 @@
 import { Router } from "express";
 import { UserController } from "../controllers/UserController";
 import pool from "../db";
+import authenticateJWT from "../middleware/authenticateJWT";
 
 const userController = new UserController(pool);
 const router = Router();
 
 //GET
 router.get("/users", userController.getUsers);
-router.get("/users/:id", userController.getUserById);
+// @ts-ignore TODO GET RID OF THIS I HATE TYPESCRIPT
+router.get("/users/:id", authenticateJWT, userController.getUserById);
 
 //POST
 router.post("/users", userController.createUser);
-router.post("/users/login"); //returns JWT
-router.post("/users/logout"); //invalidates token
+router.post("/users/login", userController.loginUser);
 
 //PUT
 router.put("/users/:id");
