@@ -15,23 +15,23 @@ export class UserModel {
     this.pool = pool;
   }
 
-  async getUsers(): Promise<User[]> {
+  getUsers = async (): Promise<User[]> => {
     const result = await this.pool.query("SELECT * FROM users");
     return result.rows;
-  }
+  };
 
-  async getUserById(id: string): Promise<User[]> {
+  getUserById = async (id: string): Promise<User> => {
     const result = await this.pool.query("SELECT * FROM users WHERE id = $1", [
       id,
     ]);
-    return result.rows;
-  }
+    return result.rows[0] || null;
+  };
 
-  async createUser(
+  createUser = async (
     username: string,
     email: string,
     hashed_password: string
-  ): Promise<User[]> {
+  ): Promise<User> => {
     //TODO logic to actually hash password
     //TODO validate request fields above and
     //TODO empty fields/null checks
@@ -40,6 +40,11 @@ export class UserModel {
       "INSERT INTO users (username, email, hashed_password) VALUES ($1, $2, $3) RETURNING *",
       [username, email, hashed_password]
     );
-    return result.rows;
-  }
+    return result.rows[0] || null;
+  };
+
+  deleteUserById = async (id: string): Promise<User> => {
+    const result = await this.pool.query("DELETE FROM users WHERE id=$1 RETURNING id", [id]);
+    return result.rows[0] || null;
+  };
 }
