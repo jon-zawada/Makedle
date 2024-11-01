@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserModel } from "../models/user";
+import { UserModel } from "../models/User";
 import { Pool } from "pg";
 
 export class UserController {
