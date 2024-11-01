@@ -33,7 +33,6 @@ export class UserController {
   };
 
   createUser = (req: Request, res: Response) => {
-    console.log(req.body)
     const { username, email, password } = req.body;
     this.userModel
       .createUser(username, email, password)
@@ -41,7 +40,7 @@ export class UserController {
         res.status(201).json(user);
       })
       .catch((error) => {
-        res.status(500).json({ message: "Error creating user", error });
+        res.status(500).json({ message: "Error creating user", error: error });
       });
   };
 }

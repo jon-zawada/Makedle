@@ -8,7 +8,7 @@
     "dev": "nodemon src/index.ts",
     "seed-db": "psql postgres -f src/db/schema.sql",
     "start": "node dist/index.ts",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
   },
   "author": "jon-zawada",
   "license": "ISC",
