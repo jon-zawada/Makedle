@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { UserModel } from "../models/User";
 import { Pool } from "pg";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { hashPassword } from "../utils/passwordUtils";
 
 export class UserController {
   private userModel: UserModel;
@@ -32,10 +35,41 @@ export class UserController {
       });
   };
 
-  createUser = (req: Request, res: Response) => {
+  loginUser = (req: Request, res: Response) => {
+    try {
+      const { email, password } = req.body;
+      this.userModel.loginUser(email).then(async (user) => {
+        if (!user) {
+          return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        const passwordMatch = await bcrypt.compare(
+          password,
+          user.hashed_password
+        );
+
+        if (!passwordMatch) {
+          return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, {
+          expiresIn: process.env.JWT_EXPIRES_IN,
+        });
+
+        res.status(200).json({ token });
+      });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Cannot login internal server error", error });
+    }
+  };
+
+  createUser = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
+    const hashedPassword: string = await hashPassword(password);
     this.userModel
-      .createUser(username, email, password)
+      .createUser(username, email, hashedPassword)
       .then((user) => {
         res.status(201).json(user);
       })
@@ -53,7 +87,8 @@ export class UserController {
         if (!deletedUserId) {
           return Promise.reject(new Error("User id not found"));
         }
-        res.status(200).json({ message: "User successfully deleted", deletedUserId });
+        const message = "User successfully deleted";
+        res.status(200).json({ message, deletedUserId });
       })
       .catch((error) => {
         res.status(404).json({ message: "User id not found", error });

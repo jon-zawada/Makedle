@@ -16,14 +16,14 @@ export class UserModel {
   }
 
   getUsers = async (): Promise<User[]> => {
-    const result = await this.pool.query("SELECT * FROM users");
+    const query = "SELECT * FROM users";
+    const result = await this.pool.query(query);
     return result.rows;
   };
 
   getUserById = async (id: string): Promise<User> => {
-    const result = await this.pool.query("SELECT * FROM users WHERE id = $1", [
-      id,
-    ]);
+    const query = "SELECT * FROM users WHERE id = $1";
+    const result = await this.pool.query(query, [id]);
     return result.rows[0] || null;
   };
 
@@ -36,15 +36,25 @@ export class UserModel {
     //TODO validate request fields above and
     //TODO empty fields/null checks
     //TODO check if unique email
-    const result = await this.pool.query(
-      "INSERT INTO users (username, email, hashed_password) VALUES ($1, $2, $3) RETURNING *",
-      [username, email, hashed_password]
-    );
+    const query =
+      "INSERT INTO users (username, email, hashed_password) VALUES ($1, $2, $3) RETURNING *";
+    const result = await this.pool.query(query, [
+      username,
+      email,
+      hashed_password,
+    ]);
+    return result.rows[0] || null; //remove hashed password from this
+  };
+
+  loginUser = async (email: string): Promise<User> => {
+    const query = "SELECT * FROM users WHERE email=$1";
+    const result = await this.pool.query(query, [email]);
     return result.rows[0] || null;
   };
 
   deleteUserById = async (id: string): Promise<User> => {
-    const result = await this.pool.query("DELETE FROM users WHERE id=$1 RETURNING id", [id]);
+    const query = "DELETE FROM users WHERE id=$1 RETURNING id";
+    const result = await this.pool.query(query, [id]);
     return result.rows[0] || null;
   };
 }
