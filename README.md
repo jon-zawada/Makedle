@@ -7,3 +7,6 @@
 - **Custom Word Puzzles**: Upload a CSV file with words to create your own game.
 - **Familiar Wordle Interface**: Similar gameplay, with colored hints indicating correct letters and positions.
 - **Shareable Puzzles**: Create and share your personalized games.
+
+## Wiki
+[Getting Started](https://github.com/jon-zawada/makedle/wiki/Getting-Started)

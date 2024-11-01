@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.ts",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "seed-db": "psql postgres -f src/db/schema.sql"
   },
   "author": "jon-zawada",
   "license": "ISC",
