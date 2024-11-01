@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserModel } from "../models/user";
+import { UserModel } from "../models/User";
 import { Pool } from "pg";
 
 export class UserController {
@@ -33,7 +33,6 @@ export class UserController {
   };
 
   createUser = (req: Request, res: Response) => {
-    console.log(req.body)
     const { username, email, password } = req.body;
     this.userModel
       .createUser(username, email, password)
@@ -42,6 +41,22 @@ export class UserController {
       })
       .catch((error) => {
         res.status(500).json({ message: "Error creating user", error });
+      });
+  };
+
+  deleteUserById = (req: Request, res: Response) => {
+    const { id } = req.params;
+    this.userModel
+      .deleteUserById(id)
+      .then((user) => {
+        const deletedUserId = user?.id;
+        if (!deletedUserId) {
+          return Promise.reject(new Error("User id not found"));
+        }
+        res.status(200).json({ message: "User successfully deleted", deletedUserId });
+      })
+      .catch((error) => {
+        res.status(404).json({ message: "User id not found", error });
       });
   };
 }
