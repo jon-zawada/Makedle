@@ -6,6 +6,7 @@ export interface User {
   email: string;
   hashed_password: string;
   created_at: Date;
+  refresh_token: string;
 }
 
 export class UserModel {
@@ -50,6 +51,11 @@ export class UserModel {
     const query = "SELECT * FROM users WHERE email=$1";
     const result = await this.pool.query(query, [email]);
     return result.rows[0] || null;
+  };
+
+  updateRefreshToken = async (id: number, refreshToken: string): Promise<void> => {
+    const query = "UPDATE users SET refresh_token = $1 WHERE id = $2";
+    await this.pool.query(query, [refreshToken, id]);
   };
 
   deleteUserById = async (id: string): Promise<User> => {
