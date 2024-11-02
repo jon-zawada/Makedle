@@ -139,4 +139,21 @@ export class UserController {
         res.status(404).json({ message: "User id not found", error });
       });
   };
+
+  logout = (req: Request, res: Response) => {
+    const refreshToken = req.header("x-refresh-token");
+
+    if (!refreshToken) {
+      return res.sendStatus(401);
+    }
+
+    this.userModel
+      .updateRefreshToken(req.user?.id!, null) //really bad typescript practice
+      .then(() => {
+        res.status(200).json({ message: "Logged out successfully" });
+      })
+      .catch((error) => {
+        res.status(500).json({ message: "Internal server error" });
+      });
+  };
 }
