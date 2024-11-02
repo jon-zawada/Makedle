@@ -52,17 +52,62 @@ export class UserController {
           return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, {
+        const token = jwt.sign(user, process.env.JWT_SECRET!, {
+          expiresIn: process.env.JWT_EXPIRES_IN,
+        });
+        const refreshToken = jwt.sign(
+          { id: user.id },
+          process.env.JWT_REFRESH_SECRET!,
+          { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN }
+        );
+
+        await this.userModel.updateRefreshToken(user.id, refreshToken);
+
+        res.status(200).json({ token, refreshToken });
+      });
+    } catch (error) {
+      const message = "Cannot login internal server error";
+      return res.status(500).json({ message, error });
+    }
+  };
+
+  refreshToken = (req: Request, res: Response) => {
+    const refreshToken = req.header("x-refresh-token");
+    if (!refreshToken) {
+      return res.sendStatus(401);
+    }
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET!
+    ) as jwt.JwtPayload;
+
+    this.userModel
+      .getUserById(decoded.id)
+      .then(async (user) => {
+        if (!user || user.refresh_token !== refreshToken) {
+          return res.sendStatus(403);
+        }
+
+        const newAccessToken = jwt.sign(user, process.env.JWT_SECRET!, {
           expiresIn: process.env.JWT_EXPIRES_IN,
         });
 
-        res.status(200).json({ token });
+        const newRefreshToken = jwt.sign(
+          { id: user.id },
+          process.env.JWT_REFRESH_SECRET!,
+          { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN }
+        );
+
+        await this.userModel.updateRefreshToken(user.id, newRefreshToken);
+        const response = {
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
+        };
+        res.status(201).json(response);
+      })
+      .catch((error) => {
+        return res.sendStatus(403);
       });
-    } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Cannot login internal server error", error });
-    }
   };
 
   createUser = async (req: Request, res: Response) => {

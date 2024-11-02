@@ -13,6 +13,7 @@ router.get("/users/:id", authenticateJWT, userController.getUserById);
 
 //POST
 router.post("/users", userController.createUser);
+// @ts-ignore TODO GET RID OF THIS I HATE TYPESCRIPT
 router.post("/users/login", userController.loginUser);
 
 //PUT
@@ -20,5 +21,9 @@ router.put("/users/:id");
 
 //DELETE
 router.delete("/users/:id", userController.deleteUserById);
+
+//MOVE THIS TOKEN ROUTE
+// @ts-ignore TODO GET RID OF THIS I HATE TYPESCRIPT
+router.post("/users/refresh-token", userController.refreshToken);
 
 export default router;
