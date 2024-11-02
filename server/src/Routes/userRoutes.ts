@@ -22,8 +22,10 @@ router.put("/users/:id");
 //DELETE
 router.delete("/users/:id", userController.deleteUserById);
 
-//MOVE THIS TOKEN ROUTE
+//MOVE THESE TOKEN ROUTES
 // @ts-ignore TODO GET RID OF THIS I HATE TYPESCRIPT
 router.post("/users/refresh-token", userController.refreshToken);
+// @ts-ignore TODO GET RID OF THIS I HATE TYPESCRIPT
+router.put("/users/logout", authenticateJWT, userController.logout);
 
 export default router;
