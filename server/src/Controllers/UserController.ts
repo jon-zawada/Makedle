@@ -130,13 +130,13 @@ export class UserController {
       .then((user) => {
         const deletedUserId = user?.id;
         if (!deletedUserId) {
-          return Promise.reject(new Error("User id not found"));
+          return res.sendStatus(404);
         }
         const message = "User successfully deleted";
         res.status(200).json({ message, deletedUserId });
       })
       .catch((error) => {
-        res.status(404).json({ message: "User id not found", error });
+        res.status(500).json({ message: "Error deleting user", error });
       });
   };
 
