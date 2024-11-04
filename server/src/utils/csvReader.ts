@@ -1,7 +1,7 @@
 import fs, { read } from "fs";
 import csv from "csv-parser";
-import { Header } from "../models/Header";
-import { Word } from "../models/Word";
+import { Header } from "../Models/Header";
+import { Word } from "../Models/Word";
 
 export function processGameCSV(
   csvFilePath: string,
