@@ -24,6 +24,21 @@ CREATE TABLE IF NOT EXISTS games (
   tertiary_color CHAR(7) NOT NULL CHECK (primary_color ~ '^#([A-Fa-f0-9]{6})$')
 );
 
+CREATE TABLE IF NOT EXISTS headers (
+  id SERIAL PRIMARY KEY,
+  game_id INTEGER REFERENCES games(id) ON DELETE CASCADE,
+  header_name VARCHAR(100) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS words (
+  id SERIAL PRIMARY KEY,
+  game_id INTEGER REFERENCES games(id) ON DELETE CASCADE,
+  header_id INTEGER REFERENCES headers(id) ON DELETE CASCADE,
+  word VARCHAR(100) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT INTO users (username, email, hashed_password)
 VALUES ('test-user', 'test_user@example', 'hashed_password_example');
 

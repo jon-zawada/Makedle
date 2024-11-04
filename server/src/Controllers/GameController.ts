@@ -1,12 +1,19 @@
 import { Request, Response } from "express";
 import { GameModel } from "../models/Game";
 import { Pool } from "pg";
+import { HeaderModel } from "../models/Header";
+import { WordModel } from "../models/Word";
+import { processGameCSV } from "../utils/csvReader";
 
 export class GameController {
   private gameModel: GameModel;
+  private headerModel: HeaderModel;
+  private wordModel: WordModel;
 
   constructor(pool: Pool) {
     this.gameModel = new GameModel(pool);
+    this.headerModel = new HeaderModel(pool);
+    this.wordModel = new WordModel(pool);
   }
 
   getGames = (req: Request, res: Response) => {
@@ -35,23 +42,17 @@ export class GameController {
       });
   };
 
-  createGame = (req: Request, res: Response) => {
+  createGame = async (req: Request, res: Response) => {
     const { userId, gameName, primary_color, secondary_color, tertiary_color } =
       req.body;
-    this.gameModel
-      .createGame(
-        userId,
-        gameName,
-        primary_color,
-        secondary_color,
-        tertiary_color
-      )
-      .then((game) => {
-        res.status(201).json(game);
-      })
-      .catch((error) => {
-        res.status(500).json({ message: "Error creating user", error });
-      });
+      const csvFilePath = req.file?.path!;
+    try {
+      const game = await this.gameModel.createGame(userId, gameName, primary_color, secondary_color, tertiary_color);
+      await processGameCSV(csvFilePath, game.id, this.headerModel.createHeader, this.wordModel.createWord);
+      res.status(201).json(game);
+    } catch(error) {
+      res.status(500).json({ message: "An error occurred while creating a game", error });
+    }
   };
 
   deleteGameById = (req: Request, res: Response) => {
