@@ -1,7 +1,18 @@
 import { Router } from "express";
 import { GameController } from "../controllers/GameController";
 import pool from "../db";
-import authenticateJWT from "../middleware/authenticateJWT";
+import multer from "multer";
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
 
 const gameController = new GameController(pool);
 const router = Router();
@@ -11,7 +22,7 @@ router.get("/games", gameController.getGames); //add query params for pagination
 router.get("/games/:id", gameController.getGameById);
 
 //POST
-router.post("/games", gameController.createGame);
+router.post("/games", upload.single("file"), gameController.createGame);
 
 // //PUT
 // router.put("/games/:id" );
