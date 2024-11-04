@@ -1,4 +1,4 @@
-import fs, { read } from "fs";
+import fs from "fs";
 import csv from "csv-parser";
 import { Header } from "../Models/Header";
 import { Word } from "../Models/Word";
@@ -34,7 +34,7 @@ export function processGameCSV(
 
 function readRowValues(
   csvFilePath: string,
-  headersMap: Map<string, any>,
+  headersMap: Map<string, string>,
   gameId: number,
   createWord: (gameId: number, headerId: string, word: string) => Promise<Word>
 ): Promise<void> {

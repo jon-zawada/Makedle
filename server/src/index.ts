@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import dotenv from "dotenv";
-import userRoutes from "./routes/userRoutes";
-import gameRoutes from "./routes/gameRoutes";
+import userRoutes from "./Routes/userRoutes";
+import gameRoutes from "./Routes/gameRoutes";
 
 dotenv.config();
 
