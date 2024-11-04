@@ -105,13 +105,14 @@ export class UserController {
         };
         res.status(201).json(response);
       })
-      .catch((error) => {
+      .catch(() => {
         return res.sendStatus(403);
       });
   };
 
   createUser = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
+    //try/catch
     const hashedPassword: string = await hashPassword(password);
     this.userModel
       .createUser(username, email, hashedPassword)
@@ -153,7 +154,7 @@ export class UserController {
         res.status(200).json({ message: "Logged out successfully" });
       })
       .catch((error) => {
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server error", error });
       });
   };
 }

@@ -66,7 +66,7 @@ export class GameController {
         res.status(200).json(game);
       })
       .catch((error) => {
-        res.status(500).json({ message: "Error deleting game" });
+        res.status(500).json({ message: "Error deleting game", error });
       });
   };
 }
