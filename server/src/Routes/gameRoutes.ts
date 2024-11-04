@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { GameController } from "../controllers/GameController";
+import { GameController } from "../Controllers/GameController";
 import pool from "../db";
 import multer from "multer";
 

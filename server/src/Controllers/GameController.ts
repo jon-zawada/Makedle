@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { GameModel } from "../models/Game";
+import { GameModel } from "../Models/Game";
 import { Pool } from "pg";
-import { HeaderModel } from "../models/Header";
-import { WordModel } from "../models/Word";
+import { HeaderModel } from "../Models/Header";
+import { WordModel } from "../Models/Word";
 import { processGameCSV } from "../utils/csvReader";
 
 export class GameController {

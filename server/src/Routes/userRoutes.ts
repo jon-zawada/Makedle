@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { UserController } from "../controllers/UserController";
+import { UserController } from "../Controllers/UserController";
 import pool from "../db";
 import authenticateJWT from "../middleware/authenticateJWT";
 
