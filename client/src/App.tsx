@@ -1,9 +1,15 @@
 import React from 'react';
+import { Button, Typography } from '@mui/material';
 
 const App: React.FC = () => {
   return (
-    <div>
-      <h1>Hello from Makedle</h1>
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <Typography variant="h4" gutterBottom>
+        Hello, Makedle!
+      </Typography>
+      <Button variant="contained" color="primary">
+        I dont do anything
+      </Button>
     </div>
   );
 };
