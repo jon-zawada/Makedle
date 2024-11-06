@@ -7,8 +7,8 @@
     "build": "webpack --mode production",
     "dev": "webpack --mode development --watch",
     "start": "webpack serve --mode development",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
     "test": "test"
   },
   "author": "jon-zawada",
