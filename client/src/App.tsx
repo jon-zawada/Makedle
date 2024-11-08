@@ -1,15 +1,18 @@
-import React from 'react';
-import { Button, Typography } from '@mui/material';
-
-const App: React.FC = () => {
+import React from "react";
+import PageHeader from "./components/PageHeader";
+import Button from "./components/common/Button";
+const App = () => {
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <Typography variant="h4" gutterBottom>
-        Hello, Makedle!
-      </Typography>
-      <Button variant="contained" color="primary">
-        I dont do anything
-      </Button>
+    <div className="max-h-screen flex flex-col">
+      <PageHeader />
+      <div className="flex gap-1 justify-center">
+        <Button>
+          Play a game
+        </Button> 
+        <Button>
+          Make a game
+        </Button> 
+      </div>
     </div>
   );
 };
