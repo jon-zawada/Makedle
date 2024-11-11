@@ -27,7 +27,7 @@ app.use("/api", gameRoutes);
 
 //must be last route
 app.get("*", (req, res) => {
-  res.sendFile(CLIENT_DIR);
+  res.sendFile(path.join(CLIENT_DIR, "index.html"));
 });
 
 app.listen(PORT, () => {

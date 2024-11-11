@@ -5,7 +5,7 @@ import { Bell, Upload, User } from "lucide-react";
 
 export default function PageHeader() {
   return (
-    <header className="bg-green-100 flex justify-between gap-10 lg:gap-20 pt-2 mb-6 px-4 py-4 col-span-2">
+    <header className="bg-green-100 flex justify-between gap-10 lg:gap-20 px-4 py-4 col-span-2">
       <div className="flex flex-shrink-0 h-8">
         <div className="flex justify-center items-center">MAKEDLE</div>
         <img src={logo} alt="" />
