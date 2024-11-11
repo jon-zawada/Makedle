@@ -2,11 +2,13 @@ import "newrelic";
 import express from "express";
 import dotenv from "dotenv";
 import path from "path";
+import fs from "fs";
 import userRoutes from "./Routes/userRoutes";
 import gameRoutes from "./Routes/gameRoutes";
 import noCache from "./middleware/noCache";
 
 const CLIENT_DIR = path.join(__dirname, "..", "..", "client", "dist");
+const MISSING_CLIENT_HTML = path.join(__dirname, "errors", "noclient.html");
 
 dotenv.config();
 
@@ -19,13 +21,19 @@ app.use(noCache);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(CLIENT_DIR));
+if (fs.existsSync(CLIENT_DIR)) {
+  app.use(express.static(CLIENT_DIR));
+} else {
+  app.get("*", (req, res) => {
+    res.sendFile(MISSING_CLIENT_HTML);
+  });
+}
 
 //ROUTES
 app.use("/api", userRoutes);
 app.use("/api", gameRoutes);
 
-//must be last route
+//MUST BE LAST ROUTE
 app.get("*", (req, res) => {
   res.sendFile(path.join(CLIENT_DIR, "index.html"));
 });
