@@ -5,7 +5,7 @@ import httpService from "../api/httpService";
 type LoginFormUser = {
   email: string;
   password: string;
-}
+};
 
 export default function LoginPage() {
   const [user, setUser] = useState<LoginFormUser>({ email: "", password: "" });
@@ -17,10 +17,9 @@ export default function LoginPage() {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    httpService.post('/users/login', user)
-      .then(res => {
-        console.log(res);
-      })
+    httpService.post("/login", user).then((res) => {
+      console.log(res);
+    });
   };
 
   return (

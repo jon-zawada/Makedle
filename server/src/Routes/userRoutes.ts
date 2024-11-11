@@ -16,7 +16,7 @@ router.get("/users/:id", authenticateJWT, userController.getUserById);
 //POST
 router.post("/users", userController.createUser);
 // @ts-expect-error TODO GET RID OF THIS I HATE TYPESCRIPT
-router.post("/users/login", userController.loginUser);
+router.post("/login", userController.loginUser);
 
 //PUT
 //TO IMPLEMENT router.put("/users/:id");
@@ -29,8 +29,8 @@ router.delete("/users/:id", userController.deleteUserById);
 
 //MOVE THESE TOKEN ROUTES
 // @ts-expect-error TODO GET RID OF THIS I HATE TYPESCRIPT
-router.post("/users/refresh-token", userController.refreshToken);
+router.post("/refresh-token", userController.refreshToken);
 // @ts-expect-error TODO GET RID OF THIS I HATE TYPESCRIPT
-router.put("/users/logout", authenticateJWT, userController.logout);
+router.put("/logout", authenticateJWT, userController.logout);
 
 export default router;
