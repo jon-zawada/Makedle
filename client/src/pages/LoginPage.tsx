@@ -17,9 +17,18 @@ export default function LoginPage() {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    httpService.post("/login", user).then((res) => {
-      console.log(res);
-    });
+    //set is loading
+    httpService
+      .post("/login", user)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        // set is loading
+      });
   };
 
   return (
@@ -27,7 +36,7 @@ export default function LoginPage() {
       <h2>Login</h2>
       <form onSubmit={submitHandler} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <label htmlFor="name">Email</label>
+          <label htmlFor="email">Email</label>
           <input
             id="email"
             type="email"
