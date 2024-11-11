@@ -5,6 +5,7 @@ import path from "path";
 import userRoutes from "./Routes/userRoutes";
 import gameRoutes from "./Routes/gameRoutes";
 import noCache from "./middleware/noCache";
+import { newRelicLogging } from "./telemetry/newrelic-logging";
 
 const CLIENT_DIR = path.join(__dirname, "..", "..", "client", "dist");
 
@@ -15,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 //MIDDLEWARE
 app.use(noCache);
+app.use(newRelicLogging);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
