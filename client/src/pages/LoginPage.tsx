@@ -1,36 +1,50 @@
 import React, { useState } from "react";
 import Button from "../components/common/Button";
+import httpService from "../api/httpService";
+
+type LoginFormUser = {
+  email: string;
+  password: string;
+}
 
 export default function LoginPage() {
-  const [user, setUser] = useState({ name: "", password: "" });
+  const [user, setUser] = useState<LoginFormUser>({ email: "", password: "" });
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
+  const submitHandler = (e: React.FormEvent) => {
+    e.preventDefault();
+    httpService.post('/users/login', user)
+      .then(res => {
+        console.log(res);
+      })
+  };
+
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <h2>Login</h2>
-      <form className="flex gap-4 flex-col">
+      <form onSubmit={submitHandler} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <label>Username</label>
+          <label htmlFor="name">Email</label>
           <input
-            id="name"
-            type="text"
-            name="name"
-            onChange={(e) => changeHandler(e)}
-            value={user.name}
+            id="email"
+            type="email"
+            name="email"
+            onChange={changeHandler}
+            value={user.email}
             className="px-4 py-2 border rounded"
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             id="password"
             type="password"
             name="password"
-            onChange={(e) => changeHandler(e)}
+            onChange={changeHandler}
             value={user.password}
             className="px-4 py-2 border rounded"
           />
