@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Button from "../components/common/Button";
-import httpService from "../api/httpService";
+// import httpService from "../api/httpService";
+import { useAuth } from "../context/AuthProvider";
+import LogoutPage from "./LogoutPage";
 
 type LoginFormUser = {
   email: string;
@@ -9,29 +11,25 @@ type LoginFormUser = {
 
 export default function LoginPage() {
   const [user, setUser] = useState<LoginFormUser>({ email: "", password: "" });
+  const { authToken, handleLogin } = useAuth();
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
-  const submitHandler = (e: React.FormEvent) => {
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    //set is loading
-    httpService
-      .post("/login", user)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        // set is loading
-      });
+    try {
+      const response = await handleLogin(user);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  console.log("AUTH TOKEN", authToken);
 
-  return (
+  return authToken ? <LogoutPage /> : (
     <div className="flex flex-col items-center justify-center gap-4">
       <h2>Login</h2>
       <form onSubmit={submitHandler} className="flex flex-col gap-4">
