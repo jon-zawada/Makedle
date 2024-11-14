@@ -1,4 +1,4 @@
-name: Run Jest Tests for Client and Server
+name: Unit Tests
 
 on:
   pull_request:
