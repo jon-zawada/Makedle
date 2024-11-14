@@ -17,7 +17,7 @@ const App = () => {
         </Routes>
       </main>
       <footer className="bg-green-100 p-4 col-span-2 text-center">
-        FOOTER
+        FOOTER!
       </footer>
     </div>
   );
