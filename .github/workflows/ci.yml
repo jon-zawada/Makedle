@@ -1,0 +1,49 @@
+name: Run Jest Tests for Client and Server
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'client/**'
+      - 'server/**'
+
+jobs:
+  client-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js for Client
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.20.4'
+
+      - name: Install Client Dependencies
+        working-directory: ./client
+        run: npm install
+
+      - name: Run Client Jest Tests
+        working-directory: ./client
+        run: npm test
+
+# Once server has tests we will include 
+  # server-tests:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+
+  #     - name: Set up Node.js for Server
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18.20.4'
+
+  #     - name: Install Server Dependencies
+  #       working-directory: ./server
+  #       run: npm install
+
+  #     - name: Run Server Jest Tests
+  #       working-directory: ./server
+  #       run: npm test
