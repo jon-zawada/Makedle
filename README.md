@@ -1,6 +1,6 @@
 # Makedle
 
-**Makedle** is a customizable word puzzle game inspired by *Wordle*, where users can create their own puzzles by uploading a CSV file. With Makedle, you can design word challenges for friends, students, or colleagues, offering unique experiences with every custom game.
+**Makedle** is a customizable word puzzle game inspired by _Wordle_, where users can create their own puzzles by uploading a CSV file. With Makedle, you can design word challenges for friends, students, or colleagues, offering unique experiences with every custom game.
 
 ## Features
 
@@ -9,4 +9,5 @@
 - **Shareable Puzzles**: Create and share your personalized games.
 
 ## Wiki
+
 [Getting Started](https://github.com/jon-zawada/makedle/wiki/Getting-Started)
