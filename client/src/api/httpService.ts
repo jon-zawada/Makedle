@@ -5,7 +5,7 @@ const httpService = axios.create({
   timeout: 10000,
   headers: {
     "x-makedle-header": "foobar",
-    // Authorization: `Bearer ${localStorage.getItem('token')}`,  // Add JWT token - setting JWT not yet implemented
+    // Authorization: `Bearer ${localStorage.getItem('token')}`,  // Add JWT token - setting JWT not yet implemented!
   },
 });
 
