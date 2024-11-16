@@ -20,11 +20,11 @@ export default function LoginPage() {
     //set is loading
     httpService
       .post("/login", user)
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        //TODO
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        //TODO
       })
       .finally(() => {
         // set is loading
