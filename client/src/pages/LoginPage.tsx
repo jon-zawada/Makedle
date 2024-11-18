@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Button from "../components/common/Button";
-// import httpService from "../api/httpService";
 import { useAuth } from "../context/AuthProvider";
 import LogoutPage from "./LogoutPage";
 
@@ -21,13 +20,11 @@ export default function LoginPage() {
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await handleLogin(user);
-      console.log(response);
+      await handleLogin(user);
     } catch (error) {
       console.log(error);
     }
   };
-  console.log("AUTH TOKEN", authToken);
 
   return authToken ? <LogoutPage /> : (
     <div className="flex flex-col items-center justify-center gap-4">
