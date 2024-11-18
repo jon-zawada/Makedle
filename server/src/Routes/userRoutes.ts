@@ -7,7 +7,8 @@ const userController = new UserController(pool);
 const router = Router();
 
 //GET
-router.get("/users", userController.getUsers);
+// @ts-expect-error TODO GET RID OF THIS I HATE TYPESCRIPT
+router.get("/users", authenticateJWT, userController.getUsers);
 // @ts-expect-error TODO GET RID OF THIS I HATE TYPESCRIPT
 router.get("/users/:id", authenticateJWT, userController.getUserById);
 
