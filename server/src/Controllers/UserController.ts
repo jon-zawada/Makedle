@@ -4,6 +4,7 @@ import { Pool } from "pg";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { hashPassword } from "../utils/passwordUtils";
+import { parseTokenTime } from "../utils/parseTokenTime";
 
 export class UserController {
   private userModel: UserModel;
@@ -67,7 +68,8 @@ export class UserController {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: "strict", //prevents CSRF attacks,
-          maxAge: parseInt(process.env.JWT_REFRESH_EXPIRES_IN!, 10) * 1000, // Cookie expiration in milliseconds CONFIRM TIME IS CORRECT
+          maxAge: parseTokenTime(process.env.JWT_REFRESH_EXPIRES_IN!), // Cookie expiration in milliseconds
+          path: "/"
         });
 
         res.status(201).json({ token });
@@ -112,7 +114,8 @@ export class UserController {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: "strict", //prevents CSRF attacks,
-          maxAge: parseInt(process.env.JWT_REFRESH_EXPIRES_IN!, 10) * 1000, // Cookie expiration in milliseconds CONFIRM TIME IS CORRECT
+          maxAge: parseTokenTime(process.env.JWT_REFRESH_EXPIRES_IN!), // Cookie expiration in milliseconds
+          path: "/"
         });
 
         res.status(201).json({ accessToken: newAccessToken });
