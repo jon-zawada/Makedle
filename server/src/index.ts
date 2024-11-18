@@ -3,6 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
+import cookieParser from "cookie-parser";
 import userRoutes from "./Routes/userRoutes";
 import gameRoutes from "./Routes/gameRoutes";
 import noCache from "./middleware/noCache";
@@ -20,6 +21,7 @@ app.use(noCache);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 if (fs.existsSync(CLIENT_DIR)) {
   app.use(express.static(CLIENT_DIR));

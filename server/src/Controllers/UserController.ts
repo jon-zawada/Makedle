@@ -4,6 +4,7 @@ import { Pool } from "pg";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { hashPassword } from "../utils/passwordUtils";
+import { parseTokenTime } from "../utils/parseTokenTime";
 
 export class UserController {
   private userModel: UserModel;
@@ -63,7 +64,15 @@ export class UserController {
 
         await this.userModel.updateRefreshToken(user.id, refreshToken);
 
-        res.status(200).json({ token, refreshToken });
+        res.cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict", //prevents CSRF attacks,
+          maxAge: parseTokenTime(process.env.JWT_REFRESH_EXPIRES_IN!), // Cookie expiration in milliseconds
+          path: "/"
+        });
+
+        res.status(201).json({ token });
       });
     } catch (error) {
       const message = "Cannot login internal server error";
@@ -72,7 +81,8 @@ export class UserController {
   };
 
   refreshToken = (req: Request, res: Response) => {
-    const refreshToken = req.header("x-refresh-token");
+    const refreshToken = req.cookies.refreshToken;
+
     if (!refreshToken) {
       return res.sendStatus(401);
     }
@@ -99,11 +109,16 @@ export class UserController {
         );
 
         await this.userModel.updateRefreshToken(user.id, newRefreshToken);
-        const response = {
-          accessToken: newAccessToken,
-          refreshToken: newRefreshToken,
-        };
-        res.status(201).json(response);
+
+        res.cookie("refreshToken", newRefreshToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict", //prevents CSRF attacks,
+          maxAge: parseTokenTime(process.env.JWT_REFRESH_EXPIRES_IN!), // Cookie expiration in milliseconds
+          path: "/"
+        });
+
+        res.status(201).json({ accessToken: newAccessToken });
       })
       .catch(() => {
         return res.sendStatus(403);
