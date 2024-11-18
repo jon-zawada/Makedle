@@ -17,13 +17,13 @@ export class UserModel {
   }
 
   getUsers = async (): Promise<User[]> => {
-    const query = "SELECT * FROM users";
+    const query = "SELECT id, username, email, created_at FROM users";
     const result = await this.pool.query(query);
     return result.rows;
   };
 
   getUserById = async (id: string): Promise<User> => {
-    const query = "SELECT * FROM users WHERE id = $1";
+    const query = "SELECT id, username, email, created_at FROM users WHERE id = $1";
     const result = await this.pool.query(query, [id]);
     return result.rows[0] || null;
   };
@@ -48,7 +48,7 @@ export class UserModel {
   };
 
   loginUser = async (email: string): Promise<User> => {
-    const query = "SELECT * FROM users WHERE email=$1";
+    const query = "SELECT * FROM users WHERE email=$1"; //TODO MUST OMIT PASSWORD AND REFRESH TOKEN HERE
     const result = await this.pool.query(query, [email]);
     return result.rows[0] || null;
   };

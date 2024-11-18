@@ -69,7 +69,7 @@ export class UserController {
           secure: process.env.NODE_ENV === "production",
           sameSite: "strict", //prevents CSRF attacks,
           maxAge: parseTokenTime(process.env.JWT_REFRESH_EXPIRES_IN!), // Cookie expiration in milliseconds
-          path: "/"
+          path: "/",
         });
 
         res.status(201).json({ token });
@@ -115,7 +115,7 @@ export class UserController {
           secure: process.env.NODE_ENV === "production",
           sameSite: "strict", //prevents CSRF attacks,
           maxAge: parseTokenTime(process.env.JWT_REFRESH_EXPIRES_IN!), // Cookie expiration in milliseconds
-          path: "/"
+          path: "/",
         });
 
         res.status(201).json({ accessToken: newAccessToken });
