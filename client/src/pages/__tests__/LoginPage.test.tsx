@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import LoginPage from "../LoginPage";
+import AuthProvider from "../../context/AuthProvider";
 import httpService from "../../api/httpService";
 import "@testing-library/jest-dom";
 
@@ -8,7 +9,11 @@ jest.mock("../../api/httpService");
 
 describe("LoginPage", () => {
   test("renders the login page", () => {
-    render(<LoginPage />);
+    render(
+      <AuthProvider>
+        <LoginPage />
+      </AuthProvider>
+    );
 
     expect(
       screen.getByRole("heading", { level: 2, name: "Login" })
@@ -19,7 +24,11 @@ describe("LoginPage", () => {
   });
 
   test("updates state on input change", () => {
-    render(<LoginPage />);
+    render(
+      <AuthProvider>
+        <LoginPage />
+      </AuthProvider>
+    )
 
     const emailInput = screen.getByLabelText("Email");
     const passwordInput = screen.getByLabelText("Password");
@@ -35,7 +44,11 @@ describe("LoginPage", () => {
     const postMock = jest.fn().mockResolvedValue({ data: { success: true } });
     (httpService.post as jest.Mock).mockImplementation(postMock);
 
-    render(<LoginPage />);
+    render(
+      <AuthProvider>
+        <LoginPage />
+      </AuthProvider>
+    )
 
     const emailInput = screen.getByLabelText("Email");
     const passwordInput = screen.getByLabelText("Password");
@@ -56,7 +69,11 @@ describe("LoginPage", () => {
     const postMock = jest.fn().mockRejectedValue(new Error("Login failed"));
     (httpService.post as jest.Mock).mockImplementation(postMock);
 
-    render(<LoginPage />);
+    render(
+      <AuthProvider>
+        <LoginPage />
+      </AuthProvider>
+    )
 
     const emailInput = screen.getByLabelText("Email");
     const passwordInput = screen.getByLabelText("Password");
