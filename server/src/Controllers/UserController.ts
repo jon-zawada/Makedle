@@ -72,7 +72,7 @@ export class UserController {
           path: "/",
         });
 
-        res.status(201).json({ token });
+        res.status(201).json({ token, user }); // REFER TO USER MODEL TO REMEMBER TO OMIT PASSWORD AND REFRESH TOKEN
       });
     } catch (error) {
       const message = "Cannot login internal server error";
@@ -86,10 +86,15 @@ export class UserController {
     if (!refreshToken) {
       return res.sendStatus(401);
     }
+
     const decoded = jwt.verify(
       refreshToken,
       process.env.JWT_REFRESH_SECRET!
     ) as jwt.JwtPayload;
+
+    if (!decoded.id) {
+      return res.sendStatus(401);
+    }
 
     this.userModel
       .getUserById(decoded.id)
@@ -118,7 +123,7 @@ export class UserController {
           path: "/",
         });
 
-        res.status(201).json({ accessToken: newAccessToken });
+        res.status(201).json({ accessToken: newAccessToken, user });
       })
       .catch(() => {
         return res.sendStatus(403);
@@ -157,12 +162,6 @@ export class UserController {
   };
 
   logout = (req: Request, res: Response) => {
-    const refreshToken = req.header("x-refresh-token");
-
-    if (!refreshToken) {
-      return res.sendStatus(401);
-    }
-
     this.userModel
       .updateRefreshToken(req.user?.id!, null) //really bad typescript practice
       .then(() => {

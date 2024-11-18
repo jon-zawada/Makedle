@@ -1,4 +1,5 @@
 import axios from "axios";
+// import useRefreshToken from "../hooks/useRefreshToken";
 
 const httpService = axios.create({
   baseURL: "http://localhost:3000/api",
@@ -6,8 +7,13 @@ const httpService = axios.create({
   withCredentials: true,
   headers: {
     "x-makedle-header": "foobar",
-    // Authorization: `Bearer ${localStorage.getItem('token')}`,  // Add JWT token - setting JWT not yet implemented
+    // Authorization header will be set in the request interceptor
   },
+});
+
+export const refreshHttpInstance = axios.create({
+  baseURL: "http://localhost:3000/api",
+  withCredentials: true,
 });
 
 export default httpService;

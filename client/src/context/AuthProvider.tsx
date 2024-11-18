@@ -15,8 +15,9 @@ type User = {
 type AuthContext = {
   authToken?: string | null;
   currentUser?: User | null;
-  handleLogin: (user: User) => Promise<AxiosResponse<any, any>>;
+  handleLogin: (user: User) => Promise<AxiosResponse<{ token: string }>>;
   handleLogout: () => Promise<void>;
+  setAuthToken: (state: string | null) => void;
 };
 
 const AuthContext = createContext<AuthContext | undefined>(undefined);
@@ -24,27 +25,49 @@ const AuthContext = createContext<AuthContext | undefined>(undefined);
 type AuthProviderProps = PropsWithChildren;
 
 export default function AuthProvider({ children }: AuthProviderProps) {
-  const [authToken, setAuthToken] = useState<string | null>();
-  // const [currentUser, setCurrentUser] = useState<User | null>();
-  async function handleLogin(user: User): Promise<AxiosResponse<any, any>> {
+  const [authToken, setAuthToken] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  async function handleLogin(
+    user: User
+  ): Promise<AxiosResponse<{ token: string }>> {
     try {
       const response = await httpService.post("/login", user);
       const token = response.data?.token;
       setAuthToken(token);
+      setCurrentUser(response.data?.user);
       return response;
     } catch (error) {
       setAuthToken(null);
+      setCurrentUser(null);
       return Promise.reject(error);
     }
   }
 
   async function handleLogout() {
     setAuthToken(null);
-    // setCurrentUser(null);
+    setCurrentUser(null);
+    await httpService.put(
+      "/logout",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
   }
 
   return (
-    <AuthContext.Provider value={{ authToken, handleLogin, handleLogout }}>
+    <AuthContext.Provider
+      value={{
+        authToken,
+        currentUser,
+        handleLogin,
+        handleLogout,
+        setAuthToken,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

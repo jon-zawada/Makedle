@@ -23,7 +23,7 @@ export class UserModel {
   };
 
   getUserById = async (id: string): Promise<User> => {
-    const query = "SELECT id, username, email, created_at FROM users WHERE id = $1";
+    const query = "SELECT * FROM users WHERE id = $1"; //COME BACK TO THIS
     const result = await this.pool.query(query, [id]);
     return result.rows[0] || null;
   };
