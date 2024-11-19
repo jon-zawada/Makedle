@@ -5,12 +5,11 @@ import { Bell, Upload, User } from "lucide-react";
 
 export default function PageHeader() {
   return (
-    <header className="bg-green-100 flex justify-between gap-10 lg:gap-20 px-4 py-4 col-span-2">
-      <div className="flex flex-shrink-0 h-8">
-        <div className="flex justify-center items-center">MAKEDLE</div>
-        <img src={logo} alt="" />
+    <header className="bg-green-100 flex items-center justify-between gap-10 lg:gap-20 px-4 py-4 col-span-2">
+      <div className="flex items-center justify-center h-8 gap-1">
+        <img src={logo} alt="" className="h-full" />
+        <div className="text-2xl leading-none">MAKEDLE</div>
       </div>
-      <h1>HEADER</h1>
       <div className="flex flex-shrink-0 md:gap-2">
         <Button size="icon" variant="ghost">
           <Upload />

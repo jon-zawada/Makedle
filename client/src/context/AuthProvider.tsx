@@ -18,6 +18,7 @@ type AuthContext = {
   handleLogin: (user: User) => Promise<AxiosResponse<{ token: string }>>;
   handleLogout: () => Promise<void>;
   setAccessToken: (state: string | null) => void;
+  setCurrentUser: (state: User | null) => void;
 };
 
 const AuthContext = createContext<AuthContext | undefined>(undefined);
@@ -66,6 +67,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         handleLogin,
         handleLogout,
         setAccessToken,
+        setCurrentUser
       }}
     >
       {children}

@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import PageHeader from "./components/PageHeader";
 import Sidebar from "./components/Sidebar";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import { useAuth } from "./context/AuthProvider";
+import httpService from "./api/httpService";
 
 const App = () => {
+  const { setAccessToken, setCurrentUser } = useAuth();
+
+  useEffect(() => {
+    initUserData();
+  }, []);
+
+  const initUserData = async () => {
+    const response = await httpService.get("/init");
+    const { user, token } = response.data;
+    setAccessToken(token);
+    setCurrentUser(user);
+  };
+
   return (
     <div className="grid grid-cols-[250px_1fr] gap-4 max-h-screen">
       <PageHeader />
