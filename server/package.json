@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "node dist/index.ts",
-    "seed-db": "psql postgres -f src/db/schema.sql"
+    "seed-db": "psql postgres -f src/db/schema.sql",
+    "test": "jest",
+    "test:silent": "jest --silent --coverage=false"
   },
   "author": "jon-zawada",
   "license": "ISC",
