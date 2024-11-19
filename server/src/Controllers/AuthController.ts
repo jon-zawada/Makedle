@@ -8,10 +8,34 @@ import { User } from "../Models/User";
 
 export class AuthController {
   private userModel: UserModel;
+  private readonly refCookieOptions: CookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict", // Prevents CSRF attacks
+    maxAge: parseTokenTime(process.env.JWT_REFRESH_EXPIRES_IN!), // Cookie expiration in milliseconds
+    path: "/",
+  };
 
   constructor(pool: Pool) {
     this.userModel = new UserModel(pool);
   }
+
+  public init = async (req: Request, res: Response) => {
+    try {
+      const refreshToken = req.cookies?.refreshToken;
+      if (!refreshToken) {
+        return res.status(204).json({ message: "No refresh token found, please log in" });
+      }
+
+      const decoded = this.verifyRefreshToken(refreshToken);
+      const user = await this.userModel.getUserById(decoded.id);
+      const token = this.generateAccessToken(user);
+      res.status(200).json({ user, token });
+    } catch (error) {
+      const message = "Internal server error. Please try again later.";
+      return res.status(500).json({ message, error });
+    }
+  };
 
   public login = (req: Request, res: Response) => {
     try {
@@ -35,7 +59,7 @@ export class AuthController {
 
         await this.userModel.updateRefreshToken(user.id, refreshToken);
 
-        res.cookie("refreshToken", refreshToken, this.getRefCookieOptions());
+        res.cookie("refreshToken", refreshToken, this.refCookieOptions);
 
         res.status(201).json({ token, user }); // REFER TO USER MODEL TO REMEMBER TO OMIT PASSWORD AND REFRESH TOKEN
       });
@@ -46,16 +70,13 @@ export class AuthController {
   };
 
   public refreshToken = (req: Request, res: Response) => {
-    const refreshToken = req.cookies.refreshToken;
+    const refreshToken = req.cookies?.refreshToken;
 
     if (!refreshToken) {
-      return res.sendStatus(401);
+      return res.sendStatus(401).json({ message: "No cookie found" });
     }
 
-    const decoded = jwt.verify(
-      refreshToken,
-      process.env.JWT_REFRESH_SECRET!
-    ) as jwt.JwtPayload;
+    const decoded = this.verifyRefreshToken(refreshToken);
 
     if (!decoded.id) {
       return res.sendStatus(401);
@@ -73,7 +94,7 @@ export class AuthController {
 
         await this.userModel.updateRefreshToken(user.id, newRefreshToken);
 
-        res.cookie("refreshToken", newRefreshToken, this.getRefCookieOptions());
+        res.cookie("refreshToken", newRefreshToken, this.refCookieOptions);
 
         res.status(201).json({ accessToken: newAccessToken, user });
       })
@@ -89,6 +110,13 @@ export class AuthController {
         return res.status(401).json({ message: "Unauthorized" });
       }
       await this.userModel.updateRefreshToken(userId, null);
+
+      res.cookie("refreshToken", "", {
+        ...this.refCookieOptions,
+        expires: new Date(0),
+        maxAge: 0,
+      });
+
       res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
       res.status(500).json({ message: "Internal server error", error });
@@ -107,13 +135,10 @@ export class AuthController {
     });
   }
 
-  private getRefCookieOptions(): CookieOptions {
-    return {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict", //prevents CSRF attacks,
-      maxAge: parseTokenTime(process.env.JWT_REFRESH_EXPIRES_IN!), // Cookie expiration in milliseconds
-      path: "/",
-    };
+  private verifyRefreshToken(refreshToken: string) {
+    return jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET!
+    ) as jwt.JwtPayload;
   }
 }
