@@ -13,11 +13,11 @@ type User = {
 };
 
 type AuthContext = {
-  authToken?: string | null;
+  accessToken?: string | null;
   currentUser?: User | null;
   handleLogin: (user: User) => Promise<AxiosResponse<{ token: string }>>;
   handleLogout: () => Promise<void>;
-  setAuthToken: (state: string | null) => void;
+  setAccessToken: (state: string | null) => void;
 };
 
 const AuthContext = createContext<AuthContext | undefined>(undefined);
@@ -25,7 +25,7 @@ const AuthContext = createContext<AuthContext | undefined>(undefined);
 type AuthProviderProps = PropsWithChildren;
 
 export default function AuthProvider({ children }: AuthProviderProps) {
-  const [authToken, setAuthToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   async function handleLogin(
@@ -34,25 +34,25 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     try {
       const response = await httpService.post("/login", user);
       const token = response.data?.token;
-      setAuthToken(token);
+      setAccessToken(token);
       setCurrentUser(response.data?.user);
       return response;
     } catch (error) {
-      setAuthToken(null);
+      setAccessToken(null);
       setCurrentUser(null);
       return Promise.reject(error);
     }
   }
 
   async function handleLogout() {
-    setAuthToken(null);
+    setAccessToken(null);
     setCurrentUser(null);
     await httpService.put(
       "/logout",
       {},
       {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
@@ -61,11 +61,11 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   return (
     <AuthContext.Provider
       value={{
-        authToken,
+        accessToken,
         currentUser,
         handleLogin,
         handleLogout,
-        setAuthToken,
+        setAccessToken,
       }}
     >
       {children}

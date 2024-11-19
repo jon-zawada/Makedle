@@ -12,26 +12,14 @@ router.get("/users", authenticateJWT, userController.getUsers);
 // @ts-expect-error TODO GET RID OF THIS I HATE TYPESCRIPT
 router.get("/users/:id", authenticateJWT, userController.getUserById);
 
-//TO IMPLEMENT router.get("/users/:id/games");
-
 //POST
 router.post("/users", userController.createUser);
-// @ts-expect-error TODO GET RID OF THIS I HATE TYPESCRIPT
-router.post("/login", userController.loginUser);
 
 //PUT
-//TO IMPLEMENT router.put("/users/:id");
 
 //PATCH
-//TO IMPLEMENT router.patch("/users/:id");
 
 //DELETE
 router.delete("/users/:id", userController.deleteUserById);
-
-//MOVE THESE TOKEN ROUTES
-// @ts-expect-error TODO GET RID OF THIS I HATE TYPESCRIPT
-router.post("/refresh-token", userController.refreshToken);
-// @ts-expect-error TODO GET RID OF THIS I HATE TYPESCRIPT
-router.put("/logout", authenticateJWT, userController.logout);
 
 export default router;
