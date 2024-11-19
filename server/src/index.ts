@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
 import cookieParser from "cookie-parser";
-import authRoutes from "./Routes/authRoutes"
+import authRoutes from "./Routes/authRoutes";
 import userRoutes from "./Routes/userRoutes";
 import gameRoutes from "./Routes/gameRoutes";
 import noCache from "./middleware/noCache";
