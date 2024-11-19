@@ -10,7 +10,7 @@ const router  = Router();
 
 // POST
 // @ts-expect-error TODO GET RID OF THIS I HATE TYPESCRIPT
-router.post("/login", authController.loginUser);
+router.post("/login", authController.login);
 
 // @ts-expect-error TODO GET RID OF THIS I HATE TYPESCRIPT
 router.post("/refresh-token", authController.refreshToken);
