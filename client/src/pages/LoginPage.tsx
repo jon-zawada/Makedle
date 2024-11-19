@@ -10,7 +10,7 @@ type LoginFormUser = {
 
 export default function LoginPage() {
   const [user, setUser] = useState<LoginFormUser>({ email: "", password: "" });
-  const { authToken, handleLogin } = useAuth();
+  const { accessToken, handleLogin } = useAuth();
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,7 +26,7 @@ export default function LoginPage() {
     }
   };
 
-  return authToken ? <LogoutPage /> : (
+  return accessToken ? <LogoutPage /> : (
     <div className="flex flex-col items-center justify-center gap-4">
       <h2>Login</h2>
       <form onSubmit={submitHandler} className="flex flex-col gap-4">

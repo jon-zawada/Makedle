@@ -4,14 +4,14 @@ import { useAuth } from "../context/AuthProvider";
 import useRefreshToken from "./useRefreshToken";
 
 const useHttpService = () => {
-  const { authToken } = useAuth();
+  const { accessToken } = useAuth();
   const refresh = useRefreshToken();
 
   useEffect(() => {
     const requestIntercept = httpService.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
-          config.headers["Authorization"] = `Bearer ${authToken}`;
+          config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
         return config;
       },
@@ -36,7 +36,7 @@ const useHttpService = () => {
       httpService.interceptors.request.eject(requestIntercept);
       httpService.interceptors.response.eject(responseIntercept);
     };
-  }, [authToken]);
+  }, [accessToken, refresh]);
 
   return httpService;
 };

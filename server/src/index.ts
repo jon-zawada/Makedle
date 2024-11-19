@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
 import cookieParser from "cookie-parser";
+import authRoutes from "./Routes/authRoutes"
 import userRoutes from "./Routes/userRoutes";
 import gameRoutes from "./Routes/gameRoutes";
 import noCache from "./middleware/noCache";
@@ -32,6 +33,7 @@ if (fs.existsSync(CLIENT_DIR)) {
 }
 
 //ROUTES
+app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", gameRoutes);
 
