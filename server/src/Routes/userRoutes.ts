@@ -11,13 +11,13 @@ router.get("/users", authenticateJWT, userController.getUsers);
 router.get("/users/:id", authenticateJWT, userController.getUserById);
 
 //POST
-router.post("/users", userController.createUser);
+router.post("/users", authenticateJWT, userController.createUser);
 
 //PUT
 
 //PATCH
 
 //DELETE
-router.delete("/users/:id", userController.deleteUserById);
+router.delete("/users/:id", authenticateJWT, userController.deleteUserById);
 
 export default router;

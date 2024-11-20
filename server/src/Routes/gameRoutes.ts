@@ -2,6 +2,7 @@ import { Router } from "express";
 import { GameController } from "../Controllers/GameController";
 import pool from "../db";
 import multer from "multer";
+import authenticateJWT from "../middleware/authenticateJWT";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -18,19 +19,17 @@ const gameController = new GameController(pool);
 const router = Router();
 
 //GET
-router.get("/games", gameController.getGames); //add query params for pagination and search
-router.get("/games/:id", gameController.getGameById);
+router.get("/games", authenticateJWT, gameController.getGames);
+router.get("/games/:id", authenticateJWT, gameController.getGameById);
 
 //POST
-router.post("/games", upload.single("file"), gameController.createGame);
+router.post("/games", authenticateJWT, upload.single("file"), gameController.createGame);
 
 // //PUT
-// router.put("/games/:id" );
 
 // //PATCH
-// router.patch("games/:id");
 
 //DELETE
-router.delete("/games/:id", gameController.deleteGameById);
+router.delete("/games/:id", authenticateJWT, gameController.deleteGameById);
 
 export default router;
