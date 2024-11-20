@@ -24,11 +24,14 @@ export class AuthController {
     try {
       const refreshToken = req.cookies?.refreshToken;
       if (!refreshToken) {
-        return res.status(204).json({ message: "No refresh token found, please log in" });
+        return res
+          .status(204)
+          .json({ message: "No refresh token found, please log in" });
       }
 
       const decoded = this.verifyRefreshToken(refreshToken);
       const user = await this.userModel.getUserById(decoded.id);
+      //TODO check if user has the same refresh token as the one we grabbed from cookies
       const token = this.generateAccessToken(user);
       res.status(200).json({ user, token });
     } catch (error) {
@@ -105,11 +108,13 @@ export class AuthController {
 
   public logout = async (req: Request, res: Response) => {
     try {
-      const userId = req.user?.id;
-      if (!userId) {
-        return res.status(401).json({ message: "Unauthorized" });
+      const refreshToken = req.cookies?.refreshToken;
+      if (refreshToken) {
+        const decoded = this.verifyRefreshToken(refreshToken);
+        if (decoded.id) {
+          await this.userModel.updateRefreshToken(decoded.id, null);
+        }
       }
-      await this.userModel.updateRefreshToken(userId, null);
 
       res.cookie("refreshToken", "", {
         ...this.refCookieOptions,
