@@ -1,11 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-const authenticateJWT = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void | Response => {
+const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.header("Authorization");
   const token = authHeader?.startsWith("Bearer ")
     ? authHeader.split(" ")[1]
@@ -14,14 +10,16 @@ const authenticateJWT = (
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET!, (err: any, user: any) => {
       if (err) {
-        return res.sendStatus(403);
+        res.sendStatus(403);
+        return;
       }
 
       req.user = user;
       next();
     });
   } else {
-    return res.sendStatus(401);
+    res.sendStatus(401);
+    return;
   }
 };
 

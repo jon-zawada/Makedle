@@ -18,6 +18,7 @@ export class UserController {
       })
       .catch((error) => {
         res.status(500).json({ message: "Error retrieving users", error });
+        return;
       });
   };
 
@@ -30,6 +31,7 @@ export class UserController {
       })
       .catch((error) => {
         res.status(500).json({ message: "Error retrieving user", error });
+        return;
       });
   };
 
@@ -44,6 +46,7 @@ export class UserController {
       })
       .catch((error) => {
         res.status(500).json({ message: "Error creating user", error });
+        return;
       });
   };
 
@@ -54,13 +57,15 @@ export class UserController {
       .then((user) => {
         const deletedUserId = user?.id;
         if (!deletedUserId) {
-          return res.sendStatus(404);
+          res.sendStatus(404);
+          return;
         }
         const message = "User successfully deleted";
         res.status(200).json({ message, deletedUserId });
       })
       .catch((error) => {
         res.status(500).json({ message: "Error deleting user", error });
+        return;
       });
   };
 }

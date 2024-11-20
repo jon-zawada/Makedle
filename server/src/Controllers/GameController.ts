@@ -24,6 +24,7 @@ export class GameController {
       })
       .catch((error) => {
         res.status(500).json({ message: "Error retrieving games", error });
+        return;
       });
   };
 
@@ -33,12 +34,14 @@ export class GameController {
       .getGameById(id)
       .then((game) => {
         if (!game) {
-          return res.sendStatus(404);
+          res.sendStatus(404);
+          return;
         }
         res.status(200).json(game);
       })
       .catch((error) => {
         res.status(500).json({ message: "Error retrieving game", error });
+        return;
       });
   };
 
@@ -52,6 +55,7 @@ export class GameController {
       res.status(201).json(game);
     } catch(error) {
       res.status(500).json({ message: "An error occurred while creating a game", error });
+      return;
     }
   };
 
@@ -61,12 +65,14 @@ export class GameController {
       .deleteGameById(id)
       .then((game) => {
         if (!game) {
-          return res.sendStatus(404);
+          res.sendStatus(404);
+          return;
         }
         res.status(200).json(game);
       })
       .catch((error) => {
         res.status(500).json({ message: "Error deleting game", error });
+        return;
       });
   };
 }
