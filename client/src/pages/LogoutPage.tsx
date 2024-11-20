@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "../components/common/Button";
-// import httpService from "../api/httpService";
 import { useAuth } from "../context/AuthProvider";
 
 

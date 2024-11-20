@@ -7,6 +7,10 @@ import "@testing-library/jest-dom";
 
 jest.mock("../../api/httpService");
 
+jest.mock('react-router-dom', () => ({
+  useNavigate: jest.fn(),
+}));
+
 describe("LoginPage", () => {
   test("renders the login page", () => {
     render(
