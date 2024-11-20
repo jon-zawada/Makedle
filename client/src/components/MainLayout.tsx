@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom"; // import Outlet to render child routes
+import { Outlet } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
 import Sidebar from "../components/Sidebar";
 
