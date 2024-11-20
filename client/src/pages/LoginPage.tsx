@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../components/common/Button";
 import { useAuth } from "../context/AuthProvider";
-import LogoutPage from "./LogoutPage";
+import { useNavigate } from "react-router-dom";
 
 type LoginFormUser = {
   email: string;
@@ -10,7 +10,8 @@ type LoginFormUser = {
 
 export default function LoginPage() {
   const [user, setUser] = useState<LoginFormUser>({ email: "", password: "" });
-  const { accessToken, handleLogin } = useAuth();
+  const { handleLogin } = useAuth();
+  const navigate = useNavigate();
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,13 +22,14 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await handleLogin(user);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
 
-  return accessToken ? <LogoutPage /> : (
-    <div className="flex flex-col items-center justify-center gap-4">
+  return (
+    <div className="py-5 bg-green-100 h-full flex flex-col items-center justify-center gap-4">
       <h2>Login</h2>
       <form onSubmit={submitHandler} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
