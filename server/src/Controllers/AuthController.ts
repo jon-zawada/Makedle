@@ -24,9 +24,10 @@ export class AuthController {
     try {
       const refreshToken = req.cookies?.refreshToken;
       if (!refreshToken) {
-        return res
+        res
           .status(204)
           .json({ message: "No refresh token found, please log in" });
+        return;
       }
 
       const decoded = this.verifyRefreshToken(refreshToken);
@@ -36,7 +37,8 @@ export class AuthController {
       res.status(200).json({ user, token });
     } catch (error) {
       const message = "Internal server error. Please try again later.";
-      return res.status(500).json({ message, error });
+      res.status(500).json({ message, error });
+      return;
     }
   };
 
@@ -45,7 +47,8 @@ export class AuthController {
       const { email, password } = req.body;
       this.userModel.loginUser(email).then(async (user) => {
         if (!user) {
-          return res.status(401).json({ message: "Invalid email or password" });
+          res.status(401).json({ message: "Invalid email or password" });
+          return;
         }
 
         const passwordMatch = await bcrypt.compare(
@@ -54,7 +57,8 @@ export class AuthController {
         );
 
         if (!passwordMatch) {
-          return res.status(401).json({ message: "Invalid email or password" });
+          res.status(401).json({ message: "Invalid email or password" });
+          return;
         }
 
         const token = this.generateAccessToken(user);
@@ -68,7 +72,8 @@ export class AuthController {
       });
     } catch (error) {
       const message = "Cannot login internal server error";
-      return res.status(500).json({ message, error });
+      res.status(500).json({ message, error });
+      return;
     }
   };
 
@@ -76,20 +81,23 @@ export class AuthController {
     const refreshToken = req.cookies?.refreshToken;
 
     if (!refreshToken) {
-      return res.sendStatus(401).json({ message: "No cookie found" });
+      res.sendStatus(401).json({ message: "No cookie found" });
+      return;
     }
 
     const decoded = this.verifyRefreshToken(refreshToken);
 
     if (!decoded.id) {
-      return res.sendStatus(401);
+      res.sendStatus(401);
+      return;
     }
 
     this.userModel
       .getUserById(decoded.id)
       .then(async (user) => {
         if (!user || user.refresh_token !== refreshToken) {
-          return res.sendStatus(403);
+          res.sendStatus(403);
+          return;
         }
 
         const newAccessToken = this.generateAccessToken(user);
@@ -102,7 +110,8 @@ export class AuthController {
         res.status(201).json({ accessToken: newAccessToken, user });
       })
       .catch(() => {
-        return res.sendStatus(403);
+        res.sendStatus(403);
+        return;
       });
   };
 
@@ -125,6 +134,7 @@ export class AuthController {
       res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
       res.status(500).json({ message: "Internal server error", error });
+      return;
     }
   };
 
