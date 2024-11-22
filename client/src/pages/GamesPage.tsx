@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import useHttpService from '../api/useHttpService'
-import { Game } from '../types/types';
-import Modal from '../components/common/Modal';
+import React, { useEffect, useState } from "react";
+import useHttpService from "../api/useHttpService";
+import { Game } from "../types/types";
 
 export default function GamesPage() {
   const [games, setGames] = useState([]);
-  const [showModal, setShowModal] = useState(true);
   const httpService = useHttpService();
 
   useEffect(() => {
@@ -16,7 +14,7 @@ export default function GamesPage() {
     const response = await httpService.get("/games");
     const games = response.data;
     setGames(games);
-  }
+  };
 
   return (
     <div>
@@ -26,13 +24,6 @@ export default function GamesPage() {
           <li key={game.id}>{game.name}</li>
         ))}
       </ul>
-      <Modal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        title='Example modal'
-      >
-        Hello world
-      </Modal>
     </div>
-  )
+  );
 }
