@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import useHttpService from "../api/useHttpService";
-import { Game } from "../types/types";
+import useHttpService from "../../api/useHttpService";
+import { Game } from "../../types/types";
+import GameItem from "./GameItem";
 
 export default function GamesPage() {
   const [games, setGames] = useState([]);
@@ -17,13 +18,13 @@ export default function GamesPage() {
   };
 
   return (
-    <div>
-      <h2>Games</h2>
-      <ul>
+    <div className="flex flex-col items-center justify-center gap-2">
+      <h2 className="text-xl">Games</h2>
+      <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
         {games.map((game: Game) => (
-          <li key={game.id}>{game.name}</li>
+          <GameItem key={game.id} {...game} />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
