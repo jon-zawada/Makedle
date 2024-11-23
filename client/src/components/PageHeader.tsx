@@ -5,6 +5,7 @@ import { Bell, Upload, User } from "lucide-react";
 import { useAuth } from "../context/AuthProvider";
 import Modal from "./common/Modal";
 import LoginPage from "../pages/LoginPage";
+import ProfileMenu from "./ProfileMenu";
 
 export default function PageHeader() {
   const { appUser } = useAuth();
@@ -25,9 +26,7 @@ export default function PageHeader() {
         <Button size="icon" variant="ghost">
           <Bell />
         </Button>
-        <Button size="icon" variant="ghost">
-          <User />
-        </Button>
+        <ProfileMenu />
       </div>
     ) : (
       <div>
