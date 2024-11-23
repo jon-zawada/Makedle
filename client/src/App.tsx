@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import { useAuth } from "./context/AuthProvider";
 import httpService from "./api/httpService";
 import MainLayout from "./components/MainLayout";
-import GamesPage from "./pages/GamesPage";
+import GamesPage from "./pages/games/GamesPage";
 
 const App = () => {
   const { setAccessToken, setAppUser } = useAuth();
