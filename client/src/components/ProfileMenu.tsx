@@ -3,11 +3,13 @@ import Button from "./common/Button";
 import { User } from "lucide-react";
 import DropdownMenu, { IDropdownMenuItems } from "./common/DropdownMenu";
 import { useAuth } from "../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { handleLogout } = useAuth();
+  const navigate = useNavigate();
 
   const handleToggle = () => setIsOpen((prev) => !prev);
 
@@ -28,7 +30,10 @@ export default function ProfileMenu() {
     },
     {
       name: "Logout",
-      onClick: handleLogout,
+      onClick: () => {
+        handleLogout();
+        navigate("/");
+      },
     },
   ];
 
