@@ -1,38 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 
-export default function ImageUpload() {
-  const [image, setImage] = useState<string | null>(null);
+interface IImageUploadProps {
+  preview: string | null;
+  handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert("Please upload a valid image file.");
-    }
-  };
-
+export default function ImageUpload({
+  preview,
+  handleImageChange,
+}: IImageUploadProps) {
   return (
-    <div className="relative w-48 h-48">
+    <div className="relative w-64 h-48">
       <input
         type="file"
         accept="image/*"
         className="absolute inset-0 opacity-0 cursor-pointer"
         onChange={handleImageChange}
       />
-      {image ? (
+      {preview ? (
         <img
-          src={image}
+          src={preview}
           alt="Uploaded Preview"
           className="w-full h-full object-cover rounded"
         />
       ) : (
-        <div className="w-full h-full bg-secondary flex items-center justify-center rounded">
-          Select Image
+        <div className="text-center w-full h-full bg-secondary flex items-center justify-center rounded">
+          Click to upload image
         </div>
       )}
     </div>

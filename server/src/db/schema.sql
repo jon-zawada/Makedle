@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS games (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   primary_color CHAR(7) NOT NULL CHECK (primary_color ~ '^#([A-Fa-f0-9]{6})$'), --validates that the color string is a valid hexadecimal code (e.g., #FFFFFF)
   secondary_color CHAR(7) NOT NULL CHECK (primary_color ~ '^#([A-Fa-f0-9]{6})$'), --maybe dumb to check to validate here^, maybe client side if bad hex value just render default color?
-  tertiary_color CHAR(7) NOT NULL CHECK (primary_color ~ '^#([A-Fa-f0-9]{6})$')
+  tertiary_color CHAR(7) NOT NULL CHECK (primary_color ~ '^#([A-Fa-f0-9]{6})$'),
+  image BYTEA
 );
 
 CREATE TABLE IF NOT EXISTS headers (

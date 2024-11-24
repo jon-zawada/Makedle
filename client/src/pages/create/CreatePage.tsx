@@ -13,6 +13,7 @@ interface IFormData {
   secondaryColor: string;
   tertiaryColor: string;
   file: File | null;
+  image: File | null;
 }
 
 const initFormData: IFormData = {
@@ -21,10 +22,12 @@ const initFormData: IFormData = {
   secondaryColor: "#C9B458",
   tertiaryColor: "#EB2424",
   file: null,
+  image: null,
 };
 
 export default function CreatePage() {
   const [form, setForm] = useState<IFormData>(initFormData);
+  const [preview, setPreview] = useState<string | null>(null);
   const httpService = useHttpService();
 
   const isDisabled: boolean = _isEmpty(form.name) || !form.file;
@@ -47,7 +50,19 @@ export default function CreatePage() {
     }
   };
 
-  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.type.startsWith("image/")) {
+      setForm({ ...form, image: file });
+      setPreview(URL.createObjectURL(file));
+    } else {
+      alert("Please upload a valid image file.");
+    }
+  };
+
+  const submitHandler = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     await postGame();
   };
@@ -81,7 +96,7 @@ export default function CreatePage() {
     <div className="flex flex-col items-center justify-center gap-8">
       <div className="text-2xl">Create a game!</div>
       <div className="grid grid-cols-2 gap-20">
-        <form className="flex flex-col gap-4 p-2" onSubmit={submitHandler}>
+        <form className="flex flex-col gap-4 p-2">
           <div className="flex flex-col">
             <label htmlFor="name">Game Name</label>
             <input
@@ -110,7 +125,10 @@ export default function CreatePage() {
             />
           </div>
           <div className="flex justify-center">
-            <ImageUpload />
+            <ImageUpload
+              preview={preview}
+              handleImageChange={handleImageChange}
+            />
           </div>
         </form>
         <div className="flex flex-col gap-4 p-2">
@@ -174,7 +192,9 @@ export default function CreatePage() {
           </div>
         </div>
       </div>
-      <Button isDisabled={isDisabled}>Create Game</Button>
+      <Button onClick={submitHandler} isDisabled={isDisabled}>
+        Create Game
+      </Button>
     </div>
   );
 }

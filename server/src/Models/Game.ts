@@ -9,6 +9,7 @@ export interface Game {
   primary_color: string;
   secondary_color: string;
   tertiary_color: string;
+  image: Buffer | string;
 }
 
 export class GameModel {
@@ -35,16 +36,18 @@ export class GameModel {
     gameName: string,
     primary_color: string,
     secondary_color: string,
-    tertiary_color: string
+    tertiary_color: string,
+    image: Buffer | string
   ): Promise<Game> => {
     const query =
-      "INSERT INTO games (user_id, name, primary_color, secondary_color, tertiary_color) VALUES ($1, $2, $3, $4, $5) RETURNING *";
+      "INSERT INTO games (user_id, name, primary_color, secondary_color, tertiary_color, image) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, user_id, name, primary_color, secondary_color, tertiary_color, created_at, updated_at;";
     const result = await this.pool.query(query, [
       userId,
       gameName,
       primary_color,
       secondary_color,
       tertiary_color,
+      image,
     ]);
     return result.rows[0] || null;
   };
