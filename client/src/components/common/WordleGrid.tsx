@@ -11,36 +11,29 @@ export default function WordleGrid({
   secondaryColor = "#C9B458",
   tertiaryColor = "#FF0000",
 }: IWorldGridProps) {
+  const white = "#FFFFFF";
+  const colors = [
+    { color: white, rounded: "rounded-tl-md" },
+    { color: white, rounded: "" },
+    { color: tertiaryColor, rounded: "rounded-tr-md" },
+    { color: white, rounded: "" },
+    { color: secondaryColor, rounded: "" },
+    { color: primaryColor, rounded: "" },
+    { color: primaryColor, rounded: "rounded-bl-md" },
+    { color: primaryColor, rounded: "" },
+    { color: primaryColor, rounded: "rounded-br-md" },
+  ];
+
   return (
     <div className="flex justify-center">
       <div className="grid grid-cols-3 grid-rows-3 gap-0">
-        <div className="w-16 h-16 border-2 border-black rounded-tl-md flex items-center justify-center" />
-        <div className="w-16 h-16 border-2 border-black flex items-center justify-center" />
-        <div
-          style={{ backgroundColor: tertiaryColor }}
-          className="w-16 h-16 border-2 border-black rounded-tr-md flex items-center justify-center"
-        />
-        <div className="w-16 h-16 border-2 border-black flex items-center justify-center" />
-        <div
-          style={{ backgroundColor: secondaryColor }}
-          className="w-16 h-16 border-2 border-black flex items-center justify-center"
-        />
-        <div
-          style={{ backgroundColor: primaryColor }}
-          className="w-16 h-16 border-2 border-black flex items-center justify-center"
-        />
-        <div
-          style={{ backgroundColor: primaryColor }}
-          className="w-16 h-16 border-2 border-black rounded-bl-md flex items-center justify-center"
-        />
-        <div
-          style={{ backgroundColor: primaryColor }}
-          className="w-16 h-16 border-2 border-black flex items-center justify-center"
-        />
-        <div
-          style={{ backgroundColor: primaryColor }}
-          className="w-16 h-16 border-2 border-black rounded-br-md flex items-center justify-center"
-        />
+        {colors.map((item, index) => (
+          <div
+            key={index}
+            className={`w-16 h-16 border-2 border-black flex items-center justify-center ${item.rounded}`}
+            style={{ backgroundColor: item.color }}
+          />
+        ))}
       </div>
     </div>
   );
