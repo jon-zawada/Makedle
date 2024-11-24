@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../components/common/Button";
 import useHttpService from "../api/useHttpService";
+import PageLayout from "../components/common/PageLayout";
 
 const HomePage = () => {
   const httpService = useHttpService();
@@ -9,13 +10,12 @@ const HomePage = () => {
     httpService.get("/users");
   };
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div>MAIN CONTENT</div>
+    <PageLayout title="Home">
       <div className="flex gap-1">
         <Button onClick={test}>Play a game</Button>
         <Button>Make a game</Button>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

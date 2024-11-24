@@ -1,11 +1,12 @@
 import React, { useState, useRef } from "react";
 import Button from "../../components/common/Button";
 import WordleGrid from "../../components/common/WordleGrid";
-import { buttonStyles } from "../../components/common/Button";
 import _isEmpty from "lodash/isEmpty";
 import _isNil from "lodash/isNil";
 import useHttpService from "../../api/useHttpService";
-import ImageUpload from "../../components/common/ImageUpload";
+import PageLayout from "../../components/common/PageLayout";
+import ColorIndicator from "../../components/common/ColorIndicator";
+import CreatePageForm from "./CreatePageForm";
 
 interface IFormData {
   name: string;
@@ -100,109 +101,35 @@ export default function CreatePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-8">
-      <div className="text-2xl">Create a game!</div>
+    <PageLayout title="Create a game!">
       <div className="grid grid-cols-2 gap-20">
-        <form className="flex flex-col gap-4 p-2">
-          <div className="flex flex-col">
-            <label htmlFor="name">Game Name</label>
-            <input
-              name="name"
-              id="name"
-              className="px-4 py-2 border rounded"
-              type="text"
-              value={form.name}
-              onChange={changeHandler}
-            />
-          </div>
-          <div className="mt-2 flex items-center">
-            <label htmlFor="file-upload" className={buttonStyles()}>
-              Choose CSV File
-            </label>
-            <span className="ml-4 text-sm text-gray-500">
-              {form.file ? form.file.name : "No file selected"}
-            </span>
-            <input
-              id="file-upload"
-              ref={fileInputRef} // Assign ref to file input
-              className="hidden"
-              name="file"
-              type="file"
-              accept=".csv, text/csv"
-              onChange={changeHandler}
-            />
-          </div>
-          <div className="flex justify-center">
-            <ImageUpload
-              preview={preview}
-              handleImageChange={handleImageChange}
-            />
-          </div>
-        </form>
+        <CreatePageForm
+          gameName={form.name}
+          file={form.file}
+          fileInputRef={fileInputRef}
+          preview={preview}
+          handleImageChange={handleImageChange}
+          changeHandler={changeHandler}
+        />
         <div className="flex flex-col gap-4 p-2">
           <WordleGrid
             primaryColor={form.primaryColor}
             secondaryColor={form.secondaryColor}
             tertiaryColor={form.tertiaryColor}
           />
-          <div className="flex flex-col gap-4 border p-4 rounded-md">
-            <div className="text-center">Choose Color Indicators</div>
-            <div className="flex items-center justify-center gap-4">
-              <div className="flex flex-col items-center w-16 flex-none">
-                <div
-                  style={{ backgroundColor: form.primaryColor }}
-                  className="w-8 h-8 relative"
-                >
-                  <input
-                    type="color"
-                    id="primaryColor"
-                    name="primaryColor"
-                    value={form.primaryColor}
-                    onChange={changeHandler}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
-                </div>
-                <div className="text-sm">Correct</div>
-              </div>
-              <div className="flex flex-col items-center w-16 flex-none">
-                <div
-                  style={{ backgroundColor: form.secondaryColor }}
-                  className="w-8 h-8 relative"
-                >
-                  <input
-                    type="color"
-                    id="secondaryColor"
-                    name="secondaryColor"
-                    value={form.secondaryColor}
-                    onChange={changeHandler}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
-                </div>
-                <div className="text-sm">Partial</div>
-              </div>
-              <div className="flex flex-col items-center w-16 flex-none">
-                <div
-                  style={{ backgroundColor: form.tertiaryColor }}
-                  className="w-8 h-8 relative"
-                >
-                  <input
-                    type="color"
-                    id="tertiaryColor"
-                    name="tertiaryColor"
-                    value={form.tertiaryColor}
-                    onChange={changeHandler}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
-                </div>
-                <div className="text-sm">Incorrect</div>
-              </div>
-            </div>
-          </div>
+          <ColorIndicator
+            changeHandler={changeHandler}
+            primaryColor={form.primaryColor}
+            secondaryColor={form.secondaryColor}
+            tertiaryColor={form.tertiaryColor}
+          />
         </div>
       </div>
-      <Button onClick={submitHandler} isDisabled={isDisabled}>
-        Create Game
-      </Button>
-    </div>
+      <div className="flex justify-center p-2">
+        <Button onClick={submitHandler} isDisabled={isDisabled}>
+          Create Game
+        </Button>
+      </div>
+    </PageLayout>
   );
 }
