@@ -3,6 +3,7 @@ import Button from "../../components/common/Button";
 import WordleGrid from "../../components/common/WordleGrid";
 import { buttonStyles } from "../../components/common/Button";
 import _isEmpty from "lodash/isEmpty";
+import _isNil from "lodash/isNil";
 import useHttpService from "../../api/useHttpService";
 
 interface IFormData {
@@ -67,7 +68,7 @@ export default function CreatePage() {
     const formData = new FormData();
 
     Object.entries(obj).forEach(([key, value]) => {
-      if (value !== null && value !== undefined) {
+      if (!_isNil(value)) {
         formData.append(key, value);
       }
     });
