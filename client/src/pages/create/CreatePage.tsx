@@ -17,7 +17,7 @@ const initFormData: IFormData = {
   name: "",
   primaryColor: "#6AAA63",
   secondaryColor: "#C9B458",
-  tertiaryColor: "#FF0000",
+  tertiaryColor: "#EB2424",
   file: null,
 };
 
@@ -89,39 +89,9 @@ export default function CreatePage() {
             value={form.name}
             onChange={changeHandler}
           />
-          <label htmlFor="primaryColor">Correct Color</label>
-          <input
-            type="color"
-            id="primaryColor"
-            name="primaryColor"
-            value={form.primaryColor}
-            onChange={changeHandler}
-          />
-          <label htmlFor="secondaryColor">Partially Correct color</label>
-          <input
-            type="color"
-            id="secondaryColor"
-            name="secondaryColor"
-            value={form.secondaryColor}
-            onChange={changeHandler}
-          />
-          <label htmlFor="tertiaryColor">Incorrect color</label>
-          <input
-            type="color"
-            id="tertiaryColor"
-            name="tertiaryColor"
-            value={form.tertiaryColor}
-            onChange={changeHandler}
-          />
-          <label
-            htmlFor="file-upload"
-            className="block text-sm font-medium text-gray-700"
-          >
-            CSV File
-          </label>
           <div className="mt-2 flex items-center">
             <label htmlFor="file-upload" className={buttonStyles()}>
-              Choose File
+              Choose CSV File
             </label>
             <span className="ml-4 text-sm text-gray-500">
               {form.file ? form.file.name : "No file selected"}
@@ -138,12 +108,65 @@ export default function CreatePage() {
 
           <Button isDisabled={isDisabled}>Create</Button>
         </form>
-        <div>
+        <div className="flex flex-col gap-4">
           <WordleGrid
             primaryColor={form.primaryColor}
             secondaryColor={form.secondaryColor}
             tertiaryColor={form.tertiaryColor}
           />
+          <div className="flex flex-col gap-4 border p-4 rounded-md">
+            <div className="text-center">Choose Color Indicators</div>
+            <div className="flex items-center justify-center gap-4">
+              <div className="flex flex-col items-center w-16 flex-none">
+                <div
+                  style={{ backgroundColor: form.primaryColor }}
+                  className="w-8 h-8 relative"
+                >
+                  <input
+                    type="color"
+                    id="primaryColor"
+                    name="primaryColor"
+                    value={form.primaryColor}
+                    onChange={changeHandler}
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                  />
+                </div>
+                <div className="text-sm">Correct</div>
+              </div>
+              <div className="flex flex-col items-center w-16 flex-none">
+                <div
+                  style={{ backgroundColor: form.secondaryColor }}
+                  className="w-8 h-8 relative"
+                >
+                  <input
+                    type="color"
+                    id="secondaryColor"
+                    name="secondaryColor"
+                    value={form.secondaryColor}
+                    onChange={changeHandler}
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                  />
+                </div>
+                <div className="text-sm">Partial</div>
+              </div>
+              <div className="flex flex-col items-center w-16 flex-none">
+                <div
+                  style={{ backgroundColor: form.tertiaryColor }}
+                  className="w-8 h-8 relative"
+                >
+                  <input
+                    type="color"
+                    id="tertiaryColor"
+                    name="tertiaryColor"
+                    value={form.tertiaryColor}
+                    onChange={changeHandler}
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                  />
+                </div>
+                <div className="text-sm">Incorrect</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
