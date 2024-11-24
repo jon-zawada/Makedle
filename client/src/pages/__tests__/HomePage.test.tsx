@@ -11,7 +11,7 @@ describe("HomePage", () => {
         <HomePage />
       </AuthProvider>
     );
-    expect(screen.getByText("MAIN CONTENT")).toBeInTheDocument();
+    expect(screen.getByText("Home")).toBeInTheDocument();
     expect(screen.getAllByRole("button", { name: "Play a game" }));
     expect(screen.getAllByRole("button", { name: "Make a game" }));
   });
