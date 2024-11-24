@@ -11,7 +11,7 @@ router.get("/users", authenticateJWT, userController.getUsers);
 router.get("/users/:id", authenticateJWT, userController.getUserById);
 
 //POST
-router.post("/users", authenticateJWT, userController.createUser);
+router.post("/users", userController.createUser);
 
 //PUT
 

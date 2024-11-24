@@ -4,14 +4,14 @@ import { Header } from "../Models/Header";
 import { Word } from "../Models/Word";
 
 export function processGameCSV(
-  csvFilePath: string,
+  csvFile: Express.Multer.File,
   gameId: number,
   createHeader: (gameId: number, header: string) => Promise<Header>,
   createWord: (gameId: number, headerId: string, word: string) => Promise<Word>
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const headersMap = new Map();
-    const headerReader = fs.createReadStream(csvFilePath);
+    const headerReader = fs.createReadStream(csvFile.path);
 
     headerReader.pipe(csv()).on("headers", async (headers) => {
       try {
@@ -22,7 +22,7 @@ export function processGameCSV(
             headersMap.set(header, headerId);
           }
         }
-        readRowValues(csvFilePath, headersMap, gameId, createWord)
+        readRowValues(csvFile, headersMap, gameId, createWord)
           .then(() => resolve())
           .catch((error) => reject(error));
       } catch (error) {
@@ -33,13 +33,13 @@ export function processGameCSV(
 }
 
 function readRowValues(
-  csvFilePath: string,
+  csvFile: Express.Multer.File,
   headersMap: Map<string, string>,
   gameId: number,
   createWord: (gameId: number, headerId: string, word: string) => Promise<Word>
 ): Promise<void> {
   return new Promise((resolve, reject) => {
-    const rowReader = fs.createReadStream(csvFilePath);
+    const rowReader = fs.createReadStream(csvFile.path);
 
     rowReader
       .pipe(csv())
@@ -56,7 +56,7 @@ function readRowValues(
         }
       })
       .on("end", () => {
-        fs.unlinkSync(csvFilePath);
+        fs.unlinkSync(csvFile.path);
         resolve();
       })
       .on("error", (error) => {

@@ -4,6 +4,7 @@ import { Pool } from "pg";
 import { HeaderModel } from "../Models/Header";
 import { WordModel } from "../Models/Word";
 import { processGameCSV } from "../utils/csvReader";
+import fs from "fs";
 
 export class GameController {
   private gameModel: GameModel;
@@ -19,8 +20,17 @@ export class GameController {
   getGames = (req: Request, res: Response) => {
     this.gameModel
       .getGames()
-      .then((games) => {
-        res.status(200).json(games);
+      .then(async (games) => {
+        const gamesWithBase64Images = await Promise.all(
+          games.map(async (game) => {
+            if (game.image) {
+              const base64Image = game.image.toString("base64");
+              return { ...game, image: `data:image/png;base64,${base64Image}` };
+            }
+            return game;
+          })
+        );
+        res.status(200).json(gamesWithBase64Images);
       })
       .catch((error) => {
         res.status(500).json({ message: "Error retrieving games", error });
@@ -37,6 +47,10 @@ export class GameController {
           res.sendStatus(404);
           return;
         }
+        if (game.image) {
+          const base64Image = game.image.toString("base64");
+          game.image = `data:image/png;base64,${base64Image}`;
+        }
         res.status(200).json(game);
       })
       .catch((error) => {
@@ -48,21 +62,28 @@ export class GameController {
   createGame = async (req: Request, res: Response) => {
     const { name, primaryColor, secondaryColor, tertiaryColor } = req.body;
     const userId = req.user?.id!;
-    const csvFilePath = req.file?.path!;
+
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    const csvFile = files?.["file"]?.[0];
+    const imageFile = files?.["image"]?.[0];
+    const imageBuffer = fs.readFileSync(imageFile.path);
     try {
       const game = await this.gameModel.createGame(
         userId,
         name,
         primaryColor,
         secondaryColor,
-        tertiaryColor
+        tertiaryColor,
+        imageBuffer
       );
       await processGameCSV(
-        csvFilePath,
+        csvFile,
         game.id,
         this.headerModel.createHeader,
         this.wordModel.createWord
       );
+
+      fs.unlinkSync(imageFile.path);
       res.status(201).json(game);
     } catch (error) {
       res

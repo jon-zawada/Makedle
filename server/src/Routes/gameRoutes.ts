@@ -23,11 +23,15 @@ router.get("/games", authenticateJWT, gameController.getGames);
 router.get("/games/:id", authenticateJWT, gameController.getGameById);
 
 //POST
-router.post("/games", authenticateJWT, upload.single("file"), gameController.createGame);
-
-// //PUT
-
-// //PATCH
+router.post(
+  "/games",
+  authenticateJWT,
+  upload.fields([
+    { name: "file", maxCount: 1 },
+    { name: "image", maxCount: 1 },
+  ]),
+  gameController.createGame
+);
 
 //DELETE
 router.delete("/games/:id", authenticateJWT, gameController.deleteGameById);
