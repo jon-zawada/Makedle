@@ -5,6 +5,7 @@ import { buttonStyles } from "../../components/common/Button";
 import _isEmpty from "lodash/isEmpty";
 import _isNil from "lodash/isNil";
 import useHttpService from "../../api/useHttpService";
+import ImageUpload from "../../components/common/ImageUpload";
 
 interface IFormData {
   name: string;
@@ -77,19 +78,21 @@ export default function CreatePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-8">
       <div className="text-2xl">Create a game!</div>
       <div className="grid grid-cols-2 gap-20">
         <form className="flex flex-col gap-4 p-2" onSubmit={submitHandler}>
-          <label htmlFor="name">Game Name</label>
-          <input
-            name="name"
-            id="name"
-            className="px-4 py-2 border rounded"
-            type="text"
-            value={form.name}
-            onChange={changeHandler}
-          />
+          <div className="flex flex-col">
+            <label htmlFor="name">Game Name</label>
+            <input
+              name="name"
+              id="name"
+              className="px-4 py-2 border rounded"
+              type="text"
+              value={form.name}
+              onChange={changeHandler}
+            />
+          </div>
           <div className="mt-2 flex items-center">
             <label htmlFor="file-upload" className={buttonStyles()}>
               Choose CSV File
@@ -106,10 +109,11 @@ export default function CreatePage() {
               onChange={changeHandler}
             />
           </div>
-
-          <Button isDisabled={isDisabled}>Create</Button>
+          <div className="flex justify-center">
+            <ImageUpload />
+          </div>
         </form>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 p-2">
           <WordleGrid
             primaryColor={form.primaryColor}
             secondaryColor={form.secondaryColor}
@@ -170,6 +174,7 @@ export default function CreatePage() {
           </div>
         </div>
       </div>
+      <Button isDisabled={isDisabled}>Create Game</Button>
     </div>
   );
 }

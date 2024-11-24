@@ -9,7 +9,7 @@ export const buttonStyles = cva(
     "transition-colors",
     "disabled:cursor-not-allowed",
     "disabled:opacity-50",
-    "cursor-pointer"
+    "cursor-pointer",
   ],
   {
     variants: {
@@ -22,7 +22,12 @@ export const buttonStyles = cva(
         icon: ["rounded-full", "w-10", "h-10", "flex", "items-center", "p-2.5"],
       },
       disabled: {
-        true: ["bg-gray-400", "cursor-not-allowed", "opacity-50"],
+        true: [
+          "bg-gray-400",
+          "cursor-not-allowed",
+          "opacity-50",
+          "hover:bg-gray-400",
+        ],
         false: [],
       },
     },
