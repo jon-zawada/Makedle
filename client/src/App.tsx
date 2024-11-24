@@ -6,6 +6,7 @@ import { useAuth } from "./context/AuthProvider";
 import httpService from "./api/httpService";
 import MainLayout from "./components/MainLayout";
 import GamesPage from "./pages/games/GamesPage";
+import CreatePage from "./pages/create/CreatePage";
 
 const App = () => {
   const { setAccessToken, setAppUser } = useAuth();
@@ -27,6 +28,7 @@ const App = () => {
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/games" element={<GamesPage />} />
+        <Route path="/create" element={<CreatePage />} />
       </Route>
     </Routes>
   );
