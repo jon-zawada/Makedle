@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Button from "../../components/common/Button";
 import WordleGrid from "../../components/common/WordleGrid";
 import { buttonStyles } from "../../components/common/Button";
@@ -28,6 +28,7 @@ const initFormData: IFormData = {
 export default function CreatePage() {
   const [form, setForm] = useState<IFormData>(initFormData);
   const [preview, setPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const httpService = useHttpService();
 
   const isDisabled: boolean = _isEmpty(form.name) || !form.file;
@@ -76,7 +77,13 @@ export default function CreatePage() {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(() => setForm(initFormData))
+      .then(() => {
+        setForm(initFormData);
+        setPreview(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+      })
       .catch((error) => console.log(error));
   };
 
@@ -117,6 +124,7 @@ export default function CreatePage() {
             </span>
             <input
               id="file-upload"
+              ref={fileInputRef} // Assign ref to file input
               className="hidden"
               name="file"
               type="file"
