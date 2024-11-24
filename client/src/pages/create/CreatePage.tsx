@@ -30,17 +30,18 @@ export default function CreatePage() {
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = event.target;
     if (name === "file" && files) {
-      if (name === "file" && files) {
-        const file = files[0];
-        if (file.type === "text/csv") {
-          setForm({ ...form, file });
-        } else {
-          alert("Please upload a valid CSV file.");
-          setForm({ ...form, file: null });
-        }
-      }
+      handleFileChange(files);
     } else {
       setForm({ ...form, [name]: value });
+    }
+  };
+
+  const handleFileChange = (files: FileList | null) => {
+    if (files && files[0].type === "text/csv") {
+      setForm({ ...form, file: files[0] });
+    } else {
+      alert("Please upload a valid CSV file.");
+      setForm({ ...form, file: null });
     }
   };
 
@@ -78,7 +79,7 @@ export default function CreatePage() {
     <div className="flex flex-col items-center justify-center gap-4">
       <div className="text-2xl">Create a game!</div>
       <div className="grid grid-cols-2 gap-20">
-        <form className="flex flex-col gap-4" onSubmit={submitHandler}>
+        <form className="flex flex-col gap-4 p-2" onSubmit={submitHandler}>
           <label htmlFor="name">Game Name</label>
           <input
             name="name"
@@ -88,23 +89,26 @@ export default function CreatePage() {
             value={form.name}
             onChange={changeHandler}
           />
-          <label htmlFor="">Correct Color</label>
+          <label htmlFor="primaryColor">Correct Color</label>
           <input
             type="color"
+            id="primaryColor"
             name="primaryColor"
             value={form.primaryColor}
             onChange={changeHandler}
           />
-          <label htmlFor="">Partially Correct color</label>
+          <label htmlFor="secondaryColor">Partially Correct color</label>
           <input
             type="color"
+            id="secondaryColor"
             name="secondaryColor"
             value={form.secondaryColor}
             onChange={changeHandler}
           />
-          <label htmlFor="">Incorrect color</label>
+          <label htmlFor="tertiaryColor">Incorrect color</label>
           <input
             type="color"
+            id="tertiaryColor"
             name="tertiaryColor"
             value={form.tertiaryColor}
             onChange={changeHandler}
@@ -120,7 +124,7 @@ export default function CreatePage() {
               Choose File
             </label>
             <span className="ml-4 text-sm text-gray-500">
-              {form.file instanceof File ? form.file.name : "No file selected"}
+              {form.file ? form.file.name : "No file selected"}
             </span>
             <input
               id="file-upload"

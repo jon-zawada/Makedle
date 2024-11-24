@@ -9,6 +9,7 @@ export const buttonStyles = cva(
     "transition-colors",
     "disabled:cursor-not-allowed",
     "disabled:opacity-50",
+    "cursor-pointer"
   ],
   {
     variants: {
