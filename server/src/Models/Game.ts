@@ -31,7 +31,7 @@ export class GameModel {
   };
 
   createGame = async (
-    userId: string,
+    userId: number,
     gameName: string,
     primary_color: string,
     secondary_color: string,

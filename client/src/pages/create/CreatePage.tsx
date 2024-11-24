@@ -3,6 +3,7 @@ import Button from "../../components/common/Button";
 import WordleGrid from "../../components/common/WordleGrid";
 import { buttonStyles } from "../../components/common/Button";
 import _isEmpty from "lodash/isEmpty";
+import useHttpService from "../../api/useHttpService";
 
 interface IFormData {
   name: string;
@@ -22,6 +23,9 @@ const initFormData: IFormData = {
 
 export default function CreatePage() {
   const [form, setForm] = useState<IFormData>(initFormData);
+  const httpService = useHttpService();
+
+  const isDisabled: boolean = _isEmpty(form.name) || !form.file;
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = event.target;
@@ -40,16 +44,35 @@ export default function CreatePage() {
     }
   };
 
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    //API call
-    setForm(initFormData);
+    await postGame();
   };
 
-  const isDisabled: boolean = _isEmpty(form.name) || !form.file;
-  console.log("ISDISABLED", isDisabled);
-  console.log("Name is empty", _isEmpty(form.name));
-  console.log("File is empty", !form.file);
+  const postGame = async () => {
+    const formData = objectToFormData(form);
+
+    await httpService
+      .post("/games", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => setForm(initFormData))
+      .catch((error) => console.log(error));
+  };
+
+  const objectToFormData = (obj: IFormData) => {
+    const formData = new FormData();
+
+    Object.entries(obj).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formData.append(key, value);
+      }
+    });
+
+    return formData;
+  };
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
