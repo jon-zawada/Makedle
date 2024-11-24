@@ -85,6 +85,7 @@ export default function CreatePage() {
             id="name"
             className="px-4 py-2 border rounded"
             type="text"
+            value={form.name}
             onChange={changeHandler}
           />
           <label htmlFor="">Correct Color</label>
@@ -121,7 +122,6 @@ export default function CreatePage() {
             <span className="ml-4 text-sm text-gray-500">
               {form.file instanceof File ? form.file.name : "No file selected"}
             </span>
-
             <input
               id="file-upload"
               className="hidden"
