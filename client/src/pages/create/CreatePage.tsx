@@ -118,6 +118,7 @@ export default function CreatePage() {
             tertiaryColor={form.tertiaryColor}
           />
           <ColorIndicator
+            editable={true}
             changeHandler={changeHandler}
             primaryColor={form.primaryColor}
             secondaryColor={form.secondaryColor}
