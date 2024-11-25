@@ -39,9 +39,3 @@ CREATE TABLE IF NOT EXISTS words (
   word VARCHAR(100) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-INSERT INTO users (username, email, hashed_password)
-VALUES ('test-user', 'test_user@example', 'hashed_password_example');
-
-INSERT INTO games (user_id, name, primary_color, secondary_color, tertiary_color)
-VALUES (1, 'Test Game', '#FF5733', '#33FF57', '#3357FF');

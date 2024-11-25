@@ -25,7 +25,7 @@ export default function Sidebar() {
             route={item.route}
             title={item.title}
             Icon={item.icon}
-            isActive={!!matchPath(item.route, path)}
+            isActive={!!matchPath(item.route, path)}  // TODO this isnt working for nested routes ie /game/:id
           />
         ))}
       </nav>
