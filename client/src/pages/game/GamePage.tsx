@@ -1,19 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PageLayout from "../../components/common/PageLayout";
 import ColorIndicator from "../../components/common/ColorIndicator";
 import GuessComponent from "./GuessComponent";
 import { useLocation, useParams } from "react-router-dom";
 import Button from "../../components/common/Button";
 import _isEmpty from "lodash/isEmpty";
+import useHttpService from "../../api/useHttpService";
+import DropdownMenu, {
+  IDropdownMenuItems,
+} from "../../components/common/DropdownMenu";
+
+type WordData = {
+  header_name: string;
+  value: string;
+};
+
+type Word = {
+  word_id: number;
+  word_data: WordData[];
+};
+
+type WordList = Word[];
 
 export default function GamePage() {
   const [guess, setGuess] = useState<string>("");
   const [guesses, setGuesses] = useState<string[]>([]);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [words, setWords] = useState<WordList>([]); //fix this any
+  const httpService = useHttpService();
+  const menuRef = useRef<HTMLDivElement>(null);
   const { id } = useParams();
   const { state } = useLocation();
   const { name } = state.gameData;
 
   //make getGameById call if state is empty or just navigate them back to games?
+
+  useEffect(() => {
+    getWords();
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (_isEmpty(guess)) {
+      setMenuOpen(false);
+    } else if (!menuOpen) {
+      setMenuOpen(true);
+    }
+  }, [guess]);
+
+  const getWords = () => {
+    httpService
+      .get(`/games/${id}/words`)
+      .then((res) => {
+        setWords(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(event.target as Node) &&
+      !(event.target as HTMLElement).closest("button")
+    ) {
+      setMenuOpen(false);
+    }
+  };
 
   const guessHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -23,13 +81,36 @@ export default function GamePage() {
   const onSubmitGuess = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setGuesses([...guesses, guess]);
+    setGuess("");
+  };
+
+  const renderDropdownHint = (): IDropdownMenuItems[] => {
+    if (!guess || !words) return [];
+
+    return words
+      .filter((word) => {
+        const wData = word.word_data;
+        const name = wData.find(
+          (header) => header.header_name === "Name"
+        )?.value;
+        return name?.toLowerCase().startsWith(guess.toLowerCase());
+      })
+      .map((word) => {
+        const wData = word.word_data;
+        const name =
+          wData.find((header) => header.header_name === "Name")?.value || "";
+        return {
+          name,
+          onClick: () => setGuess(name),
+        };
+      });
   };
 
   return (
     <PageLayout title={`${name} - game id ${id}`}>
       <div className="flex flex-col gap-4 p-4 items-center">
         <div>Guess todays {name} champion!</div>
-        <div className="flex w-full justify-center">
+        <div className="flex justify-center relative">
           <form onSubmit={onSubmitGuess}>
             <input
               name="guess"
@@ -38,6 +119,13 @@ export default function GamePage() {
               type="text"
               value={guess}
               onChange={guessHandler}
+              autoComplete="off"
+            />
+            <DropdownMenu
+              isOpen={menuOpen}
+              menuRef={menuRef}
+              items={renderDropdownHint()}
+              fitParent
             />
             <Button
               type="submit"
