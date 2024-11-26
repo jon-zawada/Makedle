@@ -4,6 +4,7 @@ import { Pool } from "pg";
 import { HeaderModel } from "../Models/Header";
 import { WordModel } from "../Models/Word";
 import { processGameCSV } from "../utils/csvReader";
+import _isEmpty from "lodash/isEmpty";
 import fs from "fs";
 
 export class GameController {
@@ -57,6 +58,20 @@ export class GameController {
         res.status(500).json({ message: "Error retrieving game", error });
         return;
       });
+  };
+
+  getWordsByGameId = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const response = await this.wordModel.getWordsByGameId(id);
+      if (_isEmpty(response)) {
+        res.sendStatus(404);
+        return;
+      }
+      res.send(response);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error", error });
+    }
   };
 
   createGame = async (req: Request, res: Response) => {

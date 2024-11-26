@@ -7,7 +7,12 @@ export function processGameCSV(
   csvFile: Express.Multer.File,
   gameId: number,
   createHeader: (gameId: number, header: string) => Promise<Header>,
-  createWord: (gameId: number, headerId: string, word: string) => Promise<Word>
+  createWord: (
+    gameId: number,
+    headerId: string,
+    wordId: number,
+    word: string
+  ) => Promise<Word>
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const headersMap = new Map();
@@ -36,19 +41,25 @@ function readRowValues(
   csvFile: Express.Multer.File,
   headersMap: Map<string, string>,
   gameId: number,
-  createWord: (gameId: number, headerId: string, word: string) => Promise<Word>
+  createWord: (
+    gameId: number,
+    headerId: string,
+    wordId: number,
+    word: string
+  ) => Promise<Word>
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const rowReader = fs.createReadStream(csvFile.path);
-
+    let rowIndex = 1;
     rowReader
       .pipe(csv())
       .on("data", async (row) => {
+        const wordId = rowIndex++;
         try {
           for (const [header, headerId] of headersMap.entries()) {
             const word = row[header];
             if (word) {
-              await createWord(gameId, headerId, word);
+              await createWord(gameId, headerId, wordId, word);
             }
           }
         } catch (error) {
