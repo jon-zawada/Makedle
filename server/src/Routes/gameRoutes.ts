@@ -21,6 +21,7 @@ const router = Router();
 //GET
 router.get("/games", authenticateJWT, gameController.getGames);
 router.get("/games/:id", authenticateJWT, gameController.getGameById);
+router.get("/games/:id/words", authenticateJWT, gameController.getWordsByGameId);
 
 //POST
 router.post(
