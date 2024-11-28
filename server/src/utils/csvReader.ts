@@ -6,7 +6,7 @@ import { Word } from "../Models/Word";
 export function processGameCSV(
   csvFile: Express.Multer.File,
   gameId: number,
-  createHeader: (gameId: number, header: string) => Promise<Header>,
+  createHeader: (gameId: number, orderIndex: number, header: string) => Promise<Header>,
   createWord: (
     gameId: number,
     headerId: string,
@@ -17,11 +17,12 @@ export function processGameCSV(
   return new Promise((resolve, reject) => {
     const headersMap = new Map();
     const headerReader = fs.createReadStream(csvFile.path);
-
+    let headerIndex = 1;
     headerReader.pipe(csv()).on("headers", async (headers) => {
       try {
         for (const header of headers) {
-          const result = await createHeader(gameId, header);
+          const orderIndex = headerIndex++;
+          const result = await createHeader(gameId, orderIndex, header);
           const headerId = result?.id;
           if (headerId) {
             headersMap.set(header, headerId);

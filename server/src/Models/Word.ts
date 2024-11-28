@@ -40,7 +40,7 @@ export class WordModel {
             JSON_BUILD_OBJECT(
                 'header_name', h.header_name,
                 'value', w.word
-            )
+            ) ORDER BY h.order_index
         ) AS word_data
       FROM
         words w
