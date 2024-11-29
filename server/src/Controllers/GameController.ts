@@ -63,12 +63,13 @@ export class GameController {
   getWordsByGameId = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
-      const response = await this.wordModel.getWordsByGameId(id);
-      if (_isEmpty(response)) {
+      const words = await this.wordModel.getWordsByGameId(id);
+      const headers = await this.headerModel.getHeaderByGameId(id);
+      if (_isEmpty(words) || _isEmpty(headers)) {
         res.sendStatus(404);
         return;
       }
-      res.send(response);
+      res.send({ words, headers });
     } catch (error) {
       res.status(500).json({ message: "Internal server error", error });
     }

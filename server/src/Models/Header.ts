@@ -14,6 +14,12 @@ export class HeaderModel {
     this.pool = pool;
   }
 
+  getHeaderByGameId = async (gameId: string) => {
+    const query = "SELECT header_name FROM headers WHERE game_id = $1 ORDER BY order_index;";
+    const result = await this.pool.query(query, [gameId]);
+    return result.rows;
+  }
+
   createHeader = async (
     gameId: number,
     orderIndex: number,
