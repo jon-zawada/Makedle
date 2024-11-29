@@ -10,12 +10,16 @@ import DropdownMenu, {
   IDropdownMenuItems,
 } from "../../components/common/DropdownMenu";
 
-type WordData = {
+type Header = {
+  header_name: string;
+};
+
+export type WordData = {
   header_name: string;
   value: string;
 };
 
-type Word = {
+export type Word = {
   word_id: number;
   word_data: WordData[];
 };
@@ -24,9 +28,10 @@ type WordList = Word[];
 
 export default function GamePage() {
   const [guess, setGuess] = useState<string>("");
-  const [guesses, setGuesses] = useState<string[]>([]);
+  const [guesses, setGuesses] = useState<Word[]>([]);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const [words, setWords] = useState<WordList>([]); //fix this any
+  const [words, setWords] = useState<WordList>([]);
+  const [headers, setHeaders] = useState<string[]>([]);
   const httpService = useHttpService();
   const menuRef = useRef<HTMLDivElement>(null);
   const { id } = useParams();
@@ -56,7 +61,10 @@ export default function GamePage() {
     httpService
       .get(`/games/${id}/words`)
       .then((res) => {
-        setWords(res.data);
+        setWords(res.data.words);
+        setHeaders(
+          res.data.headers.map((header: Header) => header.header_name)
+        );
       })
       .catch((error) => {
         console.log(error);
@@ -80,7 +88,10 @@ export default function GamePage() {
 
   const onSubmitGuess = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setGuesses([...guesses, guess]);
+    const newGuess = findByHeaderName(words, guess);
+    if (newGuess) {
+      setGuesses([...guesses, newGuess]);
+    }
     setGuess("");
   };
 
@@ -104,6 +115,12 @@ export default function GamePage() {
           onClick: () => setGuess(name),
         };
       });
+  };
+
+  const findByHeaderName = (data: WordList, guess: string) => {
+    return data.find(entry =>
+      entry.word_data.some(item => item.value === guess)
+  ) || null;
   };
 
   return (
@@ -138,6 +155,7 @@ export default function GamePage() {
         {!_isEmpty(guesses) && (
           <GuessComponent
             guesses={guesses}
+            headers={headers}
             primaryColor={state.gameData.primary_color}
             secondaryColor={state.gameData.secondary_color}
             tertiaryColor={state.gameData.tertiary_color}
