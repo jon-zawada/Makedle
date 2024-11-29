@@ -16,8 +16,6 @@ export default function GuessComponent({
   secondaryColor,
   tertiaryColor,
 }: IGuessComponentProps) {
-  // HARD CODED FOR DISPLAY RIGHT NOW
-
   const renderCell = (cellValue: string) => {
     const urlRegex = /(https?:\/\/[^\s]+)/;
 
@@ -34,7 +32,9 @@ export default function GuessComponent({
       <thead className="bg-gray-100">
         <tr>
           {headers.map((header: string) => (
-            <th key={header} className="px-4 py-2 border-b text-left">  {/* fix the key here */}
+            <th key={header} className="px-4 py-2 border-b text-left">
+              {" "}
+              {/* fix the key here */}
               {header}
             </th>
           ))}
@@ -53,32 +53,10 @@ export default function GuessComponent({
                   {renderCell(cell.value)}
                 </td>
               ))}
-              {/* <td style={{backgroundColor: primaryColor}} className="px-4 py-2 border-b">{guess}</td>
-              <td className="px-4 py-2 border-b">{"some gender"}</td>
-              <td style={{backgroundColor: secondaryColor}} className="px-4 py-2 border-b">{"some major"}</td>
-              <td className="px-4 py-2 border-b">{"some year"}</td>
-              <td style={{backgroundColor: tertiaryColor}} className="px-4 py-2 border-b">{"some state"}</td> */}
             </tr>
           ))
           .reverse()}
       </tbody>
     </table>
   );
-}
-
-// const html = (
-//   <td
-//   key={index}
-//   className={`px-4 py-2 border-b opacity-0 animate-fadeIn`}
-//   style={{
-//     animationDelay: `${(index + 1) * 100}ms`, // Dynamic delay based on column index
-//   }}
-// ></td>)
-
-{
-  /* <td style={{animationDelay: `${(index + 1) * 100}ms`, backgroundColor: primaryColor}} className="px-4 py-2 border-b opacity-0 animate-fadeIn">{guess}</td>
-              <td style={{animationDelay: `${(index + 2) * 100}ms`}}className="px-4 py-2 border-b opacity-0 animate-fadeIn">{"some gender"}</td>
-              <td style={{animationDelay: `${(index + 3) * 100}ms`, backgroundColor: secondaryColor}} className="px-4 py-2 border-b opacity-0 animate-fadeIn">{"some major"}</td>
-              <td style={{animationDelay: `${(index + 4) * 100}ms`, backgroundColor: secondaryColor}} className="px-4 py-2 border-b opacity-0 animate-fadeIn">{"some year"}</td>
-              <td style={{animationDelay: `${(index + 5) * 100}ms`, backgroundColor: tertiaryColor}} className="px-4 py-2 border-b opacity-0 animate-fadeIn">{"some state"}</td> */
 }
