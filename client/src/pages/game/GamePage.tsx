@@ -43,7 +43,7 @@ export default function GamePage() {
 
   useEffect(() => {
     getWords();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -51,11 +51,7 @@ export default function GamePage() {
   }, []);
 
   useEffect(() => {
-    if (_isEmpty(guess)) {
-      setMenuOpen(false);
-    } else if (!menuOpen) {
-      setMenuOpen(true);
-    }
+    setMenuOpen(!_isEmpty(guess));
   }, [guess]);
 
   const getWords = () => {
