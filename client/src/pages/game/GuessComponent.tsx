@@ -42,11 +42,11 @@ export default function GuessComponent({
   };
 
   return (
-    <table className="min-w-full table-auto border-collapse w-[750px]">
-      <thead className="bg-gray-100">
+    <table className="table-fixed w-full border-collapse">
+      <thead>
         <tr>
           {headers.map((header: string) => (
-            <th key={header} className="px-4 py-2 border-b text-left">
+            <th key={header} className="underline w-12 h-12 text-sm text-center break-words align-middle p-2">
               {/* fix the key here */}
               {header}
             </th>
@@ -64,7 +64,7 @@ export default function GuessComponent({
                     ? primaryColor
                     : tertiaryColor,
                 }}
-                className="px-4 py-2 border-b"
+                className="w-12 h-20 border border-gray-200 text-center break-words align-middle p-2"
               >
                 {renderCell(cell.value)}
               </td>
