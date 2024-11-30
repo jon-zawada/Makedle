@@ -32,6 +32,7 @@ export default function GamePage() {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [words, setWords] = useState<WordList>([]);
   const [headers, setHeaders] = useState<string[]>([]);
+  const [correct, setCorrect] = useState<Word | null>(null);
   const httpService = useHttpService();
   const menuRef = useRef<HTMLDivElement>(null);
   const { id } = useParams();
@@ -62,6 +63,7 @@ export default function GamePage() {
       .get(`/games/${id}/words`)
       .then((res) => {
         setWords(res.data.words);
+        setCorrect(getRandomCorrect(res.data.words));
         setHeaders(
           res.data.headers.map((header: Header) => header.header_name)
         );
@@ -90,7 +92,7 @@ export default function GamePage() {
     event.preventDefault();
     const newGuess = findByHeaderName(words, guess);
     if (newGuess) {
-      setGuesses([...guesses, newGuess]);
+      setGuesses([newGuess, ...guesses]);
     }
     setGuess("");
   };
@@ -118,10 +120,20 @@ export default function GamePage() {
   };
 
   const findByHeaderName = (data: WordList, guess: string) => {
-    return data.find(entry =>
-      entry.word_data.some(item => item.value === guess)
-  ) || null;
+    return (
+      data.find((entry) =>
+        entry.word_data.some((item) => item.value === guess)
+      ) || null
+    );
   };
+
+  const getRandomCorrect = (words: WordList): Word => {
+    return words[getRandomInt(words.length)];
+  };
+
+  function getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
+  }
 
   return (
     <PageLayout title={`${name} - game id ${id}`}>
@@ -156,6 +168,7 @@ export default function GamePage() {
           <GuessComponent
             guesses={guesses}
             headers={headers}
+            correct={correct}
             primaryColor={state.gameData.primary_color}
             secondaryColor={state.gameData.secondary_color}
             tertiaryColor={state.gameData.tertiary_color}

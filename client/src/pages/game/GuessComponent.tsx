@@ -4,6 +4,7 @@ import { Word, WordData } from "./GamePage";
 interface IGuessComponentProps {
   guesses: Word[];
   headers: string[];
+  correct: Word | null;
   primaryColor: string;
   secondaryColor: string;
   tertiaryColor: string;
@@ -12,10 +13,23 @@ interface IGuessComponentProps {
 export default function GuessComponent({
   guesses,
   headers,
+  correct,
   primaryColor,
   secondaryColor,
   tertiaryColor,
 }: IGuessComponentProps) {
+  const compareToCorrect = (word: Word, index: number) => {
+    //TODO improve this function for partial correct answers
+    if (correct) {
+      const { word_data } = word;
+      const correct_word_data = correct.word_data;
+      if (word_data[index].value === correct_word_data[index].value) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   const renderCell = (cellValue: string) => {
     const urlRegex = /(https?:\/\/[^\s]+)/;
 
@@ -33,7 +47,6 @@ export default function GuessComponent({
         <tr>
           {headers.map((header: string) => (
             <th key={header} className="px-4 py-2 border-b text-left">
-              {" "}
               {/* fix the key here */}
               {header}
             </th>
@@ -41,21 +54,23 @@ export default function GuessComponent({
         </tr>
       </thead>
       <tbody>
-        {guesses
-          .map((guess: Word, index: number) => (
-            <tr key={index} className="hover:bg-gray-50">
-              {guess.word_data.map((cell: WordData, index: number) => (
-                <td
-                  key={index}
-                  style={{ backgroundColor: secondaryColor }}
-                  className="px-4 py-2 border-b"
-                >
-                  {renderCell(cell.value)}
-                </td>
-              ))}
-            </tr>
-          ))
-          .reverse()}
+        {guesses.map((guess: Word, index: number) => (
+          <tr key={index}>
+            {guess.word_data.map((cell: WordData, index: number) => (
+              <td
+                key={index}
+                style={{
+                  backgroundColor: compareToCorrect(guess, index)
+                    ? primaryColor
+                    : tertiaryColor,
+                }}
+                className="px-4 py-2 border-b"
+              >
+                {renderCell(cell.value)}
+              </td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   );
