@@ -1,5 +1,6 @@
 import React from "react";
 import { Word, WordData } from "./GamePage";
+import _isEmpty from "lodash/isEmpty";
 
 interface IGuessComponentProps {
   guesses: Word[];
@@ -19,34 +20,55 @@ export default function GuessComponent({
   tertiaryColor,
 }: IGuessComponentProps) {
   const compareToCorrect = (word: Word, index: number) => {
-    //TODO improve this function for partial correct answers
     if (correct) {
       const { word_data } = word;
       const correct_word_data = correct.word_data;
-      if (word_data[index].value === correct_word_data[index].value) {
-        return true;
+      const arr1 = word_data[index].value.split(",").map((item) => item.trim());
+      const arr2 = correct_word_data[index].value
+        .split(",")
+        .map((item) => item.trim());
+
+      const matches = arr1.filter((word) => arr2.includes(word));
+
+      if (matches.length === 0) {
+        return tertiaryColor;
+      } else if (
+        matches.length === arr1.length &&
+        matches.length === arr2.length
+      ) {
+        return primaryColor;
+      } else {
+        return secondaryColor;
       }
     }
-    return false;
   };
 
   const renderCell = (cellValue: string) => {
     const urlRegex = /(https?:\/\/[^\s]+)/;
+    const normalizeCommas = (str: string) =>
+      str.includes(",")
+        ? str.replace(/,([^ ])/g, ", $1") // Add a space after commas without one
+        : str;
 
-    if (urlRegex.test(cellValue)) {
+    if (_isEmpty(cellValue)) {
+      return "None";
+    } else if (urlRegex.test(cellValue)) {
       return (
         <img src={cellValue} alt="Cell content" className="max-w-full h-auto" />
       );
     }
-    return cellValue;
+    return normalizeCommas(cellValue);
   };
 
   return (
-    <table className="min-w-full table-auto border-collapse w-[750px]">
-      <thead className="bg-gray-100">
+    <table className="border-separate table-fixed w-full">
+      <thead>
         <tr>
           {headers.map((header: string) => (
-            <th key={header} className="px-4 py-2 border-b text-left">
+            <th
+              key={header}
+              className="underline w-12 text-sm text-center px-2"
+            >
               {/* fix the key here */}
               {header}
             </th>
@@ -60,11 +82,9 @@ export default function GuessComponent({
               <td
                 key={index}
                 style={{
-                  backgroundColor: compareToCorrect(guess, index)
-                    ? primaryColor
-                    : tertiaryColor,
+                  backgroundColor: compareToCorrect(guess, index),
                 }}
-                className="px-4 py-2 border-b"
+                className="rounded-xl w-12 h-20  border text-center p-2"
               >
                 {renderCell(cell.value)}
               </td>

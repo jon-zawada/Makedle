@@ -136,7 +136,7 @@ export default function GamePage() {
   }
 
   return (
-    <PageLayout title={`${name} - game id ${id}`}>
+    <PageLayout title={name}>
       <div className="flex flex-col gap-4 p-4 items-center">
         <div>Guess todays {name} champion!</div>
         <div className="flex justify-center relative">
