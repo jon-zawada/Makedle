@@ -1,0 +1,11 @@
+services:
+  - name: makedle-server
+    type: web
+    env: node
+    buildCommand: |
+      cd client && npm install && npm run build && cd ../server && npm install && npm run build
+    startCommand: npm run start:prod
+    branch: main
+    envVars:
+      - key: NODE_ENV
+        value: production
