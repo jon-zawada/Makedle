@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const httpService = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://makedle.onrender.com/api",
   timeout: 10000,
   withCredentials: true,
   headers: {
@@ -11,7 +11,7 @@ const httpService = axios.create({
 });
 
 export const refreshHttpInstance = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://makedle.onrender.com/api",
   withCredentials: true,
 });
 
