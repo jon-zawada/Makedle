@@ -8,10 +8,14 @@
     "dev": "nodemon src/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "start": "node dist/index.ts",
+    "start": "node dist/index.js",
     "seed-db": "psql postgres -f src/db/schema.sql",
     "test": "jest",
-    "test:silent": "jest --silent --coverage=false"
+    "test:silent": "jest --silent --coverage=false",
+    "start:prod": "pm2 start dist/index.js --name makedle",
+    "stop:prod": "pm2 stop makedle",
+    "restart:prod": "pm2 restart makedle",
+    "logs:prod": "pm2 logs makedle"
   },
   "author": "jon-zawada",
   "license": "ISC",
@@ -25,7 +29,8 @@
     "lodash": "^4.17.21",
     "multer": "^1.4.5-lts.1",
     "newrelic": "^12.6.1",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "pm2": "^5.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.14.0",
