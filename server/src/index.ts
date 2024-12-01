@@ -16,6 +16,8 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+console.log("HELLO WORLD PORT: ", PORT);
+console.log("HELLO WORLD PROCESS PORT: ", process.env.PORT);
 
 //MIDDLEWARE
 app.use(noCache);
