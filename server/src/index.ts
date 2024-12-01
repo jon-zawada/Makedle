@@ -15,7 +15,7 @@ const MISSING_CLIENT_HTML = path.join(__dirname, "errors", "noclient.html");
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT =  Number(process.env.PORT) || 3000;
 console.log("HELLO WORLD PORT: ", PORT);
 console.log("HELLO WORLD PROCESS PORT: ", process.env.PORT);
 
@@ -44,6 +44,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(CLIENT_DIR, "index.html"));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
