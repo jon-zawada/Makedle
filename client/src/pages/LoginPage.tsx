@@ -29,8 +29,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="py-5 bg-green-100 h-full flex flex-col items-center justify-center gap-4">
-      <h2>Login</h2>
+    <div className="py-5  h-full flex flex-col items-center justify-center gap-4">
+      <h2 className="text-3xl font-semibold text-gray-800">Login</h2>
       <form onSubmit={submitHandler} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label htmlFor="email">Email</label>

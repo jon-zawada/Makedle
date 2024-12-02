@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthProvider";
 import Modal from "./common/Modal";
 import LoginPage from "../pages/LoginPage";
 import ProfileMenu from "./ProfileMenu";
+import Sidebar from "./Sidebar";
 
 export default function PageHeader() {
   const { appUser } = useAuth();
@@ -30,7 +31,6 @@ export default function PageHeader() {
       </div>
     ) : (
       <div>
-        <>
           <Button
             onClick={() => setShowLoginModal(true)}
             className="rounded-full flex flex-shrink-0 md:gap-2 bg-green-100 px-3 border border-black"
@@ -44,7 +44,6 @@ export default function PageHeader() {
           >
             <LoginPage />
           </Modal>
-        </>
       </div>
     );
   };
@@ -55,6 +54,7 @@ export default function PageHeader() {
         <img src={logo} alt="" className="h-full" />
         <div className="text-2xl leading-none">MAKEDLE</div>
       </div>
+      <Sidebar />
       {renderUserInfo()}
     </header>
   );
