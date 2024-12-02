@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import httpService from "../api/httpService";
 import { AxiosResponse } from "axios";
+import toast from "react-hot-toast";
 
 type User = {
   email: string;
@@ -38,10 +39,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       const token = response.data?.token;
       setAccessToken(token);
       setAppUser(response.data?.user);
+      toast.success("Login successful");
       return response;
     } catch (error) {
       setAccessToken(null);
       setAppUser(null);
+      toast.error("Login failed");
       return Promise.reject(error);
     }
   }
