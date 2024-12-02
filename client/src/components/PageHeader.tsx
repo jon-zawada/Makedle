@@ -49,7 +49,7 @@ export default function PageHeader() {
   };
 
   return (
-    <header className="bg-green-100 flex items-center justify-between gap-10 lg:gap-20 px-4 py-4 col-span-2">
+    <header className="bg-green-100 flex items-center justify-between gap-10 lg:gap-20 px-4 py-4">
       <div className="flex items-center justify-center h-8 gap-1">
         <img src={logo} alt="" className="h-full" />
         <div className="text-2xl leading-none">MAKEDLE</div>
