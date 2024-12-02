@@ -17,19 +17,17 @@ export default function Sidebar() {
   const path = location.pathname;
 
   return (
-    <aside className="p-4 bg-green-50 ">
-      <nav className="flex flex-col">
-        {sideBarData.map((item) => (
-          <SidebarItem
-            key={item.id}
-            route={item.route}
-            title={item.title}
-            Icon={item.icon}
-            isActive={!!matchPath(item.route, path)}  // TODO this isnt working for nested routes ie /game/:id
-          />
-        ))}
-      </nav>
-    </aside>
+    <nav className="flex gap-2 p-4">
+      {sideBarData.map((item) => (
+        <SidebarItem
+          key={item.id}
+          route={item.route}
+          title={item.title}
+          Icon={item.icon}
+          isActive={!!matchPath(item.route, path)} // TODO this isnt working for nested routes ie /game/:id
+        />
+      ))}
+    </nav>
   );
 }
 
