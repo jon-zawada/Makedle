@@ -7,6 +7,7 @@ import useHttpService from "../../api/useHttpService";
 import PageLayout from "../../components/common/PageLayout";
 import ColorIndicator from "../../components/common/ColorIndicator";
 import CreatePageForm from "./CreatePageForm";
+import toast from "react-hot-toast";
 
 interface IFormData {
   name: string;
@@ -84,8 +85,9 @@ export default function CreatePage() {
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
+        toast.success("Successfully created game");
       })
-      .catch((error) => console.log(error));
+      .catch(() => toast.error("Error occured while creating game"));
   };
 
   const objectToFormData = (obj: IFormData) => {
