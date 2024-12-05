@@ -2,6 +2,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const isProduction = process.env.NODE_ENV === "production";
+
 module.exports = {
   entry: './src/index.tsx',
   output: {
@@ -16,7 +18,12 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: isProduction,
+          },
+        },
         exclude: /node_modules/,
       },
       {
@@ -59,5 +66,6 @@ module.exports = {
     poll: 1000,
     ignored: /node_modules/,
   },
-  mode: 'development',
+  mode: isProduction ? 'production' : 'development',
+  devtool: isProduction ? false : 'source-map',
 };
