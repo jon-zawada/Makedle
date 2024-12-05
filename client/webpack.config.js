@@ -16,7 +16,12 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: false,
+          },
+        },
         exclude: /node_modules/,
       },
       {
@@ -60,4 +65,5 @@ module.exports = {
     ignored: /node_modules/,
   },
   mode: 'development',
+  devtool: 'source-map',
 };
