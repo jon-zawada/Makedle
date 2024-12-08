@@ -11,7 +11,7 @@ import Sidebar from "./Sidebar";
 export default function PageHeader() {
   const { appUser } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [logoLoaded, setLogoLoaded] = useState(false); // Track logo loading state
+  const [logoLoaded, setLogoLoaded] = useState(false);
 
   useEffect(() => {
     if (appUser && showLoginModal) {
