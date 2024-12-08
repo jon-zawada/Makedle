@@ -38,7 +38,7 @@ export default function PageHeader() {
         ) : (
           <Button
             onClick={() => setShowLoginModal(true)}
-            className="rounded-full flex flex-shrink-0 md:gap-2 bg-green-100 px-3 border border-black"
+            className="rounded-full flex flex-shrink-0 md:gap-2 bg-green-100 px-3 border-2 border-black"
           >
             <User />
             <div>Sign In</div>
