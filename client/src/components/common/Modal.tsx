@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./Button";
 
 interface IModalProps {
@@ -14,17 +14,33 @@ export default function Modal({
   title,
   children,
 }: IModalProps) {
-  if (!isOpen) return null;
+  const [isVisible, setIsVisible] = useState(isOpen);
 
-  /* TODO
-    -backdrop click
-    -transitions
-    -createPortal
-  */
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true);
+    } else {
+      const timer = setTimeout(() => setIsVisible(false), 300); // match duration of the fade-out transition
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg shadow-lg relative w-full max-w-md overflow-hidden">
+    <div
+      className={`fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 transition-opacity duration-300 ${
+        isOpen ? "opacity-100" : "opacity-0"
+      }`}
+      onClick={onClose}
+    >
+      <div
+        style={{ transform: 'translateY(-35%)' }}
+        className={`bg-white rounded-lg shadow-lg relative w-full max-w-md overflow-hidden transform transition-all duration-300 ${
+          isOpen ? "scale-100" : "scale-95"
+        }`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <Button
           variant="ghost"
           onClick={onClose}
