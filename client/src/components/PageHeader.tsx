@@ -19,18 +19,22 @@ export default function PageHeader() {
   }, [appUser]);
 
   const renderUserInfo = () => {
-    return appUser ? (
-      <div className="flex flex-shrink-0 md:gap-2">
-        <Button size="icon" variant="ghost">
-          <Upload />
-        </Button>
-        <Button size="icon" variant="ghost">
-          <Bell />
-        </Button>
-        <ProfileMenu />
-      </div>
-    ) : (
-      <div>
+    return (
+      <div
+        className="flex items-center justify-center"
+        style={{ width: "150px" }}
+      >
+        {appUser ? (
+          <div className="flex flex-shrink-0 md:gap-2">
+            <Button size="icon" variant="ghost">
+              <Upload />
+            </Button>
+            <Button size="icon" variant="ghost">
+              <Bell />
+            </Button>
+            <ProfileMenu />
+          </div>
+        ) : (
           <Button
             onClick={() => setShowLoginModal(true)}
             className="rounded-full flex flex-shrink-0 md:gap-2 bg-green-100 px-3 border border-black"
@@ -38,12 +42,10 @@ export default function PageHeader() {
             <User />
             <div>Sign In</div>
           </Button>
-          <Modal
-            isOpen={showLoginModal}
-            onClose={() => setShowLoginModal(false)}
-          >
-            <LoginPage />
-          </Modal>
+        )}
+        <Modal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)}>
+          <LoginPage />
+        </Modal>
       </div>
     );
   };
