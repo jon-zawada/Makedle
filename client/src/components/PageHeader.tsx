@@ -11,6 +11,7 @@ import Sidebar from "./Sidebar";
 export default function PageHeader() {
   const { appUser } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false); // Track logo loading state
 
   useEffect(() => {
     if (appUser && showLoginModal) {
@@ -52,8 +53,22 @@ export default function PageHeader() {
 
   return (
     <header className="bg-green-100 flex items-center justify-between gap-10 lg:gap-20 px-4 py-4">
-      <div className="flex items-center justify-center h-8 gap-1">
-        <img src={logo} alt="" className="h-full" />
+      <div
+        className="flex items-center justify-center h-8 gap-1"
+        style={{ minWidth: "120px", minHeight: "32px" }}
+      >
+        {!logoLoaded && (
+          <div
+            className="h-full w-auto bg-gray-200 animate-pulse"
+            style={{ width: "40px", height: "32px" }}
+          ></div>
+        )}
+        <img
+          src={logo}
+          alt="Logo"
+          className={`h-full w-auto ${logoLoaded ? "block" : "hidden"}`}
+          onLoad={() => setLogoLoaded(true)}
+        />
         <div className="text-2xl leading-none">MAKEDLE</div>
       </div>
       <Sidebar />
