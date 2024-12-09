@@ -3,10 +3,9 @@ import Button from "./common/Button";
 import logo from "../assets/logo.png";
 import { Bell, Upload, User } from "lucide-react";
 import { useAuth } from "../context/AuthProvider";
-import Modal from "./common/Modal";
-import LoginPage from "../pages/LoginPage";
 import ProfileMenu from "./ProfileMenu";
 import Sidebar from "./Sidebar";
+import LoginRegisterModal from "../pages/login/LoginRegisterModal";
 
 export default function PageHeader() {
   const { appUser } = useAuth();
@@ -44,9 +43,10 @@ export default function PageHeader() {
             <div>Sign In</div>
           </Button>
         )}
-        <Modal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)}>
-          <LoginPage />
-        </Modal>
+        <LoginRegisterModal
+          isOpen={showLoginModal}
+          onClose={() => setShowLoginModal(false)}
+        />
       </div>
     );
   };

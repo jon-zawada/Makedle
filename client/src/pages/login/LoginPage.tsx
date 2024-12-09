@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import Button from "../components/common/Button";
-import { useAuth } from "../context/AuthProvider";
+import Button from "../../components/common/Button";
+import { useAuth } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import _isEmpty from "lodash/isEmpty";
 
 type LoginFormUser = {
   email: string;
   password: string;
 };
 
-export default function LoginPage() {
+interface ILoginPageProps {
+  goToRegister: () => void;
+}
+
+export default function LoginPage({ goToRegister }: ILoginPageProps) {
   const [user, setUser] = useState<LoginFormUser>({ email: "", password: "" });
   const { handleLogin } = useAuth();
   const navigate = useNavigate();
@@ -27,6 +32,8 @@ export default function LoginPage() {
       console.log(error);
     }
   };
+
+  const isDisabled = _isEmpty(user.email) || _isEmpty(user.password);
 
   return (
     <div className="py-5  h-full flex flex-col items-center justify-center gap-4">
@@ -54,8 +61,14 @@ export default function LoginPage() {
             className="px-4 py-2 border rounded"
           />
         </div>
-        <Button type="submit">Login</Button>
+        <Button isDisabled={isDisabled} type="submit">Login</Button>
       </form>
+      <div
+        className="underline text-gray-400 hover:text-green-300 cursor-pointer"
+        onClick={goToRegister}
+      >
+        Join Makedle
+      </div>
     </div>
   );
 }
