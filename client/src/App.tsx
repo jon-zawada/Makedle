@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
 import { useAuth } from "./context/AuthProvider";
 import httpService from "./api/httpService";
 import MainLayout from "./components/MainLayout";
@@ -25,7 +24,6 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/games" element={<GamesPage />} />
