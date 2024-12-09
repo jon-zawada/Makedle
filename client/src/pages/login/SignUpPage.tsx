@@ -81,7 +81,7 @@ export default function SignUpPage({ goToLogin }: ISignUpPageProps) {
         className="underline text-gray-400 hover:text-green-300 cursor-pointer"
         onClick={goToLogin}
       >
-        Sign in
+        Already on Makedle?
       </div>
     </div>
   );

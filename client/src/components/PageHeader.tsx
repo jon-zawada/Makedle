@@ -5,7 +5,9 @@ import { Bell, Upload, User } from "lucide-react";
 import { useAuth } from "../context/AuthProvider";
 import ProfileMenu from "./ProfileMenu";
 import Sidebar from "./Sidebar";
-import LoginSignUpModal from "../pages/login/LoginSignUpModal";
+import LoginSignUpModal, {
+  LoginModalView,
+} from "../pages/login/LoginSignUpModal";
 
 export default function PageHeader() {
   const { appUser } = useAuth();
@@ -46,6 +48,7 @@ export default function PageHeader() {
         <LoginSignUpModal
           isOpen={showLoginModal}
           onClose={() => setShowLoginModal(false)}
+          initialView={LoginModalView.LOGIN}
         />
       </div>
     );

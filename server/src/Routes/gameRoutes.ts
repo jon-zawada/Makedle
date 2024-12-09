@@ -19,9 +19,9 @@ const gameController = new GameController(pool);
 const router = Router();
 
 //GET
-router.get("/games", authenticateJWT, gameController.getGames);
-router.get("/games/:id", authenticateJWT, gameController.getGameById);
-router.get("/games/:id/words", authenticateJWT, gameController.getWordsByGameId);
+router.get("/games", gameController.getGames);
+router.get("/games/:id", gameController.getGameById);
+router.get("/games/:id/words", gameController.getWordsByGameId);
 
 //POST
 router.post(
