@@ -4,7 +4,7 @@ import Button from "../../components/common/Button";
 import _isEmpty from "lodash/isEmpty";
 import toast from "react-hot-toast";
 
-interface IRegisterPageProps {
+interface ISignUpPageProps {
   goToLogin: () => void;
 }
 
@@ -14,7 +14,7 @@ const initNewUser = {
   password: "",
 };
 
-export default function RegisterPage({ goToLogin }: IRegisterPageProps) {
+export default function SignUpPage({ goToLogin }: ISignUpPageProps) {
   const [newUser, setNewUser] = useState(initNewUser);
   const httpService = useHttpService();
 
@@ -81,7 +81,7 @@ export default function RegisterPage({ goToLogin }: IRegisterPageProps) {
         className="underline text-gray-400 hover:text-green-300 cursor-pointer"
         onClick={goToLogin}
       >
-        Sign in
+        Already on Makedle?
       </div>
     </div>
   );

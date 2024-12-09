@@ -8,6 +8,8 @@ import PageLayout from "../../components/common/PageLayout";
 import ColorIndicator from "../../components/common/ColorIndicator";
 import CreatePageForm from "./CreatePageForm";
 import toast from "react-hot-toast";
+import { useAuth } from "../../context/AuthProvider";
+import SignInToCreatePage from "./SignInToCreatePage";
 
 interface IFormData {
   name: string;
@@ -30,6 +32,7 @@ const initFormData: IFormData = {
 export default function CreatePage() {
   const [form, setForm] = useState<IFormData>(initFormData);
   const [preview, setPreview] = useState<string | null>(null);
+  const { appUser } = useAuth();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const httpService = useHttpService();
 
@@ -102,7 +105,7 @@ export default function CreatePage() {
     return formData;
   };
 
-  return (
+  return appUser ? (
     <PageLayout title="Create a game!">
       <div className="grid grid-cols-2 gap-20">
         <CreatePageForm
@@ -134,5 +137,7 @@ export default function CreatePage() {
         </Button>
       </div>
     </PageLayout>
+  ) : (
+    <SignInToCreatePage />
   );
 }
