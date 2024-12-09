@@ -32,7 +32,7 @@ const initFormData: IFormData = {
 export default function CreatePage() {
   const [form, setForm] = useState<IFormData>(initFormData);
   const [preview, setPreview] = useState<string | null>(null);
-  const { appUser } = useAuth();
+  const { appUser, loadingAppUser } = useAuth();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const httpService = useHttpService();
 
@@ -106,7 +106,7 @@ export default function CreatePage() {
   };
 
   return appUser ? (
-    <PageLayout title="Create a game!">
+    <PageLayout title="Create a game!" loading={loadingAppUser}>
       <div className="grid grid-cols-2 gap-20">
         <CreatePageForm
           gameName={form.name}

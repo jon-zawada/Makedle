@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Button from "../../components/common/Button";
 import { useAuth } from "../../context/AuthProvider";
-import { useNavigate } from "react-router-dom";
 import _isEmpty from "lodash/isEmpty";
 
 type LoginFormUser = {
@@ -16,7 +15,6 @@ interface ILoginPageProps {
 export default function LoginPage({ goToSignUp }: ILoginPageProps) {
   const [user, setUser] = useState<LoginFormUser>({ email: "", password: "" });
   const { handleLogin } = useAuth();
-  const navigate = useNavigate();
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,7 +25,6 @@ export default function LoginPage({ goToSignUp }: ILoginPageProps) {
     e.preventDefault();
     try {
       await handleLogin(user);
-      navigate("/");
     } catch (error) {
       console.log(error);
     }

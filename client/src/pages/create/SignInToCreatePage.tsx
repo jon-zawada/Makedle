@@ -3,14 +3,16 @@ import PageLayout from "../../components/common/PageLayout";
 import { CircleCheckBig } from "lucide-react";
 import Button from "../../components/common/Button";
 import LoginSignUpModal, { LoginModalView } from "../login/LoginSignUpModal";
+import { useAuth } from "../../context/AuthProvider";
 
 export default function SignInToCreatePage() {
-  const [modalView, setModalView] = useState<
-    LoginModalView.LOGIN | LoginModalView.SIGNUP
-  >(LoginModalView.LOGIN);
+  const [modalView, setModalView] = useState<LoginModalView>(
+    LoginModalView.LOGIN
+  );
   const [showModal, setShowModal] = useState<boolean>(false);
+  const { loadingAppUser } = useAuth();
 
-  const openModal = (view: LoginModalView.LOGIN | LoginModalView.SIGNUP) => {
+  const openModal = (view: LoginModalView) => {
     setModalView(view);
     setShowModal(true);
   };
@@ -25,11 +27,12 @@ export default function SignInToCreatePage() {
     <PageLayout
       title="Create Your Own Wordle-like Game"
       description="Have a game idea? Join Makedle"
+      loading={loadingAppUser}
     >
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
-          {bulletPoints.map((bullet) => (
-            <div className="flex gap-2" key={bullet}>
+          {bulletPoints.map((bullet, index) => (
+            <div className="flex gap-2" key={index}>
               <CircleCheckBig />
               <div className="text-xl">{bullet}</div>
             </div>
@@ -38,7 +41,7 @@ export default function SignInToCreatePage() {
         <div className="flex flex-col gap-4">
           <Button
             onClick={() => openModal(LoginModalView.SIGNUP)}
-            className="self-center w-[150px]"
+            className="self-center w-36"
           >
             Sign Up
           </Button>
