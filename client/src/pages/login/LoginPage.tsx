@@ -10,10 +10,10 @@ type LoginFormUser = {
 };
 
 interface ILoginPageProps {
-  goToRegister: () => void;
+  goToSignUp: () => void;
 }
 
-export default function LoginPage({ goToRegister }: ILoginPageProps) {
+export default function LoginPage({ goToSignUp }: ILoginPageProps) {
   const [user, setUser] = useState<LoginFormUser>({ email: "", password: "" });
   const { handleLogin } = useAuth();
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ export default function LoginPage({ goToRegister }: ILoginPageProps) {
       </form>
       <div
         className="underline text-gray-400 hover:text-green-300 cursor-pointer"
-        onClick={goToRegister}
+        onClick={goToSignUp}
       >
         Join Makedle
       </div>

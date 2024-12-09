@@ -15,7 +15,7 @@ describe("LoginPage", () => {
   test("renders the login page", () => {
     render(
       <AuthProvider>
-        <LoginPage goToRegister={() => {}} />
+        <LoginPage goToSignUp={() => {}} />
       </AuthProvider>
     );
 
@@ -30,7 +30,7 @@ describe("LoginPage", () => {
   test("updates state on input change", () => {
     render(
       <AuthProvider>
-        <LoginPage goToRegister={() => {}} />
+        <LoginPage goToSignUp={() => {}} />
       </AuthProvider>
     );
 
@@ -50,7 +50,7 @@ describe("LoginPage", () => {
 
     render(
       <AuthProvider>
-        <LoginPage goToRegister={() => {}} />
+        <LoginPage goToSignUp={() => {}} />
       </AuthProvider>
     );
 
@@ -75,7 +75,7 @@ describe("LoginPage", () => {
 
     render(
       <AuthProvider>
-        <LoginPage goToRegister={() => {}} />
+        <LoginPage goToSignUp={() => {}} />
       </AuthProvider>
     );
 

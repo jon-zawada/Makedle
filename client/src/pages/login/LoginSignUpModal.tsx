@@ -1,25 +1,25 @@
 import React, { useState } from "react";
 import Modal from "../../components/common/Modal";
 import LoginPage from "./LoginPage";
-import RegisterPage from "./RegisterPage";
+import SignUpPage from "./SignUpPage";
 
-interface ILoginRegisterModalProps {
+interface ILoginSignUpModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function LoginRegisterModal({
+export default function LoginSignUpModal({
   isOpen,
   onClose,
-}: ILoginRegisterModalProps) {
+}: ILoginSignUpModalProps) {
   const [showLogin, setShowLogin] = useState(true);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       {showLogin ? (
-        <LoginPage goToRegister={() => setShowLogin(false)} />
+        <LoginPage goToSignUp={() => setShowLogin(false)} />
       ) : (
-        <RegisterPage goToLogin={() => setShowLogin(true)} />
+        <SignUpPage goToLogin={() => setShowLogin(true)} />
       )}
     </Modal>
   );
