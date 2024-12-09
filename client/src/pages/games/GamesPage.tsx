@@ -3,9 +3,11 @@ import useHttpService from "../../api/useHttpService";
 import { Game } from "../../types/types";
 import GameItem from "./GameItem";
 import PageLayout from "../../components/common/PageLayout";
+import toast from "react-hot-toast";
 
 export default function GamesPage() {
   const [games, setGames] = useState([]);
+  const [loading, setLoading] = useState(false);
   const httpService = useHttpService();
 
   useEffect(() => {
@@ -13,13 +15,20 @@ export default function GamesPage() {
   }, []);
 
   const initGames = async () => {
-    const response = await httpService.get("/games");
-    const games = response.data;
-    setGames(games);
+    try {
+      setLoading(true);
+      const response = await httpService.get("/games");
+      const games = response.data;
+      setGames(games);
+    } catch {
+      toast.error("Issue loading games, try again later");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <PageLayout title="Games">
+    <PageLayout title="Games" loading={loading}>
       <div className="grid gap-4  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {games.map((game: Game) => (
           <GameItem key={game.id} game={game} />

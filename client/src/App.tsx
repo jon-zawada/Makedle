@@ -9,17 +9,25 @@ import GamesPage from "./pages/games/GamesPage";
 import CreatePage from "./pages/create/CreatePage";
 
 const App = () => {
-  const { setAccessToken, setAppUser } = useAuth();
+  const { setAccessToken, setAppUser, setLoadingAppUser } = useAuth();
 
   useEffect(() => {
     initUserData();
   }, []);
 
   const initUserData = async () => {
-    const response = await httpService.get("/init");
-    const { user, token } = response.data;
-    setAccessToken(token);
-    setAppUser(user);
+    setLoadingAppUser(true);
+    try {
+      const response = await httpService.get("/init");
+      const { user, token } = response.data;
+      setAccessToken(token);
+      setAppUser(user);
+    } catch {
+      setAccessToken(null);
+      setAppUser(null);
+    } finally{
+      setLoadingAppUser(false);
+    } 
   };
 
   return (

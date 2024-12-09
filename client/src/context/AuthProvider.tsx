@@ -16,10 +16,12 @@ type User = {
 type AuthContext = {
   accessToken?: string | null;
   appUser?: User | null;
+  loadingAppUser: boolean;
   handleLogin: (user: User) => Promise<AxiosResponse<{ token: string }>>;
   handleLogout: () => Promise<void>;
   setAccessToken: (state: string | null) => void;
   setAppUser: (state: User | null) => void;
+  setLoadingAppUser: (state: boolean) => void;
 };
 
 const AuthContext = createContext<AuthContext | undefined>(undefined);
@@ -29,11 +31,13 @@ type AuthProviderProps = PropsWithChildren;
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [appUser, setAppUser] = useState<User | null>(null);
+  const [loadingAppUser, setLoadingAppUser] = useState<boolean>(true);
 
 
   async function handleLogin(
     user: User
   ): Promise<AxiosResponse<{ token: string }>> {
+    setLoadingAppUser(true);
     try {
       const response = await httpService.post("/login", user);
       const token = response.data?.token;
@@ -46,6 +50,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       setAppUser(null);
       toast.error("Login failed");
       return Promise.reject(error);
+    } finally {
+      setLoadingAppUser(false);
     }
   }
 
@@ -68,10 +74,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       value={{
         accessToken,
         appUser,
+        loadingAppUser,
         handleLogin,
         handleLogout,
         setAccessToken,
         setAppUser,
+        setLoadingAppUser
       }}
     >
       {children}
