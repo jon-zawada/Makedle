@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
   <AuthProvider>
     <BrowserRouter>
-      <Toaster position="bottom-center" />
+      <Toaster position="bottom-center" toastOptions={{ duration: 5000 }} />
       <App />
     </BrowserRouter>
   </AuthProvider>

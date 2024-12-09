@@ -1,13 +1,13 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import LoginPage from "../LoginPage";
+import LoginPage from "../login/LoginPage";
 import AuthProvider from "../../context/AuthProvider";
 import httpService from "../../api/httpService";
 import "@testing-library/jest-dom";
 
 jest.mock("../../api/httpService");
 
-jest.mock('react-router-dom', () => ({
+jest.mock("react-router-dom", () => ({
   useNavigate: jest.fn(),
 }));
 
@@ -15,7 +15,7 @@ describe("LoginPage", () => {
   test("renders the login page", () => {
     render(
       <AuthProvider>
-        <LoginPage />
+        <LoginPage goToRegister={() => {}} />
       </AuthProvider>
     );
 
@@ -30,9 +30,9 @@ describe("LoginPage", () => {
   test("updates state on input change", () => {
     render(
       <AuthProvider>
-        <LoginPage />
+        <LoginPage goToRegister={() => {}} />
       </AuthProvider>
-    )
+    );
 
     const emailInput = screen.getByLabelText("Email");
     const passwordInput = screen.getByLabelText("Password");
@@ -50,9 +50,9 @@ describe("LoginPage", () => {
 
     render(
       <AuthProvider>
-        <LoginPage />
+        <LoginPage goToRegister={() => {}} />
       </AuthProvider>
-    )
+    );
 
     const emailInput = screen.getByLabelText("Email");
     const passwordInput = screen.getByLabelText("Password");
@@ -75,9 +75,9 @@ describe("LoginPage", () => {
 
     render(
       <AuthProvider>
-        <LoginPage />
+        <LoginPage goToRegister={() => {}} />
       </AuthProvider>
-    )
+    );
 
     const emailInput = screen.getByLabelText("Email");
     const passwordInput = screen.getByLabelText("Password");
