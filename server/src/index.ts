@@ -3,6 +3,8 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
 import authRoutes from "./Routes/authRoutes";
 import userRoutes from "./Routes/userRoutes";
@@ -11,6 +13,8 @@ import noCache from "./middleware/noCache";
 
 const CLIENT_DIR = path.join(__dirname, "..", "..", "client", "dist");
 const MISSING_CLIENT_HTML = path.join(__dirname, "errors", "noclient.html");
+const RATE_LIMIT_MAX_REQUESTS = 1000;
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; //15 mins
 
 dotenv.config();
 
@@ -19,10 +23,26 @@ const PORT = process.env.PORT || 3000;
 
 //MIDDLEWARE
 app.use(noCache);
-
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+const apiLimiter = rateLimit({
+  windowMs: RATE_LIMIT_WINDOW_MS,
+  max: RATE_LIMIT_MAX_REQUESTS,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    res.status(429).json({
+      error: "Too many requests",
+      message:
+        "You have exceeded the limit of 1000 requests in 15 minutes. Please wait and try again",
+    });
+  },
+});
+
+app.use("/api", apiLimiter);
 
 if (fs.existsSync(CLIENT_DIR)) {
   app.use(express.static(CLIENT_DIR));
