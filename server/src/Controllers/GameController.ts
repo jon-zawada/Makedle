@@ -19,11 +19,14 @@ export class GameController {
   }
 
   getGames = (req: Request, res: Response) => {
+    const { page = 1, limit = 10 } = req.query;
+    const pageNumber = parseInt(page as string, 10);
+    const limitNumber = parseInt(limit as string, 10);
     this.gameModel
-      .getGames()
-      .then(async (games) => {
+      .getGames(pageNumber, limitNumber)
+      .then(async ({ rows, totalCount }) => {
         const gamesWithBase64Images = await Promise.all(
-          games.map(async (game) => {
+          rows.map(async (game) => {
             if (game.image) {
               const base64Image = game.image.toString("base64");
               return { ...game, image: `data:image/png;base64,${base64Image}` };
@@ -31,7 +34,7 @@ export class GameController {
             return game;
           })
         );
-        res.status(200).json(gamesWithBase64Images);
+        res.status(200).json({ games: gamesWithBase64Images, totalCount });
       })
       .catch((error) => {
         res.status(500).json({ message: "Error retrieving games", error });

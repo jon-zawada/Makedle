@@ -18,7 +18,8 @@ export default function GamesPage() {
     try {
       setLoading(true);
       const response = await httpService.get("/games");
-      const games = response.data;
+      const { games, totalCount } = response.data;
+      console.log(totalCount) //TODO pagination on client
       setGames(games);
     } catch {
       toast.error("Issue loading games, try again later");

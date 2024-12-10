@@ -19,10 +19,19 @@ export class GameModel {
     this.pool = pool;
   }
 
-  getGames = async (): Promise<Game[]> => {
-    const query = "SELECT * FROM games";
-    const result = await this.pool.query(query);
-    return result.rows;
+  getGames = async (
+    page: number,
+    limit: number
+  ): Promise<{ rows: Game[]; totalCount: number }> => {
+    const offset = (page - 1) * limit;
+    const totalCountResult = await this.pool.query(
+      "SELECT COUNT(*) FROM games"
+    );
+    const totalCount = parseInt(totalCountResult.rows[0].count, 10);
+    const query = "SELECT * FROM games ORDER BY id LIMIT $1 OFFSET $2";
+    const result = await this.pool.query(query, [limit, offset]);
+
+    return { rows: result.rows, totalCount };
   };
 
   getGameById = async (id: string): Promise<Game> => {
