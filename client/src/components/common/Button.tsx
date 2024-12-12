@@ -5,7 +5,6 @@ import { twMerge } from "tailwind-merge";
 
 export const buttonStyles = cva(
   [
-    "hover:bg-secondary-hover",
     "transition-colors",
     "disabled:cursor-not-allowed",
     "disabled:opacity-50",
@@ -16,10 +15,20 @@ export const buttonStyles = cva(
       variant: {
         default: ["bg-secondary", "hover:bg-secondary-hover"],
         ghost: ["hover:bg-gray-100"],
+        noHover: ["bg-secondary", "cursor-default"]
       },
       size: {
         default: ["rounded", "p-2"],
         icon: ["rounded-full", "w-10", "h-10", "flex", "items-center", "p-2.5"],
+        "small-square": [
+          "rounded",
+          "w-10",
+          "h-10",
+          "flex",
+          "items-center",
+          "justify-center",
+          "p-2.5",
+        ],
       },
       disabled: {
         true: [
