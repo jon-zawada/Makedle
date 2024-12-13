@@ -15,7 +15,7 @@ export const buttonStyles = cva(
       variant: {
         default: ["bg-secondary", "hover:bg-secondary-hover"],
         ghost: ["hover:bg-gray-100"],
-        noHover: ["bg-secondary", "cursor-default"]
+        "no-hover": ["bg-secondary", "cursor-default"]
       },
       size: {
         default: ["rounded", "p-2"],

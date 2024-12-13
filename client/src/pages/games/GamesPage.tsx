@@ -4,9 +4,12 @@ import { Game } from "../../types/types";
 import GameItem from "./GameItem";
 import PageLayout from "../../components/common/PageLayout";
 import toast from "react-hot-toast";
+import PaginatedList from "../../components/common/PaginatedList";
+const PAGE_SIZE_LIMIT = 20;
 
 export default function GamesPage() {
   const [games, setGames] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const httpService = useHttpService();
 
@@ -14,12 +17,19 @@ export default function GamesPage() {
     initGames();
   }, []);
 
+  const page = 1;
+  
   const initGames = async () => {
     try {
       setLoading(true);
-      const response = await httpService.get("/games");
+      const response = await httpService.get("/games", {
+        params: {
+          page: page,
+          limit: PAGE_SIZE_LIMIT,
+        },
+      });
       const { games, totalCount } = response.data;
-      console.log(totalCount) //TODO pagination on client
+      setTotalCount(totalCount);
       setGames(games);
     } catch {
       toast.error("Issue loading games, try again later");
@@ -30,11 +40,13 @@ export default function GamesPage() {
 
   return (
     <PageLayout title="Games" loading={loading}>
-      <div className="grid gap-4  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {games.map((game: Game) => (
-          <GameItem key={game.id} game={game} />
-        ))}
-      </div>
+      <PaginatedList listLength={totalCount}>
+        <div className="grid gap-4  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {games.map((game: Game) => (
+            <GameItem key={game.id} game={game} />
+          ))}
+        </div>
+      </PaginatedList>
     </PageLayout>
   );
 }

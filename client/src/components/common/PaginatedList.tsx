@@ -2,16 +2,19 @@ import React, { useState } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import Button from "./Button";
 
-const PaginatedList = () => {
-  const itemsPerPage = 5; // Number of items per page
-  const data = Array.from({ length: 50 }, (_, index) => `Item ${index + 1}`); // Sample data
+interface IPaginatedList {
+  itemsPerPage?: number;
+  children: React.ReactNode;
+  listLength: number;
+}
 
+const PaginatedList = ({ itemsPerPage = 20, children, listLength }: IPaginatedList) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(listLength / itemsPerPage);
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = data.slice(startIndex, startIndex + itemsPerPage);
+  // const startIndex = (currentPage - 1) * itemsPerPage;
+  // const currentItems = data.slice(startIndex, startIndex + itemsPerPage);
 
   const goToPage = (page: number) => {
     if (page < 1 || page > totalPages) return;
@@ -53,14 +56,9 @@ const PaginatedList = () => {
 
   return (
     <div>
-      {/* TODO INCLUDE CHILDREN INSTEAD */}
-      <ul>
-        {currentItems.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
-      <div>
-        <div className="flex gap-1">
+      {children}
+      <div className="mt-8">
+        <div className="flex gap-1 justify-center items-center">
           <Button
             onClick={() => goToPage(currentPage - 1)}
             isDisabled={currentPage === 1}
@@ -78,7 +76,7 @@ const PaginatedList = () => {
                 {page}
               </Button>
             ) : (
-              <Button key={index} size="small-square" variant="noHover">
+              <Button key={index} size="small-square" variant="no-hover">
                 {page}
               </Button>
             )
@@ -92,7 +90,6 @@ const PaginatedList = () => {
         </div>
       </div>
       <p>
-        {/* style this and change to items not pages */}
         Page {currentPage} of {totalPages}
       </p>
     </div>
