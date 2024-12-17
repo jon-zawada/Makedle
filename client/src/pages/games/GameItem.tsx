@@ -21,7 +21,7 @@ export default function GameItem({ game }: IGameItemProps) {
     >
       <img
         src={image || `https://picsum.photos/id/${id}/5000/3333`}
-        className="block w-full h-[250px] object-cover duration-200 rounded-xl opacity-85 group-hover:opacity-100 transition-[border-radius,opacity]"
+        className="block w-full h-[250px] object-cover duration-200 rounded-xl opacity-95 group-hover:opacity-100 transition-[border-radius,opacity]"
       />
       <div className="absolute p-2 inset-0 flex items-end justify-center text-white text-lg font-bold rounded-xl hover:underline hover:text-green-500">
         {name}

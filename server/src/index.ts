@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./Routes/authRoutes";
 import userRoutes from "./Routes/userRoutes";
 import gameRoutes from "./Routes/gameRoutes";
+import resultRoutes from "./Routes/resultRoutes";
 import noCache from "./middleware/noCache";
 
 const CLIENT_DIR = path.join(__dirname, "..", "..", "client", "dist");
@@ -56,6 +57,7 @@ if (fs.existsSync(CLIENT_DIR)) {
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", gameRoutes);
+app.use("/api", resultRoutes);
 
 //MUST BE LAST ROUTE
 app.get("*", (req, res) => {
