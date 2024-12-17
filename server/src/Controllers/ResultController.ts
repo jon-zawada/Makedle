@@ -25,8 +25,6 @@ export class ResultController {
     try {
       const { gameId } = req.params;
       const { gameWon } = req.body;
-      console.log(req.params);
-      // console.log(gameId, gameWon, req.user?.id!);
       await this.resultModel.postResult(parseInt(gameId), req.user?.id!, gameWon);
       const message = "Result successfully sent";
       res.status(201).json({ message });
