@@ -168,6 +168,7 @@ export default function GamePage() {
               value={guess}
               onChange={guessHandler}
               autoComplete="off"
+              disabled={gameIsWon}
             />
             <DropdownMenu
               isOpen={menuOpen}
@@ -178,6 +179,7 @@ export default function GamePage() {
             <Button
               type="submit"
               className="px-4 py-2 border rounded-r-md rounded-l-none"
+              isDisabled={gameIsWon}
             >
               Submit
             </Button>
