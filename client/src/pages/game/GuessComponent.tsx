@@ -6,7 +6,7 @@ import { ArrowUp, ArrowDown } from "lucide-react";
 interface IGuessComponentProps {
   guesses: Word[];
   headers: string[];
-  correct: Word | null;
+  wordOfDay: Word | null;
   primaryColor: string;
   secondaryColor: string;
   tertiaryColor: string;
@@ -15,19 +15,20 @@ interface IGuessComponentProps {
 export default function GuessComponent({
   guesses,
   headers,
-  correct,
+  wordOfDay,
   primaryColor,
   secondaryColor,
   tertiaryColor,
 }: IGuessComponentProps) {
-  const compareToCorrect = (word: Word, index: number) => {
+
+  const compareToWordOfDay = (word: Word, index: number) => {
     let color;
     let numberHint;
-    if (correct) {
+    if (wordOfDay) {
       const { word_data } = word;
-      const correct_word_data = correct.word_data;
+      const wordOfDay_data = wordOfDay.word_data;
       const arr1 = word_data[index].value.split(",").map((item) => item.trim());
-      const arr2 = correct_word_data[index].value
+      const arr2 = wordOfDay_data[index].value
         .split(",")
         .map((item) => item.trim());
 
@@ -104,7 +105,7 @@ export default function GuessComponent({
         {guesses.map((guess: Word, index: number) => (
           <tr key={index}>
             {guess.word_data.map((cell: WordData, index: number) => {
-              const { color, numberHint } = compareToCorrect(guess, index);
+              const { color, numberHint } = compareToWordOfDay(guess, index);
               return (
                 <td
                   key={index}
