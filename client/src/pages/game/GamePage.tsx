@@ -32,6 +32,7 @@ export default function GamePage() {
   const [guess, setGuess] = useState<string>("");
   const [guesses, setGuesses] = useState<Word[]>([]);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [originalWords, setOriginalWords] = useState<WordList>([]);
   const [words, setWords] = useState<WordList>([]);
   const [headers, setHeaders] = useState<string[]>([]);
   const [wordOfDay, setWordOfDay] = useState<Word | null>(null);
@@ -72,6 +73,7 @@ export default function GamePage() {
     setGuesses([]);
     setWordOfDay(getRandomWordOfDay(words));
     setGameIsWon(false);
+    setWords(originalWords);
   };
 
   const getWords = () => {
@@ -79,6 +81,7 @@ export default function GamePage() {
       .get(`/games/${id}/words`)
       .then((res) => {
         setWords(res.data.words);
+        setOriginalWords(res.data.words);
         setWordOfDay(getRandomWordOfDay(res.data.words));
         setHeaders(
           res.data.headers.map((header: Header) => header.header_name)
@@ -108,6 +111,10 @@ export default function GamePage() {
     event.preventDefault();
     const newGuess = findByHeaderName(words, guess);
     if (newGuess) {
+      const remainingWords = words.filter(
+        (word) => word.word_id !== newGuess.word_id
+      );
+      setWords(remainingWords);
       setGuesses([newGuess, ...guesses]);
     }
     setGuess("");
