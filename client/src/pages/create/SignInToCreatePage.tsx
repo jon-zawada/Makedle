@@ -48,7 +48,7 @@ export default function SignInToCreatePage() {
           <div className="self-center">
             Already on Makedle?{" "}
             <span
-              className=" underline font-bold hover:text-green-300 cursor-pointer"
+              className="underline font-bold hover:text-green-300 cursor-pointer"
               onClick={() => openModal(LoginModalView.LOGIN)}
             >
               Log in

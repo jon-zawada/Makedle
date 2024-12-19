@@ -3,7 +3,7 @@ import LoadingPage from "../../pages/LoadingPage";
 
 interface PageLayoutProps {
   title?: string;
-  description?: string;
+  description?: string | React.JSX.Element;
   children: ReactNode;
   loading?: boolean;
 }
@@ -21,7 +21,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
       {title && (
         <h1 className="text-3xl font-semibold text-gray-800">{title}</h1>
       )}
-      {description && <h2 className="text-xl text-gray-400">{description}</h2>}
+      {description && <h2 className="text-xl text-gray-500">{description}</h2>}
       <div className="flex-grow p-6 rounded-md">{children}</div>
     </div>
   );

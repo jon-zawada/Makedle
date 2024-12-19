@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 export default function GamesPage() {
   const [games, setGames] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const httpService = useHttpService();
 
   useEffect(() => {
