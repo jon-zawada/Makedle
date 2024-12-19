@@ -15,14 +15,14 @@ const HomePage = () => {
       <Link to={"/games"}>
         <span className="underline font-bold hover:text-green-300 cursor-pointer">
           Play
-        </span>{" "}
+        </span>
       </Link>
       !
     </>
   );
 
   return (
-    <PageLayout title="Welcome to Makedle " description={description}>
+    <PageLayout title="Welcome to Makedle" description={description}>
       <div className="flex flex-col gap-1">{/* TODO ADD CONTENT */}</div>
     </PageLayout>
   );
