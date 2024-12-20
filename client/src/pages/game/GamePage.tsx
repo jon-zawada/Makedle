@@ -11,6 +11,7 @@ import DropdownMenu, {
 } from "../../components/common/DropdownMenu";
 import Modal from "../../components/common/Modal";
 import { getRandomInt } from "../../utils/utils";
+import { useAuth } from "../../context/AuthProvider";
 
 type Header = {
   header_name: string;
@@ -37,12 +38,13 @@ export default function GamePage() {
   const [headers, setHeaders] = useState<string[]>([]);
   const [wordOfDay, setWordOfDay] = useState<Word | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [gameIsWon, setGameIsWon] = useState<boolean>(false);
+  const [gameWon, setGameWon] = useState<boolean>(false);
   const httpService = useHttpService();
   const menuRef = useRef<HTMLDivElement>(null);
   const { id } = useParams();
   const { state } = useLocation();
   const { name } = state.gameData;
+  const { appUser } = useAuth();
 
   //make getGameById call if state is empty or just navigate them back to games?
 
@@ -64,15 +66,25 @@ export default function GamePage() {
       const latestGuess = guesses[0];
       if (latestGuess.word_id === wordOfDay.word_id) {
         setShowModal(true);
-        setGameIsWon(true);
+        setGameWon(true);
+        postGameResult();
       }
     }
   }, [guesses]);
 
+  const postGameResult = () => {
+    if (appUser) {
+      httpService
+        .post(`/results/${id}`, { gameWon: true })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    }
+  };
+
   const reset = () => {
     setGuesses([]);
     setWordOfDay(getRandomWordOfDay(words));
-    setGameIsWon(false);
+    setGameWon(false);
     setWords(originalWords);
   };
 
@@ -168,7 +180,7 @@ export default function GamePage() {
               value={guess}
               onChange={guessHandler}
               autoComplete="off"
-              disabled={gameIsWon}
+              disabled={gameWon}
             />
             <DropdownMenu
               isOpen={menuOpen}
@@ -179,7 +191,7 @@ export default function GamePage() {
             <Button
               type="submit"
               className="px-4 py-2 border rounded-r-md rounded-l-none"
-              isDisabled={gameIsWon}
+              isDisabled={gameWon}
             >
               Submit
             </Button>
@@ -200,7 +212,7 @@ export default function GamePage() {
           secondaryColor={state.gameData.secondary_color}
           tertiaryColor={state.gameData.tertiary_color}
         />
-        {gameIsWon && <Button onClick={reset}>Play again</Button>}
+        {gameWon && <Button onClick={reset}>Play again</Button>}
       </div>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <div className="py-5 flex flex-col items-center justify-center gap-4">
