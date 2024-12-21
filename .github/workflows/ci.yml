@@ -52,20 +52,20 @@ jobs:
             $(cat ./client/coverage/lcov-report/index.html)
             ```
     server-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
 
-      - name: Set up Node.js for Server
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.20.4'
+        - name: Set up Node.js for Server
+          uses: actions/setup-node@v3
+          with:
+            node-version: '18.20.4'
 
-      - name: Install Server Dependencies
-        working-directory: ./server
-        run: npm install
+        - name: Install Server Dependencies
+          working-directory: ./server
+          run: npm install
 
-      - name: Run Server Jest Tests
-        working-directory: ./server
-        run: npm test
+        - name: Run Server Jest Tests
+          working-directory: ./server
+          run: npm test
