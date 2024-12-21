@@ -2,6 +2,8 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import DropdownMenu, { IDropdownMenuItems } from "../DropdownMenu";
 import "@testing-library/jest-dom";
+import { BrowserRouter } from "react-router-dom";
+import AuthProvider from "../../../context/AuthProvider";
 
 describe("DropdownMenu Component", () => {
   const mockMenuRef = React.createRef<HTMLDivElement>();
@@ -13,7 +15,11 @@ describe("DropdownMenu Component", () => {
 
   test("renders menu when isOpen is true and items are not empty", () => {
     render(
-      <DropdownMenu isOpen={true} menuRef={mockMenuRef} items={mockItems} />
+      <BrowserRouter>
+        <AuthProvider>
+          <DropdownMenu isOpen={true} menuRef={mockMenuRef} items={mockItems} />
+        </AuthProvider>
+      </BrowserRouter>
     );
 
     expect(screen.getByRole("list")).toBeInTheDocument();
@@ -24,24 +30,42 @@ describe("DropdownMenu Component", () => {
 
   test("does not render menu when isOpen is false", () => {
     render(
-      <DropdownMenu isOpen={false} menuRef={mockMenuRef} items={mockItems} />
+      <BrowserRouter>
+        <AuthProvider>
+          <DropdownMenu
+            isOpen={false}
+            menuRef={mockMenuRef}
+            items={mockItems}
+          />
+        </AuthProvider>
+      </BrowserRouter>
     );
     expect(screen.queryByRole("list")).not.toBeInTheDocument();
   });
 
   test("does not render menu when items are empty", () => {
-    render(<DropdownMenu isOpen={true} menuRef={mockMenuRef} items={[]} />);
+    render(
+      <BrowserRouter>
+        <AuthProvider>
+          <DropdownMenu isOpen={true} menuRef={mockMenuRef} items={[]} />
+        </AuthProvider>
+      </BrowserRouter>
+    );
     expect(screen.queryByRole("list")).not.toBeInTheDocument();
   });
 
   test("renders with fitParent", () => {
     const { container } = render(
-      <DropdownMenu
-        isOpen={true}
-        menuRef={mockMenuRef}
-        items={mockItems}
-        fitParent={true}
-      />
+      <BrowserRouter>
+        <AuthProvider>
+          <DropdownMenu
+            isOpen={true}
+            menuRef={mockMenuRef}
+            items={mockItems}
+            fitParent={true}
+          />
+        </AuthProvider>
+      </BrowserRouter>
     );
     const menuDiv = container.querySelector("div");
     expect(menuDiv).toHaveClass("w-full");
@@ -49,7 +73,11 @@ describe("DropdownMenu Component", () => {
 
   test("calls onClick handler when an item is clicked", () => {
     render(
-      <DropdownMenu isOpen={true} menuRef={mockMenuRef} items={mockItems} />
+      <BrowserRouter>
+        <AuthProvider>
+          <DropdownMenu isOpen={true} menuRef={mockMenuRef} items={mockItems} />
+        </AuthProvider>
+      </BrowserRouter>
     );
     const firstItem = screen.getByText(mockItems[0].name);
     fireEvent.click(firstItem);
