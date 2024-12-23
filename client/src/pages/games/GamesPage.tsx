@@ -12,14 +12,13 @@ export default function GamesPage() {
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const httpService = useHttpService();
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    initGames();
+    getGames();
   }, []);
 
-  const page = 1;
-  
-  const initGames = async () => {
+  const getGames = async (page = 1) => {
     try {
       setLoading(true);
       const response = await httpService.get("/games", {
@@ -40,7 +39,12 @@ export default function GamesPage() {
 
   return (
     <PageLayout title="Games" loading={loading}>
-      <PaginatedList listLength={totalCount}>
+      <PaginatedList
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        listLength={totalCount}
+        getItems={getGames}
+      >
         <div className="grid gap-4  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {games.map((game: Game) => (
             <GameItem key={game.id} game={game} />

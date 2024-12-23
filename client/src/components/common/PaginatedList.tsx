@@ -1,24 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import Button from "./Button";
 
 interface IPaginatedList {
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
   itemsPerPage?: number;
   children: React.ReactNode;
   listLength: number;
+  getItems: (page: number) => void;
 }
 
-const PaginatedList = ({ itemsPerPage = 20, children, listLength }: IPaginatedList) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
+const PaginatedList = ({
+  currentPage,
+  setCurrentPage,
+  itemsPerPage = 20,
+  children,
+  listLength,
+  getItems,
+}: IPaginatedList) => {
   const totalPages = Math.ceil(listLength / itemsPerPage);
 
-  // const startIndex = (currentPage - 1) * itemsPerPage;
-  // const currentItems = data.slice(startIndex, startIndex + itemsPerPage);
-
+  const start = (currentPage - 1) * itemsPerPage + 1;
+  const end = Math.min(currentPage * itemsPerPage, listLength);
   const goToPage = (page: number) => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
+    getItems(page);
   };
 
   const getPaginationButtons = () => {
@@ -55,6 +63,7 @@ const PaginatedList = ({ itemsPerPage = 20, children, listLength }: IPaginatedLi
   };
 
   return (
+    /* EDGE CASE LIST IS EMPTY */
     <div>
       {children}
       <div className="mt-8">
@@ -90,7 +99,7 @@ const PaginatedList = ({ itemsPerPage = 20, children, listLength }: IPaginatedLi
         </div>
       </div>
       <p>
-        Page {currentPage} of {totalPages}
+        {start} - {end} of {listLength} Games
       </p>
     </div>
   );
