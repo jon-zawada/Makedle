@@ -31,23 +31,25 @@ jobs:
         working-directory: ./client
         run: npm install
 
-      - name: Run Client Jest Tests with Coverage
+       - name: Run Client Jest Tests
         working-directory: ./client
-        run: npm test -- --coverage
+        run: npm test --skip-coverage
 
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: client-coverage
-          path: ./client/coverage
+  server-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Comment Coverage Summary on PR
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: marocchino/sticky-pull-request-comment@v2
+      - name: Set up Node.js for Server
+        uses: actions/setup-node@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          header: Code Coverage Report
-          message: |
-            ```
-            $(cat ./client/coverage/lcov-report/index.html)
-            ```
+          node-version: '18.20.4'
+
+      - name: Install Server Dependencies
+        working-directory: ./server
+        run: npm install
+
+      - name: Run Server Jest Tests
+        working-directory: ./server
+        run: npm test
