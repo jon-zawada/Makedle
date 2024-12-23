@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 type User = {
   email: string;
   password: string;
+  username?: string;
 };
 
 type AuthContext = {

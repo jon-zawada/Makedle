@@ -10,7 +10,7 @@ const PAGE_SIZE_LIMIT = 20;
 export default function GamesPage() {
   const [games, setGames] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const httpService = useHttpService();
 
   useEffect(() => {
