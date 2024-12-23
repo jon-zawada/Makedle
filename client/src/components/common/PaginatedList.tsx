@@ -23,9 +23,8 @@ const PaginatedList = ({
   const end = Math.min(currentPage * itemsPerPage, listLength);
 
   const goToPage = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      onPageChange(page);
-    }
+    if (page < 1 || page > totalPages) return;
+    onPageChange(page);
   };
 
   const getPaginationButtons = () => {
@@ -52,10 +51,10 @@ const PaginatedList = ({
     return buttons;
   };
 
-  const paginationButtons = useMemo(() => getPaginationButtons(), [
-    currentPage,
-    totalPages,
-  ]);
+  const paginationButtons = useMemo(
+    () => getPaginationButtons(),
+    [currentPage, totalPages]
+  );
 
   return (
     <div>
