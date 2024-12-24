@@ -7,6 +7,7 @@ interface IDropdownMenuProps {
   menuRef: React.RefObject<HTMLDivElement>;
   items: IDropdownMenuItems[];
   fitParent?: boolean;
+  isProfile?: boolean;
 }
 
 export interface IDropdownMenuItems {
@@ -20,6 +21,7 @@ export default function DropdownMenu({
   menuRef,
   items,
   fitParent = false,
+  isProfile = false,
 }: IDropdownMenuProps) {
   const { appUser } = useAuth();
   return (
@@ -31,8 +33,14 @@ export default function DropdownMenu({
             fitParent ? "w-full" : "w-48"
           } bg-white rounded-lg shadow-lg border border-gray-200 z-10`}
         >
-          <div className="w-full text-left px-4 py-2">{appUser?.username}</div>
-          <hr />
+          {isProfile && (
+            <>
+              <div className="w-full text-left px-4 py-2">
+                {appUser?.username}
+              </div>
+              <hr />
+            </>
+          )}
           <ul className="flex flex-col max-h-60 overflow-y-auto">
             {items.map((item: IDropdownMenuItems) => (
               <li key={item.name}>
