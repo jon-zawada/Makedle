@@ -5,7 +5,7 @@ import Button from "./Button";
 interface IPaginatedList {
   currentPage: number;
   onPageChange: (page: number) => void;
-  itemsPerPage?: number;
+  itemsPerPage: number;
   children: React.ReactNode;
   listLength: number;
 }
@@ -13,9 +13,9 @@ interface IPaginatedList {
 const PaginatedList = ({
   currentPage,
   onPageChange,
-  itemsPerPage = 20,
+  itemsPerPage,
   children,
-  listLength,
+  listLength
 }: IPaginatedList) => {
   const totalPages = Math.ceil(listLength / itemsPerPage);
 
@@ -91,7 +91,7 @@ const PaginatedList = ({
           </Button>
         </div>
       </div>
-      <p>
+      <p className="text-center py-2">
         {start} - {end} of {listLength} Games
       </p>
     </div>
