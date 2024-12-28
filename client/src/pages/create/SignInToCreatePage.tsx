@@ -29,7 +29,7 @@ export default function SignInToCreatePage() {
       description="Have a game idea? Join Makedle"
       loading={loadingAppUser}
     >
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 items-center">
         <div className="flex flex-col gap-4">
           {bulletPoints.map((bullet, index) => (
             <div className="flex gap-2" key={index}>

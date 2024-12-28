@@ -22,7 +22,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
         <h1 className="text-3xl font-semibold text-gray-800">{title}</h1>
       )}
       {description && <h2 className="text-xl text-gray-500">{description}</h2>}
-      <div className="flex-grow p-6 rounded-md">{children}</div>
+      <div className="flex-grow p-6 rounded-md w-full">{children}</div>
     </div>
   );
 };
