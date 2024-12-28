@@ -23,7 +23,13 @@ const HomePage = () => {
 
   return (
     <PageLayout title="Welcome to Makedle" description={description}>
-      <div className="flex flex-col gap-1">{/* TODO ADD CONTENT */}</div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 ">
+        <div className="lg:col-span-2 bg-blue-500 h-[392px]">Big Tile</div>
+        <div className="flex flex-col gap-2">
+          <div className="bg-green-500 h-48">Small Tile 1</div>
+          <div className="bg-yellow-500 h-48">Small Tile 2</div>
+        </div>
+      </div>
     </PageLayout>
   );
 };
