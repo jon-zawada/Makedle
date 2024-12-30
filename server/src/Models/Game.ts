@@ -12,6 +12,11 @@ export interface Game {
   image: Buffer | string;
 }
 
+export enum SortOrder {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 export class GameModel {
   private pool: Pool;
 
@@ -21,14 +26,17 @@ export class GameModel {
 
   getGames = async (
     page: number,
-    limit: number
+    limit: number,
+    sort: SortOrder
   ): Promise<{ rows: Game[]; totalCount: number }> => {
     const offset = (page - 1) * limit;
     const totalCountResult = await this.pool.query(
       "SELECT COUNT(*) FROM games"
     );
     const totalCount = parseInt(totalCountResult.rows[0].count, 10);
-    const query = "SELECT * FROM games ORDER BY id LIMIT $1 OFFSET $2";
+    const order = sort === SortOrder.ASC ? "ASC" : "DESC";
+
+    const query = `SELECT * FROM games ORDER BY created_at ${order} LIMIT $1 OFFSET $2`;
     const result = await this.pool.query(query, [limit, offset]);
 
     return { rows: result.rows, totalCount };
