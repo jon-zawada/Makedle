@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { GameModel } from "../Models/Game";
+import { GameModel, SortOrder } from "../Models/Game";
 import { Pool } from "pg";
 import { HeaderModel } from "../Models/Header";
 import { WordModel } from "../Models/Word";
@@ -19,11 +19,11 @@ export class GameController {
   }
 
   getGames = (req: Request, res: Response) => {
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, sort = SortOrder.ASC } = req.query;
     const pageNumber = parseInt(page as string, 10);
     const limitNumber = parseInt(limit as string, 10);
     this.gameModel
-      .getGames(pageNumber, limitNumber)
+      .getGames(pageNumber, limitNumber, sort as SortOrder)
       .then(async ({ rows, totalCount }) => {
         const gamesWithBase64Images = await Promise.all(
           rows.map(async (game) => {
