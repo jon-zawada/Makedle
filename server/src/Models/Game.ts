@@ -15,6 +15,7 @@ export interface Game {
 export enum SortOrder {
   ASC = "ASC",
   DESC = "DESC",
+  POPULARITY = "POPULARITY",
 }
 
 export class GameModel {
@@ -34,11 +35,29 @@ export class GameModel {
       "SELECT COUNT(*) FROM games"
     );
     const totalCount = parseInt(totalCountResult.rows[0].count, 10);
-    const order = sort === SortOrder.ASC ? "ASC" : "DESC";
 
-    const query = `SELECT * FROM games ORDER BY created_at ${order} LIMIT $1 OFFSET $2`;
-    const result = await this.pool.query(query, [limit, offset]);
+    let query = "";
+    const params: (string | number)[] = [limit, offset];
 
+    if (sort === "POPULARITY") {
+      query = `
+        SELECT g.*, COUNT(r.id) AS popularity
+        FROM games g
+        LEFT JOIN results r ON g.id = r.game_id
+        GROUP BY g.id
+        ORDER BY popularity DESC
+        LIMIT $1 OFFSET $2
+      `;
+    } else {
+      query = `
+        SELECT *
+        FROM games
+        ORDER BY created_at ${sort === "ASC" ? "ASC" : "DESC"}
+        LIMIT $1 OFFSET $2
+      `;
+    }
+
+    const result = await this.pool.query(query, params);
     return { rows: result.rows, totalCount };
   };
 
