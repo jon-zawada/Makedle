@@ -141,7 +141,7 @@ export default function GamePage() {
         const name = wData.find(
           (header) => header.header_name === "Name"
         )?.value;
-        return name?.toLowerCase().startsWith(guess.toLowerCase());
+        return name?.toLowerCase().startsWith(guess.toLowerCase()); //TODO DO THIS BUT FOR FIRST LETTERS return name?.toLowerCase().includes(guess.toLowerCase());  DO A STARTS WITH ON ALL NAMES
       })
       .map((word) => {
         const wData = word.word_data;

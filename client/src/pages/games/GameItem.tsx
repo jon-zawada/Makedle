@@ -10,14 +10,14 @@ export default function GameItem({ game }: IGameItemProps) {
   const { id, name, image } = game;
   const navigate = useNavigate();
 
-  const handleNavigateClick = (game: Game) => {
-    navigate(`/games/${game.id}`, { state: { gameData: game } });
+  const handleNavigateClick = () => {
+    navigate(`/games/${id}`, { state: { gameData: game } });
   };
 
   return (
     <div
-      className="relative flex flex-col gap-2 group hover:cursor-pointer"
-      onClick={() => handleNavigateClick(game)}
+      className="relative flex flex-shrink-0 flex-col gap-2 group hover:cursor-pointer"
+      onClick={handleNavigateClick}
     >
       <img
         src={image || `https://picsum.photos/id/${id}/5000/3333`}
