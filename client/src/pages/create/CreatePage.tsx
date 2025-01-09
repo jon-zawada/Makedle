@@ -107,7 +107,7 @@ export default function CreatePage() {
 
   return appUser ? (
     <PageLayout title="Create a game!" loading={loadingAppUser}>
-      <div className="grid grid-cols-2 gap-20">
+      <div className="flex justify-center gap-16">
         <CreatePageForm
           gameName={form.name}
           file={form.file}
@@ -123,7 +123,7 @@ export default function CreatePage() {
             tertiaryColor={form.tertiaryColor}
           />
           <ColorIndicator
-            editable={true}
+            editable
             changeHandler={changeHandler}
             primaryColor={form.primaryColor}
             secondaryColor={form.secondaryColor}
