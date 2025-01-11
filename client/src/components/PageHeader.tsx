@@ -8,9 +8,11 @@ import Sidebar from "./Sidebar";
 import LoginSignUpModal, {
   LoginModalView,
 } from "../pages/login/LoginSignUpModal";
+import { useNavigate } from "react-router-dom";
 
 export default function PageHeader() {
   const { appUser } = useAuth();
+  const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [logoLoaded, setLogoLoaded] = useState(false);
 
@@ -57,8 +59,9 @@ export default function PageHeader() {
   return (
     <header className="bg-green-100 flex items-center justify-between gap-10 lg:gap-20 px-4 py-4">
       <div
-        className="flex items-center justify-center h-8 gap-1"
+        className="flex items-center justify-center h-8 gap-1 cursor-pointer"
         style={{ minWidth: "120px", minHeight: "32px" }}
+        onClick={() => navigate('/')}
       >
         {!logoLoaded && (
           <div
