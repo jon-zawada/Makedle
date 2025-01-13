@@ -24,10 +24,19 @@ const PORT = process.env.PORT || 3000;
 
 //MIDDLEWARE
 app.use(noCache);
-app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        "img-src": ["'self'", "data:", "blob:"],
+      },
+    },
+  })
+);
 
 const apiLimiter = rateLimit({
   windowMs: RATE_LIMIT_WINDOW_MS,
