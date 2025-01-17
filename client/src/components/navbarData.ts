@@ -1,6 +1,6 @@
 import { Home, Gamepad2, Pencil } from "lucide-react";
 
-export const sideBarData = [
+export const navbarData = [
   {
     id: 1,
     route: '/',
