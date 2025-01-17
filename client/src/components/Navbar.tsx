@@ -3,23 +3,23 @@ import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { buttonStyles } from "./common/Button";
 import { useLocation, matchPath } from "react-router-dom";
-import { sideBarData } from "./sideBarData";
+import { navbarData } from "./navbarData";
 
-interface SidebarItemProps {
+interface NavbarItemProps {
   Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   title: string;
   isActive?: boolean;
   route: string;
 }
 
-export default function Sidebar() {
+export default function Navbar() {
   const location = useLocation();
   const path = location.pathname;
 
   return (
     <nav className="flex gap-2 p-4">
-      {sideBarData.map((item) => (
-        <SidebarItem
+      {navbarData.map((item) => (
+        <NavbarItem
           key={item.id}
           route={item.route}
           title={item.title}
@@ -31,20 +31,20 @@ export default function Sidebar() {
   );
 }
 
-function SidebarItem({
+function NavbarItem({
   Icon,
   title,
   isActive = false,
   route,
-}: SidebarItemProps) {
-  const sideBarStyles = twMerge(
+}: NavbarItemProps) {
+  const navbarStyles = twMerge(
     buttonStyles({ variant: "ghost" }),
     `w-full flex items-center rounded-lg gap-4 p-3 ${
       isActive ? "font-bold bg-neutral-100 hover:bg-secondary" : undefined
     }`
   );
   return (
-    <Link to={route} className={sideBarStyles}>
+    <Link to={route} className={navbarStyles}>
       <Icon className="w-6 h-6" />
       <div>{title}</div>
     </Link>

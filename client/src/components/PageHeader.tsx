@@ -4,7 +4,7 @@ import logo from "../assets/logo.png";
 import { Bell, Upload, User } from "lucide-react";
 import { useAuth } from "../context/AuthProvider";
 import ProfileMenu from "./ProfileMenu";
-import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
 import LoginSignUpModal, {
   LoginModalView,
 } from "../pages/login/LoginSignUpModal";
@@ -77,7 +77,7 @@ export default function PageHeader() {
         />
         <div className="text-2xl leading-none">MAKEDLE</div>
       </div>
-      <Sidebar />
+      <Navbar />
       {renderUserInfo()}
     </header>
   );

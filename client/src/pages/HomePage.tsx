@@ -75,11 +75,11 @@ const HomePage = () => {
   return (
     <PageLayout title="Welcome to Makedle" description={description}>
       <div className="flex flex-col gap-4">
-        <div className="border-2 shadow rounded">
+        <div className="rounded">
           <h2 className="text-xl text-gray-800 p-2">Most Popular Games</h2>
           <Carousel games={popularGames} loading={loadingPopular} />
         </div>
-        <div className="border-2 shadow rounded">
+        <div className="rounded">
           <h2 className="text-xl text-gray-800 p-2">Recently Added Games</h2>
           <Carousel games={recentGames} loading={loadingRecent} />
         </div>
