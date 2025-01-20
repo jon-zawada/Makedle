@@ -6,8 +6,6 @@ import { twMerge } from "tailwind-merge";
 export const circleStyles = cva(
   [
     "transition-colors",
-    "disabled:cursor-not-allowed",
-    "disabled:opacity-50",
     "cursor-pointer",
   ],
   {
@@ -18,16 +16,23 @@ export const circleStyles = cva(
           "items-center",
           "justify-center",
           "rounded-full",
-          "border-grey-500",
           "border-[3px]",
+          "z-10",
           "h-[30px]",
           "w-[30px]",
+          "bg-green-50",
+          "transition-colors",
+          "duration-[400ms]",
+          "ease-in-out"
         ],
       },
       active: {
-        false: [],
+        false: [
+          "text-[#999]"
+        ],
         true: [
-          "border-green-500"
+          "border-green-500",
+          "text-black"
         ]
       }
     },
