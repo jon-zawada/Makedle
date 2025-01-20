@@ -2,25 +2,22 @@ import React, { useEffect, useState } from "react";
 import Circle from "./Circle";
 import Button from "./Button";
 
-interface FormStepper {
+interface IFormStepperProps {
   steps?: number;
 }
 
-export default function FormStepper({ steps = 3 }) {
+export default function FormStepper({ steps }: IFormStepperProps) {
+  const totalSteps = steps && steps > 1 ? steps : 3;
   const [currentStep, setCurrentStep] = useState(1);
   const [progPercent, setProgPercent] = useState(0);
-  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    const percent = ((currentStep - 1) / (totalSteps - 1)) * 100;
+    setProgPercent(percent);
+  }, [currentStep]);
 
-  useEffect(() => {
-    if (isMounted) {
-      const percent = ((currentStep - 1) / (steps - 1)) * 100;
-      setProgPercent(percent);
-    }
-  }, [currentStep, isMounted]);
+  const handlePrev = () => setCurrentStep((prev) => prev - 1);
+  const handleNext = () => setCurrentStep((prev) => prev + 1);
 
   return (
     <div>
@@ -32,23 +29,17 @@ export default function FormStepper({ steps = 3 }) {
           }
           style={{ width: `${progPercent}%` }}
         ></div>
-        {[...Array(steps)].map((step, index) => (
+        {[...Array(totalSteps)].map((step, index) => (
           <Circle key={index} active={index < currentStep}>
             {index + 1}
           </Circle>
         ))}
       </div>
       <div className="flex gap-4 mt-4">
-        <Button
-          isDisabled={currentStep === 1}
-          onClick={() => setCurrentStep((prev) => prev - 1)}
-        >
+        <Button isDisabled={currentStep === 1} onClick={handlePrev}>
           Prev
         </Button>
-        <Button
-          isDisabled={currentStep === steps}
-          onClick={() => setCurrentStep((prev) => prev + 1)}
-        >
+        <Button isDisabled={currentStep === totalSteps} onClick={handleNext}>
           Next
         </Button>
       </div>
