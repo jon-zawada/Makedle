@@ -9,22 +9,28 @@ interface FormStepper {
 export default function FormStepper({ steps = 3 }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [progPercent, setProgPercent] = useState(0);
-
-  const calcProgPercent = () => {
-    const percent = ((currentStep - 1) / (steps - 1)) * 100;
-    setProgPercent(percent);
-  };
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    calcProgPercent();
-  }, [currentStep]);
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted) {
+      const percent = ((currentStep - 1) / (steps - 1)) * 100;
+      setProgPercent(percent);
+    }
+  }, [currentStep, isMounted]);
 
   return (
     <div>
       <div className="flex justify-between relative max-w-[100%] w-[350px]">
         <div className="absolute top-1/2 left-0 w-full h-[3px] bg-gray-200 z-0 transform -translate-y-1/2"></div>
         <div
-          className={`absolute top-1/2 left-0 w-[${progPercent}%] h-[3px] bg-green-500 z-10 transform -translate-y-1/2 transition-all duration-[9000ms] ease-in-out`}
+          className={
+            "absolute top-1/2 left-0 h-[3px] bg-green-500 z-10 transform -translate-y-1/2 transition-all duration-[400ms] ease-in-out"
+          }
+          style={{ width: `${progPercent}%` }}
         ></div>
         {[...Array(steps)].map((step, index) => (
           <Circle key={index} active={index < currentStep}>
@@ -32,7 +38,7 @@ export default function FormStepper({ steps = 3 }) {
           </Circle>
         ))}
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 mt-4">
         <Button
           isDisabled={currentStep === 1}
           onClick={() => setCurrentStep((prev) => prev - 1)}
