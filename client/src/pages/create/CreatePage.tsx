@@ -1,17 +1,19 @@
 import React, { useState, useRef } from "react";
-import WordleGrid from "../../components/common/WordleGrid";
 import _isNil from "lodash/isNil";
 import useHttpService from "../../api/useHttpService";
 import PageLayout from "../../components/common/PageLayout";
-import ColorIndicator from "../../components/common/ColorIndicator";
 import CreatePageForm from "./CreatePageForm";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthProvider";
 import SignInToCreatePage from "./SignInToCreatePage";
 import FormStepper from "../../components/common/FormStepper";
+import CreatePageInfo from "./CreatePageInfo";
+import CreatePageForm2 from "./CreatePageForm2";
+import CreatePageForm3 from "./CreatePageForm3";
 
 interface IFormData {
   name: string;
+  category: string;
   primaryColor: string;
   secondaryColor: string;
   tertiaryColor: string;
@@ -21,6 +23,7 @@ interface IFormData {
 
 const initFormData: IFormData = {
   name: "",
+  category: "",
   primaryColor: "#6AAA63",
   secondaryColor: "#C9B458",
   tertiaryColor: "#EB2424",
@@ -103,8 +106,9 @@ export default function CreatePage() {
   };
 
   return appUser ? (
-    <PageLayout title="Create a game!" loading={loadingAppUser}>
+    <PageLayout title="Create a New Game" loading={loadingAppUser}>
       <FormStepper submitHandler={submitHandler}>
+        <CreatePageInfo />
         <CreatePageForm
           gameName={form.name}
           file={form.file}
@@ -113,20 +117,13 @@ export default function CreatePage() {
           handleImageChange={handleImageChange}
           changeHandler={changeHandler}
         />
-        <div className="flex flex-col gap-4 p-2">
-          <WordleGrid
-            primaryColor={form.primaryColor}
-            secondaryColor={form.secondaryColor}
-            tertiaryColor={form.tertiaryColor}
-          />
-          <ColorIndicator
-            editable
-            changeHandler={changeHandler}
-            primaryColor={form.primaryColor}
-            secondaryColor={form.secondaryColor}
-            tertiaryColor={form.tertiaryColor}
-          />
-        </div>
+        <CreatePageForm2 />
+        <CreatePageForm3
+          primaryColor={form.primaryColor}
+          secondaryColor={form.secondaryColor}
+          tertiaryColor={form.tertiaryColor}
+          changeHandler={changeHandler}
+        />
       </FormStepper>
     </PageLayout>
   ) : (
