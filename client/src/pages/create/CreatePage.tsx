@@ -1,7 +1,5 @@
 import React, { useState, useRef } from "react";
-import Button from "../../components/common/Button";
 import WordleGrid from "../../components/common/WordleGrid";
-import _isEmpty from "lodash/isEmpty";
 import _isNil from "lodash/isNil";
 import useHttpService from "../../api/useHttpService";
 import PageLayout from "../../components/common/PageLayout";
@@ -10,6 +8,7 @@ import CreatePageForm from "./CreatePageForm";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthProvider";
 import SignInToCreatePage from "./SignInToCreatePage";
+import FormStepper from "../../components/common/FormStepper";
 
 interface IFormData {
   name: string;
@@ -35,8 +34,6 @@ export default function CreatePage() {
   const { appUser, loadingAppUser } = useAuth();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const httpService = useHttpService();
-
-  const isDisabled: boolean = _isEmpty(form.name) || !form.file;
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = event.target;
@@ -70,7 +67,7 @@ export default function CreatePage() {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    await postGame();
+    await postGame(); //after this should we navigate them to the game?
   };
 
   const postGame = async () => {
@@ -107,7 +104,7 @@ export default function CreatePage() {
 
   return appUser ? (
     <PageLayout title="Create a game!" loading={loadingAppUser}>
-      <div className="flex justify-center gap-16">
+      <FormStepper submitHandler={submitHandler}>
         <CreatePageForm
           gameName={form.name}
           file={form.file}
@@ -130,12 +127,7 @@ export default function CreatePage() {
             tertiaryColor={form.tertiaryColor}
           />
         </div>
-      </div>
-      <div className="flex justify-center p-2">
-        <Button onClick={submitHandler} isDisabled={isDisabled}>
-          Create Game
-        </Button>
-      </div>
+      </FormStepper>
     </PageLayout>
   ) : (
     <SignInToCreatePage />

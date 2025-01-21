@@ -21,10 +21,10 @@ export default function ImageUpload({
         <img
           src={preview}
           alt="Uploaded Preview"
-          className="w-full h-full object-cover rounded"
+          className="w-full h-full object-cover rounded border-gray-200 border-2"
         />
       ) : (
-        <div className="text-center w-full h-full bg-secondary flex items-center justify-center rounded">
+        <div className="text-center w-full h-full border-2 border-gray-200 border-dashed flex items-center justify-center rounded">
           Click to upload image
         </div>
       )}
