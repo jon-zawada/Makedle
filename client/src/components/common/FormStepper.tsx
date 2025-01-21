@@ -36,7 +36,11 @@ export default function FormStepper({
           style={{ width: `${progPercent}%` }}
         ></div>
         {[...Array(steps)].map((step, index) => (
-          <Circle key={index} active={index < currentStep}>
+          <Circle
+            onClick={() => setCurrentStep(index + 1)}
+            key={index}
+            active={index < currentStep}
+          >
             {index + 1}
           </Circle>
         ))}

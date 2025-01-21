@@ -1,4 +1,5 @@
 import React from "react";
+import { ImageUp } from "lucide-react";
 
 interface IImageUploadProps {
   preview: string | null;
@@ -21,11 +22,12 @@ export default function ImageUpload({
         <img
           src={preview}
           alt="Uploaded Preview"
-          className="w-full h-full object-cover rounded border-gray-200 border-2"
+          className="w-full h-full object-cover rounded border-gray-300 border-2"
         />
       ) : (
-        <div className="text-center w-full h-full border-2 border-gray-200 border-dashed flex items-center justify-center rounded">
-          Click to upload image
+        <div className="text-center w-full h-full border-2 border-gray-300 border-dashed flex flex-col items-center justify-center rounded">
+          <ImageUp color="#9CA3AF" />
+          <div className="text-gray-300">Click to upload image</div>
         </div>
       )}
     </div>
