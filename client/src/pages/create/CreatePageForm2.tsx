@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { ChevronDown, Book, Lock } from "lucide-react";
+import RadioButton from "../../components/common/RadioButton";
 import { categoryOptions } from "./constants";
 
 interface ICreatePageForm2Props {
@@ -16,10 +17,10 @@ export default function CreatePageForm2({
     [categoryOptions]
   );
 
-  const [privacy, setPrivacy] = useState("public");
+  const [privacy, setPrivacy] = useState(false);
 
   const handlePrivacyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPrivacy(event.target.value);
+    setPrivacy(event.target.value === "true");
   };
 
   return (
@@ -49,62 +50,24 @@ export default function CreatePageForm2({
         </span>
       </div>
       <div className="flex flex-col items-start">
-        <label className="flex items-center cursor-pointer">
-          <input
-            type="radio"
-            name="privacy"
-            value="public"
-            checked={privacy === "public"}
-            onChange={handlePrivacyChange}
-            className="hidden"
-          />
-          <div
-            className={`flex items-center justify-center w-5 h-5 border-2 rounded-full transition-all delay-400 mr-2 ${
-              privacy === "public" ? "border-green-500" : "border-gray-400"
-            }`}
-          >
-            {privacy === "public" && (
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            )}
-          </div>
-          <div className="flex items-center gap-1">
-            <Book color="#9CA3AF" size={32} />
-            <div>
-              <div>Public</div>
-              <div className="text-sm text-gray-400">
-                Anyone on the internet can see this game
-              </div>
-            </div>
-          </div>
-        </label>
-        <label className="flex items-center cursor-pointer">
-          <input
-            type="radio"
-            name="privacy"
-            value="private"
-            checked={privacy === "private"}
-            onChange={handlePrivacyChange}
-            className="hidden"
-          />
-          <div
-            className={`flex items-center justify-center w-5 h-5 border-2 rounded-full transition-all delay-400 mr-2 ${
-              privacy === "private" ? "border-green-500" : "border-gray-400"
-            }`}
-          >
-            {privacy === "private" && (
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            )}
-          </div>
-          <div className="flex items-center gap-1">
-            <Lock color="#9CA3AF" size={32} />
-            <div>
-              <div>Private</div>
-              <div className="text-sm text-gray-400">
-                You choose who can see and play this game
-              </div>
-            </div>
-          </div>
-        </label>
+        <RadioButton
+          checked={privacy === false}
+          label="Public"
+          value="false"
+          name="private"
+          description="Anyone on the internet can see this game"
+          Icon={Book}
+          changeHandler={handlePrivacyChange}
+        />
+        <RadioButton
+          checked={privacy === true}
+          label="Private"
+          value="true"
+          name="private"
+          description="You choose who can see and play this game"
+          Icon={Lock}
+          changeHandler={handlePrivacyChange}
+        />
       </div>
     </form>
   );
