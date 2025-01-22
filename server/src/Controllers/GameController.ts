@@ -79,13 +79,14 @@ export class GameController {
   };
 
   createGame = async (req: Request, res: Response) => {
-    const { name, primaryColor, secondaryColor, tertiaryColor } = req.body;
+    const { name, primaryColor, secondaryColor, tertiaryColor, category } =
+      req.body;
     const userId = req.user?.id!;
 
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const csvFile = files?.["file"]?.[0];
     const imageFile = files?.["image"]?.[0];
-    const imageBuffer = fs.readFileSync(imageFile.path);
+    const imageBuffer = imageFile && fs.readFileSync(imageFile.path);
     try {
       const game = await this.gameModel.createGame(
         userId,
@@ -93,7 +94,8 @@ export class GameController {
         primaryColor,
         secondaryColor,
         tertiaryColor,
-        imageBuffer
+        imageBuffer,
+        category
       );
       await processGameCSV(
         csvFile,

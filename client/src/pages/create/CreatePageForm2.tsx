@@ -1,38 +1,19 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { ChevronDown } from "lucide-react";
+import { categoryOptions } from "./constants";
 
-// interface ICreatePageForm2Props {
+interface ICreatePageForm2Props {
+  category: string;
+  changeHandler: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+}
 
-// }
-
-export default function CreatePageForm2() {
-  const [selectedValue, setSelectedValue] = useState("");
-
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedValue(event.target.value);
-    console.log("Selected value:", event.target.value);
-  };
-
-  const options = [
-    { value: "sports", content: "Sports" },
-    { value: "geography", content: "Geography" },
-    { value: "music", content: "Music" },
-    { value: "movies", content: "Movies" },
-    { value: "fun", content: "Just for Fun" },
-    { value: "miscellanous", content: "Miscellanous" },
-    { value: "history", content: "History" },
-    { value: "literature", content: "Literature" },
-    { value: "language", content: "Language" },
-    { value: "science", content: "Science" },
-    { value: "gaming", content: "Gaming" },
-    { value: "entertainment", content: "Entertainment" },
-    { value: "religion", content: "Religion" },
-    { value: "holiday", content: "Holiday" },
-  ];
-
+export default function CreatePageForm2({
+  category,
+  changeHandler,
+}: ICreatePageForm2Props) {
   const sortedOptions = useMemo(
-    () => options.sort((a, b) => a.content.localeCompare(b.content)),
-    [options]
+    () => categoryOptions.sort((a, b) => a.content.localeCompare(b.content)),
+    [categoryOptions]
   );
 
   return (
@@ -43,8 +24,8 @@ export default function CreatePageForm2() {
           name="category"
           id="category"
           className="px-4 py-2 border rounded appearance-none pr-8 hover:cursor-pointer"
-          value={selectedValue}
-          onChange={handleChange}
+          value={category}
+          onChange={changeHandler}
         >
           <option value="" disabled>
             ---

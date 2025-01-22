@@ -38,9 +38,14 @@ export default function CreatePage() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const httpService = useHttpService();
 
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, files } = event.target;
-    if (name === "file" && files) {
+  const changeHandler = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target;
+    if (name === "file") {
+      const { files } = event.target as HTMLInputElement;
       handleFileChange(files);
     } else {
       setForm({ ...form, [name]: value });
@@ -117,7 +122,10 @@ export default function CreatePage() {
           handleImageChange={handleImageChange}
           changeHandler={changeHandler}
         />
-        <CreatePageForm2 />
+        <CreatePageForm2
+          category={form.category}
+          changeHandler={changeHandler}
+        />
         <CreatePageForm3
           primaryColor={form.primaryColor}
           secondaryColor={form.secondaryColor}
