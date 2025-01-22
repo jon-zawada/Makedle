@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
+import { LucideIcon } from "lucide-react";
 import { buttonStyles } from "./common/Button";
 import { useLocation, matchPath } from "react-router-dom";
 import { navbarData } from "./navbarData";
 
 interface NavbarItemProps {
-  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  Icon: LucideIcon;
   title: string;
   isActive?: boolean;
   route: string;
@@ -31,12 +32,7 @@ export default function Navbar() {
   );
 }
 
-function NavbarItem({
-  Icon,
-  title,
-  isActive = false,
-  route,
-}: NavbarItemProps) {
+function NavbarItem({ Icon, title, isActive = false, route }: NavbarItemProps) {
   const navbarStyles = twMerge(
     buttonStyles({ variant: "ghost" }),
     `w-full flex items-center rounded-lg gap-4 p-3 ${

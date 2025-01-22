@@ -1,14 +1,17 @@
 import React, { useMemo } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Book, Lock } from "lucide-react";
+import RadioButton from "../../components/common/RadioButton";
 import { categoryOptions } from "./constants";
 
 interface ICreatePageForm2Props {
   category: string;
-  changeHandler: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  private_: boolean;
+  changeHandler: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export default function CreatePageForm2({
   category,
+  private_,
   changeHandler,
 }: ICreatePageForm2Props) {
   const sortedOptions = useMemo(
@@ -19,7 +22,9 @@ export default function CreatePageForm2({
   return (
     <form className="flex flex-col gap-4 p-2">
       <div className="relative flex flex-col">
-        <label htmlFor="category">Category</label>
+        <label className="font-semibold" htmlFor="category">
+          Category
+        </label>
         <select
           name="category"
           id="category"
@@ -39,6 +44,26 @@ export default function CreatePageForm2({
         <span className="absolute top-[70%] right-4 transform -translate-y-1/2 pointer-events-none">
           <ChevronDown />
         </span>
+      </div>
+      <div className="flex flex-col items-start">
+        <RadioButton
+          checked={private_ === false}
+          label="Public"
+          value="false"
+          name="private"
+          description="Anyone on the internet can see this game"
+          Icon={Book}
+          changeHandler={changeHandler}
+        />
+        <RadioButton
+          checked={private_ === true}
+          label="Private"
+          value="true"
+          name="private"
+          description="You choose who can see and play this game"
+          Icon={Lock}
+          changeHandler={changeHandler}
+        />
       </div>
     </form>
   );

@@ -13,22 +13,24 @@ import CreatePageForm3 from "./CreatePageForm3";
 
 interface IFormData {
   name: string;
-  category: string;
   primaryColor: string;
   secondaryColor: string;
   tertiaryColor: string;
   file: File | null;
   image: File | null;
+  category: string;
+  private: boolean;
 }
 
 const initFormData: IFormData = {
   name: "",
-  category: "",
   primaryColor: "#6AAA63",
   secondaryColor: "#C9B458",
   tertiaryColor: "#EB2424",
   file: null,
   image: null,
+  category: "",
+  private: false,
 };
 
 export default function CreatePage() {
@@ -47,6 +49,8 @@ export default function CreatePage() {
     if (name === "file") {
       const { files } = event.target as HTMLInputElement;
       handleFileChange(files);
+    } else if (name === "private") {
+      setForm({ ...form, private: value === "true" });
     } else {
       setForm({ ...form, [name]: value });
     }
@@ -124,6 +128,7 @@ export default function CreatePage() {
         />
         <CreatePageForm2
           category={form.category}
+          private_={form.private}
           changeHandler={changeHandler}
         />
         <CreatePageForm3
