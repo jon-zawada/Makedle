@@ -19,7 +19,7 @@ interface IFormData {
   file: File | null;
   image: File | null;
   category: string;
-  private: boolean;
+  isPrivate: boolean;
 }
 
 const initFormData: IFormData = {
@@ -30,7 +30,7 @@ const initFormData: IFormData = {
   file: null,
   image: null,
   category: "",
-  private: false,
+  isPrivate: false,
 };
 
 export default function CreatePage() {
@@ -49,8 +49,8 @@ export default function CreatePage() {
     if (name === "file") {
       const { files } = event.target as HTMLInputElement;
       handleFileChange(files);
-    } else if (name === "private") {
-      setForm({ ...form, private: value === "true" });
+    } else if (name === "isPrivate") {
+      setForm({ ...form, isPrivate: value === "true" });
     } else {
       setForm({ ...form, [name]: value });
     }
@@ -128,7 +128,7 @@ export default function CreatePage() {
         />
         <CreatePageForm2
           category={form.category}
-          private_={form.private}
+          isPrivate={form.isPrivate}
           changeHandler={changeHandler}
         />
         <CreatePageForm3

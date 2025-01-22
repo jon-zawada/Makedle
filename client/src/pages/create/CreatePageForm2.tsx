@@ -5,13 +5,13 @@ import { categoryOptions } from "./constants";
 
 interface ICreatePageForm2Props {
   category: string;
-  private_: boolean;
+  isPrivate: boolean;
   changeHandler: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export default function CreatePageForm2({
   category,
-  private_,
+  isPrivate,
   changeHandler,
 }: ICreatePageForm2Props) {
   const sortedOptions = useMemo(
@@ -47,19 +47,19 @@ export default function CreatePageForm2({
       </div>
       <div className="flex flex-col items-start">
         <RadioButton
-          checked={private_ === false}
+          checked={isPrivate === false}
           label="Public"
           value="false"
-          name="private"
+          name="isPrivate"
           description="Anyone on the internet can see this game"
           Icon={Book}
           changeHandler={changeHandler}
         />
         <RadioButton
-          checked={private_ === true}
+          checked={isPrivate === true}
           label="Private"
           value="true"
-          name="private"
+          name="isPrivate"
           description="You choose who can see and play this game"
           Icon={Lock}
           changeHandler={changeHandler}

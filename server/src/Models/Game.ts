@@ -74,10 +74,11 @@ export class GameModel {
     secondary_color: string,
     tertiary_color: string,
     image: Buffer | string,
-    category: string
+    category: string,
+    isPrivate: boolean
   ): Promise<Game> => {
     const query =
-      "INSERT INTO games (user_id, name, primary_color, secondary_color, tertiary_color, image, category) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, user_id, name, primary_color, secondary_color, tertiary_color, category, created_at, updated_at;";
+      "INSERT INTO games (user_id, name, primary_color, secondary_color, tertiary_color, image, category, isPrivate) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, user_id, name, primary_color, secondary_color, tertiary_color, category, isPrivate, created_at, updated_at;";
     const result = await this.pool.query(query, [
       userId,
       gameName,
@@ -85,7 +86,8 @@ export class GameModel {
       secondary_color,
       tertiary_color,
       image,
-      category
+      category,
+      isPrivate
     ]);
     return result.rows[0] || null;
   };
