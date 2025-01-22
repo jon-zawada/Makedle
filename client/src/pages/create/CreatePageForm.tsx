@@ -22,7 +22,7 @@ export default function CreatePageForm({
   return (
     <form className="flex flex-col gap-4 p-2">
       <div className="flex flex-col">
-        <label htmlFor="name">Game Name</label>
+        <label className="font-semibold" htmlFor="name">Game Name</label>
         <input
           name="name"
           id="name"

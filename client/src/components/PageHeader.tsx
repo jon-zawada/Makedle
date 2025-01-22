@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "./common/Button";
 import logo from "../assets/logo.png";
-import { Bell, Upload, User } from "lucide-react";
+import { Bell, CircleHelp, User } from "lucide-react";
 import { useAuth } from "../context/AuthProvider";
 import ProfileMenu from "./ProfileMenu";
 import Navbar from "./Navbar";
@@ -31,7 +31,7 @@ export default function PageHeader() {
         {appUser ? (
           <div className="flex flex-shrink-0 md:gap-2">
             <Button size="icon" variant="ghost">
-              <Upload />
+              <CircleHelp />
             </Button>
             <Button size="icon" variant="ghost">
               <Bell />
