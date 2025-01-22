@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS games (
   secondary_color CHAR(7) NOT NULL CHECK (primary_color ~ '^#([A-Fa-f0-9]{6})$'), --maybe dumb to check to validate here^, maybe client side if bad hex value just render default color?
   tertiary_color CHAR(7) NOT NULL CHECK (primary_color ~ '^#([A-Fa-f0-9]{6})$'),
   category CHAR(50) NOT NULL,
+  isPrivate BOOLEAN NOT NULL,
   image BYTEA
 );
 

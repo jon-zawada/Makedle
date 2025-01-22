@@ -79,7 +79,7 @@ export class GameController {
   };
 
   createGame = async (req: Request, res: Response) => {
-    const { name, primaryColor, secondaryColor, tertiaryColor, category } =
+    const { name, primaryColor, secondaryColor, tertiaryColor, category, isPrivate } =
       req.body;
     const userId = req.user?.id!;
 
@@ -95,7 +95,8 @@ export class GameController {
         secondaryColor,
         tertiaryColor,
         imageBuffer,
-        category
+        category,
+        isPrivate
       );
       await processGameCSV(
         csvFile,
