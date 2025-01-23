@@ -63,7 +63,7 @@ export default function GamePage() {
 
   useEffect(() => {
     if (!_isEmpty(guesses) && !_isEmpty(wordOfDay)) {
-      const latestGuess = guesses[guesses.length - 1];
+      const latestGuess = guesses[0];
       if (latestGuess.word_id === wordOfDay.word_id) {
         setShowModal(true);
         setGameWon(true);
