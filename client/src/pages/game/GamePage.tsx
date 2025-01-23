@@ -127,7 +127,7 @@ export default function GamePage() {
         (word) => word.word_id !== newGuess.word_id
       );
       setWords(remainingWords);
-      setGuesses([ newGuess, ...guesses]);
+      setGuesses([newGuess, ...guesses]);
     }
     setGuess("");
   };
