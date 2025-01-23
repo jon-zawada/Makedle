@@ -24,20 +24,20 @@ export default function GuessComponent({
       <thead>
         <tr>
           {headers.map((header: string) => (
-            <th
-              key={header}
-              className="underline w-12 text-sm text-center px-2"
-            >
-              {/* fix the key here */}
-              {header}
+            <th key={header} className="w-12 h-12 text-sm text-center px-2">
+              <div className="flex flex-col gap-4 h-full">
+                {/* fix the key here */}
+                <div>{header}</div>
+                <hr className="w-full border-black" />
+              </div>
             </th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {guesses.map((guess: Word, index: number) => (
+        {guesses.map((guess: Word) => (
           <AnimatedRow
-            key={index}
+            key={guess.word_id}
             guess={guess}
             wordOfDay={wordOfDay}
             primaryColor={primaryColor}
