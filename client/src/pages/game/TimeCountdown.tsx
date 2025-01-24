@@ -16,10 +16,10 @@ const TimeCountDown: React.FC = () => {
   };
 
   useEffect(() => {
-    calculateTimeToMidnight(); // Initial calculation
-    const timer = setInterval(calculateTimeToMidnight, 1000); // Update every second
+    calculateTimeToMidnight();
+    const timer = setInterval(calculateTimeToMidnight, 1000);
 
-    return () => clearInterval(timer); // Cleanup on unmount
+    return () => clearInterval(timer);
   }, []);
 
   return (
