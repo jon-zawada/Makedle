@@ -9,9 +9,9 @@ import useHttpService from "../../api/useHttpService";
 import DropdownMenu, {
   IDropdownMenuItems,
 } from "../../components/common/DropdownMenu";
-import Modal from "../../components/common/Modal";
 import { getRandomInt } from "../../utils/utils";
 import { useAuth } from "../../context/AuthProvider";
+import GameWonBanner from "./GameWonBanner";
 
 type Header = {
   header_name: string;
@@ -37,7 +37,6 @@ export default function GamePage() {
   const [words, setWords] = useState<WordList>([]);
   const [headers, setHeaders] = useState<string[]>([]);
   const [wordOfDay, setWordOfDay] = useState<Word | null>(null);
-  const [showModal, setShowModal] = useState<boolean>(false);
   const [gameWon, setGameWon] = useState<boolean>(false);
   const httpService = useHttpService();
   const menuRef = useRef<HTMLDivElement>(null);
@@ -65,7 +64,6 @@ export default function GamePage() {
     if (!_isEmpty(guesses) && !_isEmpty(wordOfDay)) {
       const latestGuess = guesses[0];
       if (latestGuess.word_id === wordOfDay.word_id) {
-        setShowModal(true);
         setGameWon(true);
         postGameResult();
       }
@@ -141,7 +139,9 @@ export default function GamePage() {
         const name = wData.find(
           (header) => header.header_name === "Name"
         )?.value;
-        return name?.toLowerCase().startsWith(guess.toLowerCase()); //TODO DO THIS BUT FOR FIRST LETTERS return name?.toLowerCase().includes(guess.toLowerCase());  DO A STARTS WITH ON ALL NAMES
+        return name
+          ?.split(" ")
+          .some((word) => word.toLowerCase().startsWith(guess.toLowerCase()));
       })
       .map((word) => {
         const wData = word.word_data;
@@ -212,13 +212,14 @@ export default function GamePage() {
           secondaryColor={state.gameData.secondary_color}
           tertiaryColor={state.gameData.tertiary_color}
         />
-        {gameWon && <Button onClick={reset}>Play again</Button>}
+        {gameWon && ( //and animation is done
+          <GameWonBanner
+            wordOfDay={wordOfDay}
+            guessCount={guesses.length}
+            reset={reset}
+          />
+        )}
       </div>
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-        <div className="py-5 flex flex-col items-center justify-center gap-4">
-          <div>Congratulations</div>
-        </div>
-      </Modal>
     </PageLayout>
   );
 }

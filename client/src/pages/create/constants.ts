@@ -1,4 +1,6 @@
 export const categoryOptions = [
+  { value: "anime", content: "Anime" },
+  { value: "tv", content: "TV" },
   { value: "sports", content: "Sports" },
   { value: "geography", content: "Geography" },
   { value: "music", content: "Music" },
