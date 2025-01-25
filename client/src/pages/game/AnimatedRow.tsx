@@ -117,7 +117,9 @@ const AnimatedRow = ({
             className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-500 opacity-15"
           />
         )}
-        <span className="relative text-white font-semibold">{renderCell(word.value)}</span>
+        <span className="relative text-white font-semibold">
+          {renderCell(word.value)}
+        </span>
       </>
     );
   };
@@ -126,17 +128,34 @@ const AnimatedRow = ({
     <tr>
       {guess.word_data.map((word, index) => {
         const { color, numberHint } = compareToWordOfDay(guess, index);
+        const startColor = "#D1D5DB";
+        const midColor = "#D1D5DB";
+        const endColor = color;
+
         return (
           <td
             key={index}
-            style={{
-              backgroundColor: flipped[index] ? color : "#D1D5DB",
-            }}
+            style={
+              {
+                "--start-color": startColor,
+                "--mid-color": midColor,
+                "--end-color": endColor,
+                "--text-opacity": flipped[index] ? "1" : "0",
+              } as React.CSSProperties
+            }
             className={`w-24 h-24 text-center p-2 relative ${
               flipped[index] ? "animate-flip" : ""
             }`}
           >
-            {flipped[index] ? renderContent(word, numberHint) : ""}
+            <span
+              className="relative text-white font-semibold"
+              style={{
+                opacity: "var(--text-opacity)",
+                transition: "opacity 0.2s ease",
+              }}
+            >
+              {renderContent(word, numberHint)}
+            </span>
           </td>
         );
       })}

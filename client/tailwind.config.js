@@ -7,13 +7,25 @@ module.exports = {
     extend: {
       keyframes: {
         flip: {
-          '0%': { transform: 'rotateX(0deg)' },
-          '50%': { transform: 'rotateX(90deg)' },
-          '100%': { transform: 'rotateX(0deg)' },
+          '0%': {
+            transform: 'rotateX(0deg)',
+            backgroundColor: 'var(--start-color)',
+            '--text-opacity': '0', // Text is invisible
+          },
+          '50%': {
+            transform: 'rotateX(90deg)',
+            backgroundColor: 'var(--mid-color)',
+            '--text-opacity': '0',
+          },
+          '100%': {
+            transform: 'rotateX(0deg)',
+            backgroundColor: 'var(--end-color)',
+            '--text-opacity': '1', // Text becomes visible
+          },
         },
       },
       animation: {
-        flip: 'flip 0.6s ease-in-out',
+        flip: 'flip 0.8s ease-in-out forwards',
       },
       colors: {
         secondary: {
