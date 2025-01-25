@@ -3,6 +3,7 @@ import _isEmpty from "lodash/isEmpty";
 import { Word } from "./GamePage";
 import Button from "../../components/common/Button";
 import TimeCountDown from "./TimeCountdown";
+import { ChartSpline } from "lucide-react";
 
 interface IGameWonBannerProps {
   wordOfDay: Word | null;
@@ -32,6 +33,10 @@ export default function GameWonBanner({
           <span className="text-green-500">{guessCount}</span>
         </div>
       )}
+      <Button className="flex gap-2">
+        <ChartSpline />
+        <div>Stats</div>
+      </Button>
       <TimeCountDown />
       <Button onClick={reset}>Play again</Button>
     </div>
