@@ -1,4 +1,9 @@
-export const categoryOptions = [
+export type SelectOptions = {
+  value: string;
+  content: string;
+};
+
+export const categoryOptions: SelectOptions[] = [
   { value: "anime", content: "Anime" },
   { value: "tv", content: "TV" },
   { value: "sports", content: "Sports" },
