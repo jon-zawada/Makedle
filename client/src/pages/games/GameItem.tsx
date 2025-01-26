@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 interface IGameItemProps {
   game: Game;
+  view?: string;
 }
 
-export default function GameItem({ game }: IGameItemProps) {
+export default function GameItem({ game, view }: IGameItemProps) {
   const { id, name, image } = game;
   const navigate = useNavigate();
 
@@ -14,14 +15,20 @@ export default function GameItem({ game }: IGameItemProps) {
     navigate(`/games/${id}`, { state: { gameData: game } });
   };
 
+  const baseStyles = "bg-white relative group hover:cursor-pointer rounded-xl transition-all duration-200"; //perhaps opacity diff on hover? not a border
+  const carouselStyles = "h-[90%] w-[90%]";
+  const defaultStyles = "w-full h-[245px]";
+
+  const styles = view === "carousel" ? `${baseStyles} ${carouselStyles}` : `${baseStyles} ${defaultStyles}`;
   return (
     <div
-      className="relative flex flex-shrink-0 flex-col gap-2 group hover:cursor-pointer"
+      className={styles}
       onClick={handleNavigateClick}
     >
       <img
-        src={image || `https://picsum.photos/id/${id}/5000/3333`}
-        className="block w-full h-[250px] object-cover duration-200 rounded-xl opacity-95 group-hover:opacity-100 transition-[border-radius,opacity]"
+        src={image}
+        alt={`${name} image`}
+        className="h-[100%] w-[100%] object-contain rounded-xl"
       />
       <div className="absolute p-2 inset-0 flex items-end justify-center text-white text-lg font-bold rounded-xl hover:underline hover:text-green-500">
         {name}
