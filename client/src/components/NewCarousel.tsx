@@ -5,27 +5,27 @@ import GameItem from "../pages/games/GameItem";
 import { Game } from "../types/types";
 
 interface ICarouselProps {
-  items: unknown[];
+  items: Game[];
   loading: boolean;
+  title: string;
   itemsPerScreen?: number;
 }
 
-const Carousel = ({ items, loading, itemsPerScreen = 4 }: ICarouselProps) => {
+const Carousel = ({
+  items,
+  loading,
+  title,
+  itemsPerScreen = 4,
+}: ICarouselProps) => {
   const [sliderIndex, setSliderIndex] = useState(0);
   const [progressIndex, setProgressIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
-  //TODO rework to be based on props
   const ITEMS_PER_SCREEN = itemsPerScreen;
   const IMAGE_COUNT = items.length;
   const lastPossibleIndex = IMAGE_COUNT - 1;
   const PROGRESS_COUNT = Math.ceil(IMAGE_COUNT / ITEMS_PER_SCREEN);
   const lastProgressIndex = PROGRESS_COUNT - 1;
-
-  const images = Array.from(
-    { length: IMAGE_COUNT },
-    (_, i) => `https://placehold.co/600x400?text=${i + 1}`
-  );
 
   const handleNext = () => {
     setSliderIndex((prev) => {
@@ -56,8 +56,7 @@ const Carousel = ({ items, loading, itemsPerScreen = 4 }: ICarouselProps) => {
   return (
     <div>
       <div className="flex justify-between items-center py-2 px-8">
-        <h3 className="text-2xl font-bold">Title</h3>{" "}
-        {/* make based on props */}
+        <h3 className="text-2xl font-semibold">{title}</h3>
         <div className="flex gap-1">
           {Array.from({ length: PROGRESS_COUNT }, (_, i) => (
             <div
@@ -76,10 +75,10 @@ const Carousel = ({ items, loading, itemsPerScreen = 4 }: ICarouselProps) => {
       >
         {isHovered && (
           <Button
-            className="rounded-tl-none rounded-bl-none absolute left-1 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-10 text-white h-[90%] z-10 hover:bg-opacity-70 hover:bg-gray-800"
+            className="rounded-tl-none rounded-bl-none absolute left-1 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white h-[90%] z-10 hover:bg-opacity-80 hover:bg-gray-800"
             onClick={handlePrev}
           >
-            <ChevronLeft size={32} />
+            <ChevronLeft size={48} />
           </Button>
         )}
 
@@ -89,7 +88,7 @@ const Carousel = ({ items, loading, itemsPerScreen = 4 }: ICarouselProps) => {
             transform: `translateX(calc(${sliderIndex} * -100% / ${ITEMS_PER_SCREEN}))`,
           }}
         >
-          {images.map((src, index) => (
+          {items.map((src, index) => (
             <div
               key={index}
               className="flex-shrink-0 flex items-center justify-center"
@@ -98,20 +97,16 @@ const Carousel = ({ items, loading, itemsPerScreen = 4 }: ICarouselProps) => {
                 aspectRatio: "16/9",
               }}
             >
-              <img
-                src={src}
-                alt={`Slide ${index + 1}`}
-                className="object-cover h-[90%] w-[90%]"
-              />
+              <GameItem game={src} view="carousel" />
             </div>
           ))}
         </div>
         {isHovered && (
           <Button
-            className="rounded-tr-none rounded-br-none absolute right-1 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-30 text-white h-[90%] z-10 hover:bg-opacity-70 hover:bg-gray-800"
+            className="rounded-tr-none rounded-br-none absolute right-1 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white h-[90%] z-10 hover:bg-opacity-80 hover:bg-gray-800"
             onClick={handleNext}
           >
-            <ChevronRight size={32} />
+            <ChevronRight size={48} />
           </Button>
         )}
       </div>
