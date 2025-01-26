@@ -2,13 +2,20 @@ import React, { useState } from "react";
 import Button from "./common/Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const SliderComponent = () => {
+interface ICarouselProps {
+  items: unknown[];
+  loading: boolean;
+  itemsPerScreen?: number;
+}
+
+const Carousel = ({ items, loading, itemsPerScreen = 7 }: ICarouselProps) => {
   const [sliderIndex, setSliderIndex] = useState(0);
   const [progressIndex, setProgressIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   //TODO rework to be based on props
-  const ITEMS_PER_SCREEN = 4;
-  const IMAGE_COUNT = 10;
+  const ITEMS_PER_SCREEN = itemsPerScreen;
+  const IMAGE_COUNT = items.length;
   const lastPossibleIndex = IMAGE_COUNT - 1;
   const PROGRESS_COUNT = Math.ceil(IMAGE_COUNT / ITEMS_PER_SCREEN);
   const lastProgressIndex = PROGRESS_COUNT - 1;
@@ -54,19 +61,25 @@ const SliderComponent = () => {
             <div
               key={i}
               className={`w-6 h-2 ${
-                i === progressIndex ? "bg-black" : "bg-black/50"
+                i === progressIndex ? "bg-black" : "bg-black/30"
               }`}
             ></div>
           ))}
         </div>
       </div>
-      <div className="flex justify-center overflow-hidden relative">
-        <Button
-          className="absolute left-1 top-1/2 -translate-y-1/2 rounded-none bg-gray-800 bg-opacity-30 text-white p-3 h-[100%] z-10 hover:bg-opacity-70 hover:bg-gray-800"
-          onClick={handlePrev}
-        >
-          <ChevronLeft />
-        </Button>
+      <div
+        className="flex justify-center overflow-hidden relative"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {isHovered && (
+          <Button
+            className="rounded-tl-none rounded-bl-none absolute left-1 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-10 text-white h-[100%] z-10 hover:bg-opacity-70 hover:bg-gray-800"
+            onClick={handlePrev}
+          >
+            <ChevronLeft size={32} />
+          </Button>
+        )}
 
         <div
           className="flex transition-transform ease-in-out duration-250"
@@ -79,20 +92,25 @@ const SliderComponent = () => {
               key={index}
               src={src}
               alt={`Slide ${index + 1}`}
-              className="flex-shrink-0 w-1/4 max-w-1/4 aspect-video rounded-lg" //Look here when debugging image size pls
+              className="flex-shrink-0"
+              style={{
+                width: `${100 / itemsPerScreen}%`,
+                aspectRatio: "16/9",
+              }}
             />
           ))}
         </div>
-
-        <Button
-          className="absolute right-1 top-1/2 -translate-y-1/2 rounded-none bg-gray-800 bg-opacity-30 text-white p-3 h-[100%] z-10 hover:bg-opacity-70 hover:bg-gray-800"
-          onClick={handleNext}
-        >
-          <ChevronRight />
-        </Button>
+        {isHovered && (
+          <Button
+            className="rounded-tr-none rounded-br-none absolute right-1 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-30 text-white h-[100%] z-10 hover:bg-opacity-70 hover:bg-gray-800"
+            onClick={handleNext}
+          >
+            <ChevronRight size={32} />
+          </Button>
+        )}
       </div>
     </div>
   );
 };
 
-export default SliderComponent;
+export default Carousel;
