@@ -5,6 +5,7 @@ import GameItem from "./GameItem";
 import PageLayout from "../../components/common/PageLayout";
 import toast from "react-hot-toast";
 import PaginatedList from "../../components/common/PaginatedList";
+import FilterComponent from "../../components/common/FilterComponent";
 
 const PAGE_SIZE_LIMIT = 20;
 
@@ -44,6 +45,7 @@ export default function GamesPage() {
 
   return (
     <PageLayout title="Games" loading={loading}>
+      <FilterComponent />
       <PaginatedList
         currentPage={currentPage}
         listLength={totalCount}
