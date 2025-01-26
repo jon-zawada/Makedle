@@ -16,10 +16,10 @@ describe("GameItem Component", () => {
     user_id: 1,
     name: "Test Game",
     created_at: new Date(),
-      updated_at: new Date(),
-      primary_color: "#6AAA63",
-      secondary_color: "#C9B458",
-      tertiary_color: "#EB2424",
+    updated_at: new Date(),
+    primary_color: "#6AAA63",
+    secondary_color: "#C9B458",
+    tertiary_color: "#EB2424",
     image: "https://example.com/image.jpg",
   };
 
@@ -51,10 +51,8 @@ describe("GameItem Component", () => {
     render(<GameItem game={gameWithoutImage} />);
 
     const image = screen.getByRole("img");
-    expect(image).toHaveAttribute(
-      "src",
-      `https://picsum.photos/id/${gameWithoutImage.id}/5000/3333`
-    );
+    expect(image).toHaveAttribute("alt", "Game Without Image image");
+    expect(image).toHaveAttribute("src", "");
   });
 
   it("navigates to the correct game page on click", () => {

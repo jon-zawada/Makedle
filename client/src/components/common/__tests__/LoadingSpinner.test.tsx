@@ -13,7 +13,8 @@ describe("LoadingSpinner component", () => {
     const { container } = render(<LoadingSpinner />);
     const spinner = container.querySelector("div.w-16.h-16");
     expect(spinner).toHaveClass("border-4");
-    expect(spinner).toHaveClass("border-green-500");
+    expect(spinner).toHaveClass("border-t-green-500");
+    expect(spinner).toHaveClass("border-gray-200");
     expect(spinner).toHaveClass("animate-spin");
   });
 });
