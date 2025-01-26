@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Button from "./common/Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import GameItem from "../pages/games/GameItem";
+import { Game } from "../types/types";
 
 interface ICarouselProps {
   items: unknown[];
@@ -8,7 +10,7 @@ interface ICarouselProps {
   itemsPerScreen?: number;
 }
 
-const Carousel = ({ items, loading, itemsPerScreen = 7 }: ICarouselProps) => {
+const Carousel = ({ items, loading, itemsPerScreen = 4 }: ICarouselProps) => {
   const [sliderIndex, setSliderIndex] = useState(0);
   const [progressIndex, setProgressIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -74,7 +76,7 @@ const Carousel = ({ items, loading, itemsPerScreen = 7 }: ICarouselProps) => {
       >
         {isHovered && (
           <Button
-            className="rounded-tl-none rounded-bl-none absolute left-1 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-10 text-white h-[100%] z-10 hover:bg-opacity-70 hover:bg-gray-800"
+            className="rounded-tl-none rounded-bl-none absolute left-1 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-10 text-white h-[90%] z-10 hover:bg-opacity-70 hover:bg-gray-800"
             onClick={handlePrev}
           >
             <ChevronLeft size={32} />
@@ -88,21 +90,25 @@ const Carousel = ({ items, loading, itemsPerScreen = 7 }: ICarouselProps) => {
           }}
         >
           {images.map((src, index) => (
-            <img
+            <div
               key={index}
-              src={src}
-              alt={`Slide ${index + 1}`}
-              className="flex-shrink-0"
+              className="flex-shrink-0 flex items-center justify-center"
               style={{
                 width: `${100 / itemsPerScreen}%`,
                 aspectRatio: "16/9",
               }}
-            />
+            >
+              <img
+                src={src}
+                alt={`Slide ${index + 1}`}
+                className="object-cover h-[90%] w-[90%]"
+              />
+            </div>
           ))}
         </div>
         {isHovered && (
           <Button
-            className="rounded-tr-none rounded-br-none absolute right-1 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-30 text-white h-[100%] z-10 hover:bg-opacity-70 hover:bg-gray-800"
+            className="rounded-tr-none rounded-br-none absolute right-1 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-30 text-white h-[90%] z-10 hover:bg-opacity-70 hover:bg-gray-800"
             onClick={handleNext}
           >
             <ChevronRight size={32} />
