@@ -6,7 +6,7 @@ import { Game } from "../../types/types";
 import LoadingSpinner from "./LoadingSpinner";
 
 interface ICarouselProps {
-  items: Game[];
+  items: Game[]; //fix this in future to handle any type of item
   loading: boolean;
   title: string;
   itemsPerScreen?: number;
