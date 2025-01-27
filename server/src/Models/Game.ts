@@ -28,6 +28,7 @@ export class GameModel {
   getGames = async (
     page: number,
     limit: number,
+    categories: string[],
     sort: SortOrder
   ): Promise<{ rows: Game[]; totalCount: number }> => {
     const offset = (page - 1) * limit;
@@ -37,21 +38,28 @@ export class GameModel {
     const totalCount = parseInt(totalCountResult.rows[0].count, 10);
 
     let query = "";
-    const params: (string | number)[] = [limit, offset];
+    const params: (string | number | string[])[] = [limit, offset];
+
+    let baseQuery = `
+      SELECT g.*, COUNT(r.id) AS popularity
+      FROM games g
+      LEFT JOIN results r ON g.id = r.game_id
+    `;
+
+    if (categories && categories.length > 0) {
+      baseQuery += " WHERE g.category = ANY($3)";
+      params.push(categories);
+    }
 
     if (sort === "POPULARITY") {
-      query = `
-        SELECT g.*, COUNT(r.id) AS popularity
-        FROM games g
-        LEFT JOIN results r ON g.id = r.game_id
+      query = `${baseQuery}
         GROUP BY g.id
         ORDER BY popularity DESC
         LIMIT $1 OFFSET $2
       `;
     } else {
-      query = `
-        SELECT *
-        FROM games
+      query = `${baseQuery}
+        GROUP BY g.id
         ORDER BY created_at ${sort === "ASC" ? "ASC" : "DESC"}
         LIMIT $1 OFFSET $2
       `;

@@ -19,11 +19,11 @@ export class GameController {
   }
 
   getGames = (req: Request, res: Response) => {
-    const { page = 1, limit = 10, sort = SortOrder.ASC } = req.query;
+    const { page = 1, limit = 10, categories, sort = SortOrder.ASC} = req.query;
     const pageNumber = parseInt(page as string, 10);
     const limitNumber = parseInt(limit as string, 10);
     this.gameModel
-      .getGames(pageNumber, limitNumber, sort as SortOrder)
+      .getGames(pageNumber, limitNumber, categories as string[], sort as SortOrder)
       .then(async ({ rows, totalCount }) => {
         const gamesWithBase64Images = await Promise.all(
           rows.map(async (game) => {
