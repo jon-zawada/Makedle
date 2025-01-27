@@ -52,6 +52,7 @@ export default function ProfileMenu() {
         menuRef={menuRef}
         items={dropdownMenuItems}
         isProfile
+        direction="right"
       />
     </div>
   );

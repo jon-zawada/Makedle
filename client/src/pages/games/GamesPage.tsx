@@ -5,19 +5,29 @@ import GameItem from "./GameItem";
 import PageLayout from "../../components/common/PageLayout";
 import toast from "react-hot-toast";
 import PaginatedList from "../../components/common/PaginatedList";
+import FilterComponent, {
+  Filters,
+} from "../../components/common/FilterComponent";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 const PAGE_SIZE_LIMIT = 20;
+const initFilters = {
+  categories: [],
+  keyword: "",
+  sortBy: "",
+};
 
 export default function GamesPage() {
   const [games, setGames] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [filters, setFilters] = useState<Filters>(initFilters);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const httpService = useHttpService();
 
   useEffect(() => {
     getGames(currentPage);
-  }, [currentPage]);
+  }, [currentPage, filters]);
 
   const getGames = async (page: number) => {
     try {
@@ -26,6 +36,7 @@ export default function GamesPage() {
         params: {
           page,
           limit: PAGE_SIZE_LIMIT,
+          categories: filters.categories,
         },
       });
       const { games, totalCount } = response.data;
@@ -43,19 +54,24 @@ export default function GamesPage() {
   };
 
   return (
-    <PageLayout title="Games" loading={loading}>
-      <PaginatedList
-        currentPage={currentPage}
-        listLength={totalCount}
-        itemsPerPage={PAGE_SIZE_LIMIT}
-        onPageChange={handlePageChange}
-      >
-        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {games.map((game: Game) => (
-            <GameItem key={game.id} game={game} />
-          ))}
-        </div>
-      </PaginatedList>
+    <PageLayout title="Games">
+      <FilterComponent setFilters={setFilters} />
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <PaginatedList
+          currentPage={currentPage}
+          listLength={totalCount}
+          itemsPerPage={PAGE_SIZE_LIMIT}
+          onPageChange={handlePageChange}
+        >
+          <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {games.map((game: Game) => (
+              <GameItem key={game.id} game={game} />
+            ))}
+          </div>
+        </PaginatedList>
+      )}
     </PageLayout>
   );
 }
