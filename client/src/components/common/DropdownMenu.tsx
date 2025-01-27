@@ -2,7 +2,7 @@ import React from "react";
 import _isEmpty from "lodash/isEmpty";
 import { useAuth } from "../../context/AuthProvider";
 import _some from "lodash/some";
-import { ISelectedItems } from "./FilterDropdown";
+import { SelectedItems } from "./FilterDropdown";
 
 interface IDropdownMenuProps {
   isOpen: boolean;
@@ -11,7 +11,7 @@ interface IDropdownMenuProps {
   fitParent?: boolean;
   isProfile?: boolean;
   isFilter?: boolean;
-  selectedItems?: ISelectedItems[];
+  selectedItems?: SelectedItems[];
   direction?: "right" | "left";
   textDirection?: "right" | "left" | "center";
   clearSearch?: (e: React.MouseEvent) => void;

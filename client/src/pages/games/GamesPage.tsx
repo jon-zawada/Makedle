@@ -5,13 +5,21 @@ import GameItem from "./GameItem";
 import PageLayout from "../../components/common/PageLayout";
 import toast from "react-hot-toast";
 import PaginatedList from "../../components/common/PaginatedList";
-import FilterComponent from "../../components/common/FilterComponent";
+import FilterComponent, {
+  Filters,
+} from "../../components/common/FilterComponent";
 
 const PAGE_SIZE_LIMIT = 20;
+const initFilters = {
+  categories: [],
+  keyword: "",
+  sortBy: "",
+};
 
 export default function GamesPage() {
   const [games, setGames] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [filters, setFilters] = useState<Filters>(initFilters);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const httpService = useHttpService();
@@ -45,7 +53,7 @@ export default function GamesPage() {
 
   return (
     <PageLayout title="Games" loading={loading}>
-      <FilterComponent />
+      <FilterComponent setFilters={setFilters} />
       <PaginatedList
         currentPage={currentPage}
         listLength={totalCount}

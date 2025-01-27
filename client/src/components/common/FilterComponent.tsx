@@ -3,14 +3,23 @@ import Button from "./Button";
 import FilterDropdown from "./FilterDropdown";
 import { categoryOptions } from "../../pages/create/constants";
 
-export default function FilterComponent() {
+export type Filters = {
+  categories: string[],
+  keyword: string,
+  sortBy: string;
+}
+interface IFilterComponentProps {
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>
+}
+
+export default function FilterComponent({setFilters}: IFilterComponentProps) {
   const [keyword, setKeyword] = useState("");
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setKeyword(value);
   };
   return (
-    <div className="mb-8 flex justify-center gap-4">
+    <div className="mb-8 flex justify-center items-center gap-4">
       <div>
         <input
           type="text"
@@ -26,7 +35,7 @@ export default function FilterComponent() {
           Submit
         </Button>
       </div>
-      <FilterDropdown name={"Categories"} items={categoryOptions} />
+      <FilterDropdown name={"Categories"} items={categoryOptions} setFilters={setFilters}/>
     </div>
   );
 }

@@ -2,21 +2,28 @@ import React, { useEffect, useRef, useState } from "react";
 import DropdownMenu, { IDropdownMenuItems } from "./DropdownMenu";
 import Button from "./Button";
 import { SelectOptions } from "../../pages/create/constants";
+import { ChevronDown } from "lucide-react";
+import { Filters } from "./FilterComponent";
 
 interface IFilterDropdown {
   name: string;
   items: SelectOptions[];
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
 }
 
-export interface ISelectedItems {
+export interface SelectedItems {
   name: string;
   value: boolean;
 }
 
-export default function FilterDropdown({ name, items }: IFilterDropdown) {
+export default function FilterDropdown({
+  name,
+  items,
+  setFilters,
+}: IFilterDropdown) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<ISelectedItems[]>(
-    items.map((item) => ({ name: item.value, value: true }))
+  const [selectedItems, setSelectedItems] = useState<SelectedItems[]>(
+    items.map((item) => ({ name: item.value, value: false }))
   );
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -25,11 +32,14 @@ export default function FilterDropdown({ name, items }: IFilterDropdown) {
   const toggleItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     const { name } = e.target as HTMLButtonElement;
-    setSelectedItems((prevItems) =>
-      prevItems.map((item) =>
-        item.name === name ? { ...item, value: !item.value } : item
-      )
+    const newSelectedItems = selectedItems.map((item) =>
+      item.name === name ? { ...item, value: !item.value } : item
     );
+    setSelectedItems(newSelectedItems);
+    const newCategories = newSelectedItems
+      .filter((item) => item.value)
+      .map((item) => item.name);
+    setFilters((prev: Filters) => ({ ...prev, categories: newCategories }));
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -49,8 +59,16 @@ export default function FilterDropdown({ name, items }: IFilterDropdown) {
 
   const toggleAllItems = (e: React.MouseEvent, bool: boolean) => {
     e.stopPropagation();
-    setSelectedItems((prevItems) =>
-      prevItems.map((item) => ({ ...item, value: bool }))
+    const newSelectedItems = selectedItems.map((item) => ({
+      ...item,
+      value: bool,
+    }));
+    setSelectedItems(newSelectedItems);
+    const newCategories = newSelectedItems.map((item) => item.name);
+    setFilters((prev: Filters) =>
+      bool
+        ? { ...prev, categories: newCategories }
+        : { ...prev, categories: [] }
     );
   };
 
@@ -62,9 +80,26 @@ export default function FilterDropdown({ name, items }: IFilterDropdown) {
     })
   );
 
+  const getDisplayName = (): string => {
+    const selectedCount = selectedItems.filter(
+      (item) => item.value === true
+    ).length;
+    const selectedTotal = selectedItems.length;
+    if (selectedCount === selectedTotal) {
+      return name;
+    } else if (selectedCount === 0) {
+      return `No ${name}`;
+    } else {
+      return `${selectedCount}/${selectedTotal} ${name}`;
+    }
+  };
+
   return (
     <div className="relative" onClick={handleToggle}>
-      <Button>{name}</Button>
+      <Button className="flex">
+        <div>{getDisplayName()}</div>
+        <ChevronDown />
+      </Button>
       <DropdownMenu
         isOpen={isOpen}
         menuRef={menuRef}
