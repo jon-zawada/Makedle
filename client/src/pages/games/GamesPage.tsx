@@ -8,6 +8,7 @@ import PaginatedList from "../../components/common/PaginatedList";
 import FilterComponent, {
   Filters,
 } from "../../components/common/FilterComponent";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 const PAGE_SIZE_LIMIT = 20;
 const initFilters = {
@@ -26,7 +27,7 @@ export default function GamesPage() {
 
   useEffect(() => {
     getGames(currentPage);
-  }, [currentPage]);
+  }, [currentPage, filters]);
 
   const getGames = async (page: number) => {
     try {
@@ -35,6 +36,7 @@ export default function GamesPage() {
         params: {
           page,
           limit: PAGE_SIZE_LIMIT,
+          categories: filters.categories,
         },
       });
       const { games, totalCount } = response.data;
@@ -52,20 +54,24 @@ export default function GamesPage() {
   };
 
   return (
-    <PageLayout title="Games" loading={loading}>
+    <PageLayout title="Games">
       <FilterComponent setFilters={setFilters} />
-      <PaginatedList
-        currentPage={currentPage}
-        listLength={totalCount}
-        itemsPerPage={PAGE_SIZE_LIMIT}
-        onPageChange={handlePageChange}
-      >
-        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {games.map((game: Game) => (
-            <GameItem key={game.id} game={game} />
-          ))}
-        </div>
-      </PaginatedList>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <PaginatedList
+          currentPage={currentPage}
+          listLength={totalCount}
+          itemsPerPage={PAGE_SIZE_LIMIT}
+          onPageChange={handlePageChange}
+        >
+          <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {games.map((game: Game) => (
+              <GameItem key={game.id} game={game} />
+            ))}
+          </div>
+        </PaginatedList>
+      )}
     </PageLayout>
   );
 }
