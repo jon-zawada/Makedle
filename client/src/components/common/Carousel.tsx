@@ -1,40 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import GameItem from "../../pages/games/GameItem";
 import { Game } from "../../types/types";
 import LoadingSpinner from "./LoadingSpinner";
+import { screenWidths } from "../../styleContants";
 
 interface ICarouselProps {
   items: Game[]; //fix this in future to handle any type of item
   loading: boolean;
   title: string;
-  itemsPerScreen?: number;
 }
 
-const Carousel = ({
-  items,
-  loading,
-  title,
-  itemsPerScreen = 4,
-}: ICarouselProps) => {
+const Carousel = ({ items, loading, title }: ICarouselProps) => {
   const [sliderIndex, setSliderIndex] = useState(0);
   const [progressIndex, setProgressIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [width, setWidth] = useState<number>(() => window.innerWidth);
+  const [itemsPerScreen, setItemsPerScreen] = useState(4);
 
-  const ITEMS_PER_SCREEN = itemsPerScreen;
+  useEffect(() => {
+    const handleResize = () => {
+      setTimeout(() => setWidth(window.innerWidth), 200);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    let items;
+    if (width >= screenWidths.xl) {
+      items = 4;
+    } else if (width >= screenWidths.lg) {
+      items = 3;
+    } else {
+      items = 2;
+    }
+    setItemsPerScreen(items);
+  }, [width]);
+
   const IMAGE_COUNT = items.length;
   const lastPossibleIndex = IMAGE_COUNT - 1;
-  const PROGRESS_COUNT = Math.ceil(IMAGE_COUNT / ITEMS_PER_SCREEN);
+  const PROGRESS_COUNT = Math.ceil(IMAGE_COUNT / itemsPerScreen);
   const lastProgressIndex = PROGRESS_COUNT - 1;
 
   const handleNext = () => {
     setSliderIndex((prev) => {
-      const newIndex = prev + ITEMS_PER_SCREEN;
+      const newIndex = prev + itemsPerScreen;
       const newProgressIndex =
         newIndex > lastPossibleIndex
           ? 0
-          : Math.floor(newIndex / ITEMS_PER_SCREEN);
+          : Math.floor(newIndex / itemsPerScreen);
       setProgressIndex(newProgressIndex);
       return newIndex > lastPossibleIndex ? 0 : newIndex;
     });
@@ -42,17 +58,20 @@ const Carousel = ({
 
   const handlePrev = () => {
     setSliderIndex((prev) => {
-      const newIndex = prev - ITEMS_PER_SCREEN;
+      const newIndex = prev - itemsPerScreen;
       const newProgressIndex =
         newIndex < 0
           ? lastProgressIndex
-          : Math.floor(newIndex / ITEMS_PER_SCREEN);
+          : Math.floor(newIndex / itemsPerScreen);
       setProgressIndex(newProgressIndex);
       return newIndex < 0
-        ? lastPossibleIndex - (lastPossibleIndex % ITEMS_PER_SCREEN)
+        ? lastPossibleIndex - (lastPossibleIndex % itemsPerScreen)
         : newIndex;
     });
   };
+
+  const handleMouseEnter = () => !isHovered && setIsHovered(true);
+  const handleMouseLeave = () => isHovered && setIsHovered(false);
 
   return (
     <div>
@@ -73,8 +92,8 @@ const Carousel = ({
       </div>
       <div
         className="flex justify-center overflow-hidden relative"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         {isHovered && (
           <Button
@@ -92,7 +111,7 @@ const Carousel = ({
           <div
             className="flex transition-transform ease-in-out duration-250"
             style={{
-              transform: `translateX(calc(${sliderIndex} * -100% / ${ITEMS_PER_SCREEN}))`,
+              transform: `translateX(calc(${sliderIndex} * -100% / ${itemsPerScreen}))`,
             }}
           >
             {items.map((src, index) => (
