@@ -85,7 +85,7 @@ const HomePage = () => {
         <div className="rounded">
           <Carousel
             items={recentGames}
-            title="Most Popular Games"
+            title="Recently Added Games"
             loading={loadingRecent}
           />
         </div>
