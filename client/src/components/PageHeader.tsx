@@ -14,9 +14,7 @@ import {
 import logo from "../assets/logo.png";
 import { useAuth } from "../context/AuthProvider";
 import ProfileMenu from "./ProfileMenu";
-import LoginSignUpModal, {
-  LoginModalView,
-} from "../pages/login/LoginSignUpModal";
+import LoginSignUpModal from "../pages/login/LoginSignUpModal"
 
 interface NavbarItemProps {
   Icon: LucideIcon;
@@ -59,8 +57,7 @@ function PageHeader() {
         )}
         <LoginSignUpModal
           isOpen={showLoginModal}
-          onClose={() => setShowLoginModal(false)}
-          initialView={LoginModalView.LOGIN}
+          handleClose={() => setShowLoginModal(false)}
         />
       </Box>
     );

@@ -1,39 +1,33 @@
-import React, { useEffect, useState } from "react";
-import Modal from "../../components/common/Modal";
-import LoginPage from "./LoginPage";
-import SignUpPage from "./SignUpPage";
+import React, { useState } from "react";
+import Modal from "@mui/material/Modal";
+import LoginForm from "./LoginForm";
+import SignUpForm from "./SignUpForm";
 
-export enum LoginModalView {
-  LOGIN = "login",
-  SIGNUP = "signup",
-}
-
-interface ILoginSignUpModalProps {
+interface LoginSignUpModal {
   isOpen: boolean;
-  onClose: () => void;
-  initialView: LoginModalView.LOGIN | LoginModalView.SIGNUP;
+  handleClose: () => void;
 }
 
 export default function LoginSignUpModal({
   isOpen,
-  onClose,
-  initialView,
-}: ILoginSignUpModalProps) {
-  const [showLogin, setShowLogin] = useState(
-    initialView === LoginModalView.LOGIN
-  );
-
-  useEffect(() => {
-    setShowLogin(initialView === LoginModalView.LOGIN);
-  }, [initialView]);
+  handleClose,
+}: LoginSignUpModal) {
+  const [showLogin, setShowLogin] = useState(true);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      {showLogin ? (
-        <LoginPage goToSignUp={() => setShowLogin(false)} />
-      ) : (
-        <SignUpPage goToLogin={() => setShowLogin(true)} />
-      )}
-    </Modal>
+    <div>
+      <Modal
+        open={isOpen}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        {showLogin ? (
+          <LoginForm showSignUp={() => setShowLogin(false)} />
+        ) : (
+          <SignUpForm showLogin={() => setShowLogin(true)} />
+        )}
+      </Modal>
+    </div>
   );
 }
