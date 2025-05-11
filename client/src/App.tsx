@@ -8,6 +8,8 @@ import GamePage from "./pages/game/GamePage";
 import GamesPage from "./pages/games/GamesPage";
 import CreatePage from "./pages/create/CreatePage";
 import ErrorPage from "./pages/ErrorPage";
+// REMOVE ME
+import TestComponent from "./components/TestComponent";
 
 const App = () => {
   const { setAccessToken, setAppUser, setLoadingAppUser } = useAuth();
@@ -38,7 +40,7 @@ const App = () => {
         <Route path="/games" element={<GamesPage />} />
         <Route path="/games/:id" element={<GamePage />} />
         <Route path="/create" element={<CreatePage />} />
-        {/* must be last route */}
+        <Route path="/test" element={<TestComponent/>} />
         <Route path="*" element={<ErrorPage />} />
       </Route>
     </Routes>
