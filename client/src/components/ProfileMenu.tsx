@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import Button from "./common/Button";
+import { IconButton } from "@mui/material";
 import { User } from "lucide-react";
 import DropdownMenu, { IDropdownMenuItems } from "./common/DropdownMenu";
 import { useAuth } from "../context/AuthProvider";
@@ -44,9 +44,9 @@ export default function ProfileMenu() {
 
   return (
     <div className="relative">
-      <Button size="icon" variant="ghost" onClick={handleToggle}>
+      <IconButton color="inherit" onClick={handleToggle}>
         <User />
-      </Button>
+      </IconButton>
       <DropdownMenu
         isOpen={isOpen}
         menuRef={menuRef}
