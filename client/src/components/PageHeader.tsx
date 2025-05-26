@@ -41,10 +41,10 @@ function PageHeader() {
       >
         {appUser ? (
           <Box sx={{ display: "flex", flexShrink: "0", gap: 1 }}>
-            <IconButton color="inherit">
+            <IconButton color="inherit" sx={{width: "48px", height: "48px"}}>
               <CircleHelp />
             </IconButton>
-            <IconButton color="inherit">
+            <IconButton color="inherit" sx={{width: "48px", height: "48px"}}>
               <Bell />
             </IconButton>
             <ProfileMenu />
@@ -85,7 +85,7 @@ function PageHeader() {
             MAKEDLE
           </Typography>
         </Box>
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2, cursor: "pointer" }}>
           {navbarData.map((item) => (
             <NavbarItem
               key={item.id}
