@@ -21,3 +21,10 @@ export const categoryOptions: SelectOptions[] = [
   { value: "religion", content: "Religion" },
   { value: "holiday", content: "Holiday" },
 ];
+
+export const sortOptions: SelectOptions[] = [
+  {value: "popular", content: "Popular"},
+  {value: "desc", content: "Newest"},
+  {value: "asc", content: "Oldest"},
+  {value: "rating", content: "Highest Rated"}
+];

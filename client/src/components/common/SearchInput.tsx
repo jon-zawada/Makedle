@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { Filters } from "../../pages/games/FilterComponent";
 
-const SearchInput = ({ onSearch }: { onSearch: (input: string) => void }) => {
-  const [input, setInput] = useState("");
+interface SearchInputProps {
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+}
+
+const SearchInput = ({ setFilters }: SearchInputProps) => {
+  const [input, setInput] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
+    console.log('hi', input);
     e.preventDefault();
-    onSearch(input);
+    setFilters((prev) => ({ ...prev, keyword: input }))
   };
 
   return (
@@ -35,6 +41,7 @@ const SearchInput = ({ onSearch }: { onSearch: (input: string) => void }) => {
       <Button
         type="submit"
         size="small"
+        disabled={!input.length}
         sx={{
           color: "rgba(0, 0, 0, 0.87)",
           backgroundColor: "rgba(0, 0, 0, 0.23)",
