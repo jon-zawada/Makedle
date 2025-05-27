@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, TextField, Autocomplete } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -10,13 +10,34 @@ interface GuessInputProps {
   isDisabled: boolean;
 }
 
-const GuessInput = ({ guess, options, onGuessChange, onGuessSubmit, isDisabled }: GuessInputProps) => {
-  /* TODO -  see if we should implement setGuess onClick of autocomplete dropdown click */
+const GuessInput = ({
+  guess,
+  options,
+  onGuessChange,
+  onGuessSubmit,
+  isDisabled,
+}: GuessInputProps) => {
+  const [open, setOpen] = useState(false);
+
+  const handleInputChange = (_: React.SyntheticEvent, newValue: string) => {
+    onGuessChange(newValue);
+    setOpen(newValue.length > 0 && options.length > 0);
+  };
+
+  const handleOptionSelect = (_: React.SyntheticEvent, value: string | null) => {
+    if (value) {
+      onGuessChange(value);
+      setOpen(false);
+    }
+  };
 
   return (
     <Box
       component="form"
-      onSubmit={onGuessSubmit}
+      onSubmit={(e) => {
+        setOpen(false);
+        onGuessSubmit(e);
+      }}
       sx={{
         minWidth: "250px",
         display: "flex",
@@ -25,10 +46,13 @@ const GuessInput = ({ guess, options, onGuessChange, onGuessSubmit, isDisabled }
     >
       <Autocomplete
         freeSolo
-        open={guess.length > 0 && options.length > 0}
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
         options={options}
         inputValue={guess}
-        onInputChange={(_, newValue) => onGuessChange(newValue)}
+        onInputChange={handleInputChange}
+        onChange={handleOptionSelect}
         sx={{
           flex: 1,
           "& .MuiOutlinedInput-root": {
@@ -37,9 +61,7 @@ const GuessInput = ({ guess, options, onGuessChange, onGuessSubmit, isDisabled }
           },
           backgroundColor: "white",
         }}
-        renderInput={(params) => (
-          <TextField {...params} size="small" />
-        )}
+        renderInput={(params) => <TextField {...params} size="small" />}
       />
       <Button
         type="submit"
