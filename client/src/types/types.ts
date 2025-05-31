@@ -10,3 +10,9 @@ export interface Game {
   image: string;
 }
 
+export interface IDropdownMenuItems {
+  id?: number;
+  name: string;
+  value?: string;
+  onClick: (event: React.MouseEvent<HTMLElement>) => void;
+}

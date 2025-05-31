@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
 
-export default function TestComponent() {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+// interface TestComponentProps {
+// }
+
+const TestComponent = () => {
+  /* TODO -  see if we should implement setGuess onClick of autocomplete dropdown click */
+
+ return <div>hello world</div>
+};
+
+export default TestComponent;

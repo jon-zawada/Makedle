@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { User } from "lucide-react";
-import { IDropdownMenuItems } from "./common/DropdownMenu";
+import { IDropdownMenuItems } from "../types/types";
 import { useAuth } from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
