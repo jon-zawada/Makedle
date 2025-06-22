@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../../components/common/Button";
+import { Button } from "@mui/material";
 import sampleCsv from "../../assets/csv/sample.csv";
 
 export default function CreatePageInfo() {
@@ -16,7 +16,7 @@ export default function CreatePageInfo() {
           use as a guide.
         </div>
         <a href={sampleCsv} download="sample.csv">
-          <Button>Download Template</Button>
+          <Button variant="grey">Download Template</Button>
         </a>
       </div>
     </div>
