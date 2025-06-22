@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Circle from "./Circle";
-import Button from "./Button";
+import { Button } from "@mui/material";
 
 interface IFormStepperProps {
   children: React.ReactNode;
@@ -29,7 +29,7 @@ export default function FormStepper({
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex justify-between relative max-w-[100%] w-[350px]">
+      <div className="flex justify-between relative min-w-[120px] max-w-[100%] w-[350px]">
         <div className="absolute top-1/2 left-0 w-full h-[3px] bg-gray-200 z-0 transform -translate-y-1/2"></div>
         <div
           className="absolute top-1/2 left-0 h-[3px] bg-green-500 z-10 transform -translate-y-1/2 transition-all duration-[400ms] ease-in-out"
@@ -51,10 +51,10 @@ export default function FormStepper({
       </div>
 
       <div className="flex gap-4 mt-4">
-        <Button isDisabled={firstStep} onClick={handlePrev}>
+        <Button variant="grey" disabled={firstStep} onClick={handlePrev}>
           Prev
         </Button>
-        <Button onClick={lastStep ? submitHandler : handleNext}>
+        <Button variant="grey" onClick={lastStep ? submitHandler : handleNext}>
           {lastStep ? "Submit" : "Next"}
         </Button>
       </div>

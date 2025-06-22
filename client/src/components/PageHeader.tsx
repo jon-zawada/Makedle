@@ -1,20 +1,32 @@
 import React, { useEffect, useState } from "react";
-import Button from "./common/Button";
-import logo from "../assets/logo.png";
+import { Link, useNavigate } from "react-router-dom";
+import { navbarData } from "./navbarData";
+import { LucideIcon } from "lucide-react";
 import { Bell, CircleHelp, User } from "lucide-react";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+  IconButton,
+} from "@mui/material";
+import logo from "../assets/logo.png";
 import { useAuth } from "../context/AuthProvider";
 import ProfileMenu from "./ProfileMenu";
-import Navbar from "./Navbar";
-import LoginSignUpModal, {
-  LoginModalView,
-} from "../pages/login/LoginSignUpModal";
-import { useNavigate } from "react-router-dom";
+import LoginSignUpModal from "../pages/login/LoginSignUpModal"
 
-export default function PageHeader() {
+interface NavbarItemProps {
+  Icon: LucideIcon;
+  title: string;
+  isActive?: boolean;
+  route: string;
+}
+
+function PageHeader() {
   const { appUser } = useAuth();
   const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [logoLoaded, setLogoLoaded] = useState(false);
 
   useEffect(() => {
     if (appUser && showLoginModal) {
@@ -24,61 +36,82 @@ export default function PageHeader() {
 
   const renderUserInfo = () => {
     return (
-      <div
-        className="flex items-center justify-center"
-        style={{ width: "150px" }}
+      <Box
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
         {appUser ? (
-          <div className="flex flex-shrink-0 md:gap-2">
-            <Button size="icon" variant="ghost">
+          <Box sx={{ display: "flex", flexShrink: "0", gap: 1 }}>
+            <IconButton color="inherit" sx={{width: "48px", height: "48px"}}>
               <CircleHelp />
-            </Button>
-            <Button size="icon" variant="ghost">
+            </IconButton>
+            <IconButton color="inherit" sx={{width: "48px", height: "48px"}}>
               <Bell />
-            </Button>
+            </IconButton>
             <ProfileMenu />
-          </div>
+          </Box>
         ) : (
-          <Button
-            onClick={() => setShowLoginModal(true)}
-            className="rounded-full flex flex-shrink-0 md:gap-2 bg-green-100 px-3 border-2 border-black"
-          >
+          <Button color="inherit" onClick={() => setShowLoginModal(true)}>
             <User />
             <div>Sign In</div>
           </Button>
         )}
         <LoginSignUpModal
           isOpen={showLoginModal}
-          onClose={() => setShowLoginModal(false)}
-          initialView={LoginModalView.LOGIN}
+          handleClose={() => setShowLoginModal(false)}
         />
-      </div>
+      </Box>
     );
   };
 
   return (
-    <header className="bg-green-100 flex items-center justify-between gap-10 lg:gap-20 px-4 py-4">
-      <div
-        className="flex items-center justify-center h-8 gap-1 cursor-pointer"
-        style={{ minWidth: "120px", minHeight: "32px" }}
-        onClick={() => navigate('/')}
+    <AppBar position="static" color="primary" elevation={1}>
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
-        {!logoLoaded && (
-          <div
-            className="h-full w-auto bg-gray-200 animate-pulse"
-            style={{ width: "40px", height: "32px" }}
-          ></div>
-        )}
-        <img
-          src={logo}
-          alt="Logo"
-          className={`h-full w-auto ${logoLoaded ? "block" : "hidden"}`}
-          onLoad={() => setLogoLoaded(true)}
-        />
-        <div className="text-2xl leading-none">MAKEDLE</div>
-      </div>
-      <Navbar />
-      {renderUserInfo()}
-    </header>
+        <Box
+          sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        >
+          <Box
+            component="img"
+            src={logo}
+            sx={{ width: "40px", height: "32px" }}
+          />
+          <Typography variant="h5" noWrap>
+            MAKEDLE
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", gap: 2, cursor: "pointer" }}>
+          {navbarData.map((item) => (
+            <NavbarItem
+              key={item.id}
+              route={item.route}
+              title={item.title}
+              Icon={item.icon}
+            />
+          ))}
+        </Box>
+        {renderUserInfo()}
+      </Toolbar>
+    </AppBar>
   );
 }
+
+function NavbarItem({ Icon, title, route }: NavbarItemProps) {
+  return (
+    <Link to={route}>
+      <Button color="inherit">
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <Icon className="w-6 h-6" />
+          <div>{title}</div>
+        </Box>
+      </Button>
+    </Link>
+  );
+}
+
+export default PageHeader;

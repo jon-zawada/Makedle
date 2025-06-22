@@ -2,18 +2,16 @@ import React, { useState } from "react";
 import PageLayout from "../../components/common/PageLayout";
 import { CircleCheckBig } from "lucide-react";
 import Button from "../../components/common/Button";
-import LoginSignUpModal, { LoginModalView } from "../login/LoginSignUpModal";
+import LoginSignUpModal from "../login/LoginSignUpModal";
 import { useAuth } from "../../context/AuthProvider";
 
 export default function SignInToCreatePage() {
-  const [modalView, setModalView] = useState<LoginModalView>(
-    LoginModalView.LOGIN
-  );
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState<boolean>(true);
   const { loadingAppUser } = useAuth();
 
-  const openModal = (view: LoginModalView) => {
-    setModalView(view);
+  const openModal = (isLogin: boolean) => {
+    setShowLogin(isLogin);
     setShowModal(true);
   };
 
@@ -40,7 +38,7 @@ export default function SignInToCreatePage() {
         </div>
         <div className="flex flex-col gap-4">
           <Button
-            onClick={() => openModal(LoginModalView.SIGNUP)}
+            onClick={() => openModal(false)} //update this
             className="self-center w-36"
           >
             Sign Up
@@ -49,7 +47,7 @@ export default function SignInToCreatePage() {
             Already on Makedle?{" "}
             <span
               className="underline font-bold hover:text-green-300 cursor-pointer"
-              onClick={() => openModal(LoginModalView.LOGIN)}
+              onClick={() => openModal(true)} //update this
             >
               Log in
             </span>
@@ -57,9 +55,9 @@ export default function SignInToCreatePage() {
         </div>
       </div>
       <LoginSignUpModal
+        initLogin={showLogin}
         isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        initialView={modalView}
+        handleClose={() => setShowModal(false)}
       />
     </PageLayout>
   );

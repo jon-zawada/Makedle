@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
-import Button from "./Button";
+import { Button } from "@mui/material"
 
 interface IPaginatedList {
   currentPage: number;
@@ -63,29 +63,41 @@ const PaginatedList = ({
         <div className="flex gap-1 justify-center items-center">
           <Button
             onClick={() => goToPage(currentPage - 1)}
-            isDisabled={currentPage === 1}
+            disabled={currentPage === 1}
+            color="inherit"
           >
             <ChevronLeft />
           </Button>
           {paginationButtons.map((page, index) =>
             typeof page === "number" ? (
               <Button
-                size="small-square"
+                color="inherit"
                 key={index}
                 onClick={() => goToPage(page)}
-                className={`${currentPage === page ? "font-bold" : ""}`}
               >
                 {page}
               </Button>
             ) : (
-              <Button key={index} size="small-square" variant="no-hover">
+              <Button
+                disabled
+                color="inherit"
+                key={index}
+                sx={{
+                  color: 'inherit',
+                  '&.Mui-disabled': {
+                    color: 'inherit',
+                    opacity: 1,
+                  },
+                }}
+              >
                 {page}
               </Button>
             )
           )}
           <Button
+            color="inherit"
             onClick={() => goToPage(currentPage + 1)}
-            isDisabled={currentPage === totalPages}
+            disabled={currentPage === totalPages}
           >
             <ChevronRight />
           </Button>

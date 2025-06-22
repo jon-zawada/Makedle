@@ -1,17 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PageLayout from "../../components/common/PageLayout";
 import ColorIndicator from "../../components/common/ColorIndicator";
 import GuessComponent from "./GuessComponent";
 import { useLocation, useParams } from "react-router-dom";
-import Button from "../../components/common/Button";
 import _isEmpty from "lodash/isEmpty";
 import useHttpService from "../../api/useHttpService";
-import DropdownMenu, {
-  IDropdownMenuItems,
-} from "../../components/common/DropdownMenu";
 import { getRandomInt } from "../../utils/utils";
 import { useAuth } from "../../context/AuthProvider";
 import GameWonBanner from "./GameWonBanner";
+import GuessInput from "./GuessInput";
 
 type Header = {
   header_name: string;
@@ -32,14 +29,12 @@ type WordList = Word[];
 export default function GamePage() {
   const [guess, setGuess] = useState<string>("");
   const [guesses, setGuesses] = useState<Word[]>([]);
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [originalWords, setOriginalWords] = useState<WordList>([]);
   const [words, setWords] = useState<WordList>([]);
   const [headers, setHeaders] = useState<string[]>([]);
   const [wordOfDay, setWordOfDay] = useState<Word | null>(null);
   const [gameWon, setGameWon] = useState<boolean>(false);
   const httpService = useHttpService();
-  const menuRef = useRef<HTMLDivElement>(null);
   const { id } = useParams();
   const { state } = useLocation();
   const { name } = state.gameData;
@@ -50,15 +45,6 @@ export default function GamePage() {
   useEffect(() => {
     getWords();
   }, [id]);
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    setMenuOpen(!_isEmpty(guess));
-  }, [guess]);
 
   useEffect(() => {
     if (!_isEmpty(guesses) && !_isEmpty(wordOfDay)) {
@@ -102,22 +88,11 @@ export default function GamePage() {
       });
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      menuRef.current &&
-      !menuRef.current.contains(event.target as Node) &&
-      !(event.target as HTMLElement).closest("button")
-    ) {
-      setMenuOpen(false);
-    }
+  const guessHandler = (input: string) => {
+    setGuess(input);
   };
 
-  const guessHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setGuess(value);
-  };
-
-  const onSubmitGuess = (event: React.FormEvent<HTMLFormElement>) => {
+  const onGuessSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newGuess = findByHeaderName(words, guess);
     if (newGuess) {
@@ -130,29 +105,21 @@ export default function GamePage() {
     setGuess("");
   };
 
-  const renderDropdownHint = (): IDropdownMenuItems[] => {
-    if (!guess || !words) return [];
-
-    return words
-      .filter((word) => {
-        const wData = word.word_data;
-        const name = wData.find(
-          (header) => header.header_name === "Name"
-        )?.value;
-        return name
-          ?.split(" ")
-          .some((word) => word.toLowerCase().startsWith(guess.toLowerCase()));
-      })
-      .map((word) => {
-        const wData = word.word_data;
-        const name =
-          wData.find((header) => header.header_name === "Name")?.value || "";
-        return {
-          name,
-          onClick: () => setGuess(name),
-        };
-      });
-  };
+  const autoCompleteOptions = words
+    .filter((word) => {
+      const wData = word.word_data;
+      const name = wData.find(
+        (header) => header.header_name === "Name"
+      )?.value;
+      return name
+        ?.split(" ")
+        .some((word) => word.toLowerCase().startsWith(guess.toLowerCase()));
+    }).map((word) => {
+      const wData = word.word_data;
+      const name =
+        wData.find((header) => header.header_name === "Name")?.value || "";
+      return name
+    });
 
   const findByHeaderName = (data: WordList, guess: string) => {
     return (
@@ -166,51 +133,32 @@ export default function GamePage() {
     return words[getRandomInt(words.length)];
   };
 
+  const {primary_color, secondary_color, tertiary_color} = state.gameData;
   return (
     <PageLayout title={name}>
       <div className="flex flex-col gap-4 p-4 items-center">
         <div>Guess todays {name} champion!</div>
-        <div className="flex justify-center relative">
-          <form onSubmit={onSubmitGuess}>
-            <input
-              name="guess"
-              id="guess"
-              className="flex-grow px-4 py-2 border rounded-l-md"
-              type="text"
-              value={guess}
-              onChange={guessHandler}
-              autoComplete="off"
-              disabled={gameWon}
-            />
-            <DropdownMenu
-              isOpen={menuOpen}
-              menuRef={menuRef}
-              items={renderDropdownHint()}
-              fitParent
-            />
-            <Button
-              type="submit"
-              className="px-4 py-2 border rounded-r-md rounded-l-none"
-              isDisabled={gameWon}
-            >
-              Submit
-            </Button>
-          </form>
-        </div>
+        <GuessInput
+          guess={guess}
+          options={autoCompleteOptions}
+          onGuessChange={guessHandler}
+          onGuessSubmit={onGuessSubmit}
+          isDisabled={gameWon}
+        />
         {!_isEmpty(guesses) && (
           <GuessComponent
             guesses={guesses}
             headers={headers}
             wordOfDay={wordOfDay}
-            primaryColor={state.gameData.primary_color}
-            secondaryColor={state.gameData.secondary_color}
-            tertiaryColor={state.gameData.tertiary_color}
+            primaryColor={primary_color}
+            secondaryColor={secondary_color}
+            tertiaryColor={tertiary_color}
           />
         )}
         <ColorIndicator
-          primaryColor={state.gameData.primary_color}
-          secondaryColor={state.gameData.secondary_color}
-          tertiaryColor={state.gameData.tertiary_color}
+          primaryColor={primary_color}
+          secondaryColor={secondary_color}
+          tertiaryColor={tertiary_color}
         />
         {gameWon && ( //and animation is done
           <GameWonBanner

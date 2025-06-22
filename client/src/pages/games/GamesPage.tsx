@@ -7,8 +7,9 @@ import toast from "react-hot-toast";
 import PaginatedList from "../../components/common/PaginatedList";
 import FilterComponent, {
   Filters,
-} from "../../components/common/FilterComponent";
+} from "./FilterComponent";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
+import { Box, Grid } from "@mui/material";
 
 const PAGE_SIZE_LIMIT = 20;
 const initFilters = {
@@ -30,6 +31,7 @@ export default function GamesPage() {
   }, [currentPage, filters]);
 
   const getGames = async (page: number) => {
+    /* TODO - move to service */
     try {
       setLoading(true);
       const response = await httpService.get("/games", {
@@ -65,11 +67,15 @@ export default function GamesPage() {
           itemsPerPage={PAGE_SIZE_LIMIT}
           onPageChange={handlePageChange}
         >
-          <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {games.map((game: Game) => (
-              <GameItem key={game.id} game={game} />
-            ))}
-          </div>
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
+              {games.map((game: Game) => (
+                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={game.id}>
+                  <GameItem game={game} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
         </PaginatedList>
       )}
     </PageLayout>

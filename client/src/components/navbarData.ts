@@ -1,4 +1,4 @@
-import { Home, Gamepad2, Pencil } from "lucide-react";
+import { Home, Gamepad2, Pencil, TestTube } from "lucide-react";
 
 export const navbarData = [
   {
@@ -19,5 +19,12 @@ export const navbarData = [
     title: 'Create',
     icon: Pencil
   },
+  {
+    id: 4,
+    route: "test",
+    title: "Test",
+    icon: TestTube
+    // REMOVE ME
+  }
 
 ]

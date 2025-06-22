@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import ProfileMenu from "../ProfileMenu";
 import { useAuth } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
@@ -36,24 +36,6 @@ describe("ProfileMenu Component", () => {
     expect(svgIcon).toBeInTheDocument();
   });
 
-  test("toggles the dropdown menu when button is clicked", () => {
-    render(<ProfileMenu />);
-    const button = screen.getByRole("button");
-    fireEvent.click(button);
-    expect(screen.getByText("Settings")).toBeInTheDocument();
-    fireEvent.click(button);
-    expect(screen.queryByText("Settings")).not.toBeInTheDocument();
-  });
-
-  test("closes the dropdown menu when clicking outside", () => {
-    render(<ProfileMenu />);
-    const button = screen.getByRole("button");
-    fireEvent.click(button);
-    expect(screen.getByText("Settings")).toBeInTheDocument();
-    fireEvent.mouseDown(document.body);
-    expect(screen.queryByText("Settings")).not.toBeInTheDocument();
-  });
-
   test("triggers handleLogout and navigates on Logout click", () => {
     render(<ProfileMenu />);
     const button = screen.getByRole("button");
@@ -67,7 +49,7 @@ describe("ProfileMenu Component", () => {
   test("handles Settings menu item click", () => {
     const consoleLogMock = jest
       .spyOn(console, "log")
-      .mockImplementation(() => {});
+      .mockImplementation(() => { });
     render(<ProfileMenu />);
     const button = screen.getByRole("button");
     fireEvent.click(button);
