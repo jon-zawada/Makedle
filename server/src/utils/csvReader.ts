@@ -9,14 +9,14 @@ export function processGameCSV(
   createHeader: (
     gameId: number,
     orderIndex: number,
-    header: string
+    header: string,
   ) => Promise<Header>,
   createWord: (
     gameId: number,
     headerId: string,
     wordId: number,
-    word: string
-  ) => Promise<Word>
+    word: string,
+  ) => Promise<Word>,
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const headersMap = new Map();
@@ -50,8 +50,8 @@ function readRowValues(
     gameId: number,
     headerId: string,
     wordId: number,
-    word: string
-  ) => Promise<Word>
+    word: string,
+  ) => Promise<Word>,
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const rowReader = fs.createReadStream(csvFile.path);

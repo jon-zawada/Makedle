@@ -15,7 +15,7 @@ export default function SignUp({ showLogin }: SignUpProps) {
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
-    username: ""
+    username: "",
   });
   const httpService = useHttpService();
   const { email, password, username } = formValues;

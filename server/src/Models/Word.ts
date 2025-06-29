@@ -19,7 +19,7 @@ export class WordModel {
     gameId: number,
     headerId: string,
     wordId: number,
-    word: string
+    word: string,
   ): Promise<Word> => {
     const query =
       "INSERT INTO words (game_id, header_id, word_id, word) VALUES ($1, $2, $3, $4)";

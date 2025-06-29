@@ -15,7 +15,7 @@ const useHttpService = () => {
         }
         return config;
       },
-      (error) => Promise.reject(error)
+      (error) => Promise.reject(error),
     );
 
     const responseIntercept = httpService.interceptors.response.use(
@@ -29,7 +29,7 @@ const useHttpService = () => {
           return httpService(prevRequest);
         }
         return Promise.reject(error);
-      }
+      },
     );
 
     return () => {

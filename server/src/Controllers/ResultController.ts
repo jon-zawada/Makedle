@@ -13,7 +13,7 @@ export class ResultController {
       const { gameId } = req.params;
       const result = await this.resultModel.getResultsByGameAndUserId(
         parseInt(gameId),
-        req.user?.id!
+        req.user?.id!,
       );
       res.status(200).json(result);
     } catch (error) {
@@ -25,7 +25,11 @@ export class ResultController {
     try {
       const { gameId } = req.params;
       const { gameWon } = req.body;
-      await this.resultModel.postResult(parseInt(gameId), req.user?.id!, gameWon);
+      await this.resultModel.postResult(
+        parseInt(gameId),
+        req.user?.id!,
+        gameWon,
+      );
       const message = "Result successfully sent";
       res.status(201).json({ message });
     } catch (error) {

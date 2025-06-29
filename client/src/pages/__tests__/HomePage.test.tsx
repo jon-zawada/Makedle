@@ -12,10 +12,10 @@ describe("HomePage", () => {
         <AuthProvider>
           <HomePage />
         </AuthProvider>
-      </BrowserRouter>
+      </BrowserRouter>,
     );
     expect(screen.getByText("Welcome to Makedle")).toBeInTheDocument();
-    
+
     const createLink = screen.getByText("Create", { selector: "span" });
     expect(createLink).toBeInTheDocument();
     expect(createLink.closest("a")).toHaveAttribute("href", "/create");

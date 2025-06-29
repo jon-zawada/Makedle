@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 interface IFormStepperProps {
   children: React.ReactNode;
   submitHandler: (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => void;
 }
 

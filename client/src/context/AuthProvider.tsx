@@ -34,9 +34,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const [appUser, setAppUser] = useState<User | null>(null);
   const [loadingAppUser, setLoadingAppUser] = useState<boolean>(true);
 
-
   async function handleLogin(
-    user: User
+    user: User,
   ): Promise<AxiosResponse<{ token: string }>> {
     setLoadingAppUser(true);
     try {
@@ -66,7 +65,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
   }
 
@@ -80,7 +79,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         handleLogout,
         setAccessToken,
         setAppUser,
-        setLoadingAppUser
+        setLoadingAppUser,
       }}
     >
       {children}

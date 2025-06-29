@@ -19,7 +19,7 @@ const AnimatedRow = ({
   tertiaryColor,
 }: IWorldeAnimationProps) => {
   const [flipped, setFlipped] = useState(
-    Array(guess.word_data.length).fill(false)
+    Array(guess.word_data.length).fill(false),
   );
 
   useEffect(() => {

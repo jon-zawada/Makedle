@@ -23,8 +23,8 @@ export const categoryOptions: SelectOptions[] = [
 ];
 
 export const sortOptions: SelectOptions[] = [
-  {value: "popular", content: "Popular"},
-  {value: "desc", content: "Newest"},
-  {value: "asc", content: "Oldest"},
-  {value: "rating", content: "Highest Rated"}
+  { value: "popular", content: "Popular" },
+  { value: "desc", content: "Newest" },
+  { value: "asc", content: "Oldest" },
+  { value: "rating", content: "Highest Rated" },
 ];
