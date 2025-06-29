@@ -5,10 +5,7 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: "coverage",
   coverageReporters: ["lcov"],
-  collectCoverageFrom: [
-    "src/**/*.{js,ts}",
-    "!src/**/*.test.{js,ts}",
-  ],
+  collectCoverageFrom: ["src/**/*.{js,ts}", "!src/**/*.test.{js,ts}"],
   transform: {
     "^.+\\.tsx?$": ["ts-jest", {}],
   },

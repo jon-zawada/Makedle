@@ -29,11 +29,11 @@ export class GameModel {
     page: number,
     limit: number,
     categories: string[],
-    sort: SortOrder
+    sort: SortOrder,
   ): Promise<{ rows: Game[]; totalCount: number }> => {
     const offset = (page - 1) * limit;
     const totalCountResult = await this.pool.query(
-      "SELECT COUNT(*) FROM games"
+      "SELECT COUNT(*) FROM games",
     );
     const totalCount = parseInt(totalCountResult.rows[0].count, 10);
 
@@ -83,7 +83,7 @@ export class GameModel {
     tertiary_color: string,
     image: Buffer | string,
     category: string,
-    isPrivate: boolean
+    isPrivate: boolean,
   ): Promise<Game> => {
     const query =
       "INSERT INTO games (user_id, name, primary_color, secondary_color, tertiary_color, image, category, isPrivate) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, user_id, name, primary_color, secondary_color, tertiary_color, category, isPrivate, created_at, updated_at;";
@@ -95,7 +95,7 @@ export class GameModel {
       tertiary_color,
       image,
       category,
-      isPrivate
+      isPrivate,
     ]);
     return result.rows[0] || null;
   };

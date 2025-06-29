@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
-import { Button } from "@mui/material"
+import { Button } from "@mui/material";
 
 interface IPaginatedList {
   currentPage: number;
@@ -15,7 +15,7 @@ const PaginatedList = ({
   onPageChange,
   itemsPerPage,
   children,
-  listLength
+  listLength,
 }: IPaginatedList) => {
   const totalPages = Math.ceil(listLength / itemsPerPage);
 
@@ -53,7 +53,7 @@ const PaginatedList = ({
 
   const paginationButtons = useMemo(
     () => getPaginationButtons(),
-    [currentPage, totalPages]
+    [currentPage, totalPages],
   );
 
   return (
@@ -83,16 +83,16 @@ const PaginatedList = ({
                 color="inherit"
                 key={index}
                 sx={{
-                  color: 'inherit',
-                  '&.Mui-disabled': {
-                    color: 'inherit',
+                  color: "inherit",
+                  "&.Mui-disabled": {
+                    color: "inherit",
                     opacity: 1,
                   },
                 }}
               >
                 {page}
               </Button>
-            )
+            ),
           )}
           <Button
             color="inherit"

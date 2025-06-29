@@ -24,7 +24,10 @@ const GuessInput = ({
     setOpen(newValue.length > 0 && options.length > 0);
   };
 
-  const handleOptionSelect = (_: React.SyntheticEvent, value: string | null) => {
+  const handleOptionSelect = (
+    _: React.SyntheticEvent,
+    value: string | null,
+  ) => {
     if (value) {
       onGuessChange(value);
       setOpen(false);

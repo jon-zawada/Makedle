@@ -11,7 +11,7 @@ Fixes # (issue)
 - [ ] Breaking change 💥
 - [ ] Refactor 🔧
 - [ ] Documentation update 📝
-- [ ] Other: ____________
+- [ ] Other: ****\_\_\_\_****
 
 ## 📸 Screenshots (if applicable)
 

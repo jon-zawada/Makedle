@@ -7,25 +7,25 @@ module.exports = {
     extend: {
       keyframes: {
         flip: {
-          '0%': {
-            transform: 'rotateX(0deg)',
-            backgroundColor: 'var(--start-color)',
-            '--text-opacity': '0', // Text is invisible
+          "0%": {
+            transform: "rotateX(0deg)",
+            backgroundColor: "var(--start-color)",
+            "--text-opacity": "0", // Text is invisible
           },
-          '50%': {
-            transform: 'rotateX(90deg)',
-            backgroundColor: 'var(--mid-color)',
-            '--text-opacity': '0',
+          "50%": {
+            transform: "rotateX(90deg)",
+            backgroundColor: "var(--mid-color)",
+            "--text-opacity": "0",
           },
-          '100%': {
-            transform: 'rotateX(0deg)',
-            backgroundColor: 'var(--end-color)',
-            '--text-opacity': '1', // Text becomes visible
+          "100%": {
+            transform: "rotateX(0deg)",
+            backgroundColor: "var(--end-color)",
+            "--text-opacity": "1", // Text becomes visible
           },
         },
       },
       animation: {
-        flip: 'flip 0.8s ease-in-out forwards',
+        flip: "flip 0.8s ease-in-out forwards",
       },
       colors: {
         secondary: {
@@ -42,12 +42,12 @@ module.exports = {
   plugins: [
     function ({ addUtilities }) {
       addUtilities({
-        '.no-scrollbar': {
-          '-ms-overflow-style': 'none',
-          'scrollbar-width': 'none',
+        ".no-scrollbar": {
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
         },
-        '.no-scrollbar::-webkit-scrollbar': {
-          display: 'none',
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
         },
       });
     },

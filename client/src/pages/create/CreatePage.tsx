@@ -43,7 +43,7 @@ export default function CreatePage() {
   const changeHandler = (
     event:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
     if (name === "file") {
@@ -76,7 +76,7 @@ export default function CreatePage() {
   };
 
   const submitHandler = async (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.preventDefault();
     await postGame(); //after this should we navigate them to the game?

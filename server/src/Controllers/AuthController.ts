@@ -53,7 +53,7 @@ export class AuthController {
 
         const passwordMatch = await bcrypt.compare(
           password,
-          user.hashed_password
+          user.hashed_password,
         );
 
         if (!passwordMatch) {
@@ -153,7 +153,7 @@ export class AuthController {
   private verifyRefreshToken(refreshToken: string) {
     return jwt.verify(
       refreshToken,
-      process.env.JWT_REFRESH_SECRET!
+      process.env.JWT_REFRESH_SECRET!,
     ) as jwt.JwtPayload;
   }
 }

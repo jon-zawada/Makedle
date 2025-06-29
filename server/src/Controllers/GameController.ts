@@ -19,11 +19,21 @@ export class GameController {
   }
 
   getGames = (req: Request, res: Response) => {
-    const { page = 1, limit = 10, categories, sort = SortOrder.ASC} = req.query;
+    const {
+      page = 1,
+      limit = 10,
+      categories,
+      sort = SortOrder.ASC,
+    } = req.query;
     const pageNumber = parseInt(page as string, 10);
     const limitNumber = parseInt(limit as string, 10);
     this.gameModel
-      .getGames(pageNumber, limitNumber, categories as string[], sort as SortOrder)
+      .getGames(
+        pageNumber,
+        limitNumber,
+        categories as string[],
+        sort as SortOrder,
+      )
       .then(async ({ rows, totalCount }) => {
         const gamesWithBase64Images = await Promise.all(
           rows.map(async (game) => {
@@ -32,7 +42,7 @@ export class GameController {
               return { ...game, image: `data:image/png;base64,${base64Image}` };
             }
             return game;
-          })
+          }),
         );
         res.status(200).json({ games: gamesWithBase64Images, totalCount });
       })
@@ -79,8 +89,14 @@ export class GameController {
   };
 
   createGame = async (req: Request, res: Response) => {
-    const { name, primaryColor, secondaryColor, tertiaryColor, category, isPrivate } =
-      req.body;
+    const {
+      name,
+      primaryColor,
+      secondaryColor,
+      tertiaryColor,
+      category,
+      isPrivate,
+    } = req.body;
     const userId = req.user?.id!;
 
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
@@ -96,13 +112,13 @@ export class GameController {
         tertiaryColor,
         imageBuffer,
         category,
-        isPrivate
+        isPrivate,
       );
       await processGameCSV(
         csvFile,
         game.id,
         this.headerModel.createHeader,
-        this.wordModel.createWord
+        this.wordModel.createWord,
       );
 
       fs.unlinkSync(imageFile.path);

@@ -15,15 +15,16 @@ export class HeaderModel {
   }
 
   getHeaderByGameId = async (gameId: string) => {
-    const query = "SELECT header_name FROM headers WHERE game_id = $1 ORDER BY order_index;";
+    const query =
+      "SELECT header_name FROM headers WHERE game_id = $1 ORDER BY order_index;";
     const result = await this.pool.query(query, [gameId]);
     return result.rows;
-  }
+  };
 
   createHeader = async (
     gameId: number,
     orderIndex: number,
-    header: string
+    header: string,
   ): Promise<Header> => {
     const query =
       "INSERT INTO headers (game_id, order_index, header_name) VALUES ($1, $2, $3) RETURNING id";

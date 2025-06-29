@@ -5,12 +5,12 @@ import MultiSelectDropdown from "../../components/common/MultiSelect";
 import SortDropdown from "./SortDropdown";
 
 export type Filters = {
-  categories: string[],
-  keyword: string,
+  categories: string[];
+  keyword: string;
   sortBy: string | undefined;
-}
+};
 interface IFilterComponentProps {
-  setFilters: React.Dispatch<React.SetStateAction<Filters>>
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
 }
 
 export default function FilterComponent({ setFilters }: IFilterComponentProps) {

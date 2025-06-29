@@ -5,9 +5,7 @@ import GameItem from "./GameItem";
 import PageLayout from "../../components/common/PageLayout";
 import toast from "react-hot-toast";
 import PaginatedList from "../../components/common/PaginatedList";
-import FilterComponent, {
-  Filters,
-} from "./FilterComponent";
+import FilterComponent, { Filters } from "./FilterComponent";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
 import { Box, Grid } from "@mui/material";
 

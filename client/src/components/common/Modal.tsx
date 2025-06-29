@@ -35,7 +35,7 @@ export default function Modal({
       onClick={onClose}
     >
       <div
-        style={{ transform: 'translateY(-35%)' }}
+        style={{ transform: "translateY(-35%)" }}
         className={`bg-white rounded-lg shadow-lg relative w-full max-w-md overflow-hidden transform transition-all duration-700 ease-in-out ${
           isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"
         }`}

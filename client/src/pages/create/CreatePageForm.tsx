@@ -1,4 +1,4 @@
-import React, {LegacyRef} from "react";
+import React, { LegacyRef } from "react";
 import ImageUpload from "../../components/common/ImageUpload";
 import { buttonStyles } from "../../components/common/Button";
 
@@ -22,7 +22,9 @@ export default function CreatePageForm({
   return (
     <form className="flex flex-col gap-4 p-2">
       <div className="flex flex-col">
-        <label className="font-semibold" htmlFor="name">Game Name</label>
+        <label className="font-semibold" htmlFor="name">
+          Game Name
+        </label>
         <input
           name="name"
           id="name"

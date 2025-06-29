@@ -5,15 +5,15 @@ on:
     branches:
       - main
     paths:
-      - 'client/**'
-      - 'server/**'
+      - "client/**"
+      - "server/**"
 
   push:
     branches:
       - main
     paths:
-      - 'client/**'
-      - 'server/**'
+      - "client/**"
+      - "server/**"
 
 jobs:
   client-tests:
@@ -25,8 +25,7 @@ jobs:
       - name: Set up Node.js for Client
         uses: actions/setup-node@v3
         with:
-          node-version: '18.20.4'
-
+          node-version: "22.15.0"
       - name: Install Client Dependencies
         working-directory: ./client
         run: npm install
@@ -44,7 +43,7 @@ jobs:
       - name: Set up Node.js for Server
         uses: actions/setup-node@v3
         with:
-          node-version: '18.20.4'
+          node-version: "22.15.0"
 
       - name: Install Server Dependencies
         working-directory: ./server

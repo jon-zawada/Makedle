@@ -28,9 +28,9 @@ const App = () => {
     } catch {
       setAccessToken(null);
       setAppUser(null);
-    } finally{
+    } finally {
       setLoadingAppUser(false);
-    } 
+    }
   };
 
   return (
@@ -40,7 +40,7 @@ const App = () => {
         <Route path="/games" element={<GamesPage />} />
         <Route path="/games/:id" element={<GamePage />} />
         <Route path="/create" element={<CreatePage />} />
-        <Route path="/test" element={<TestComponent/>} />
+        <Route path="/test" element={<TestComponent />} />
         <Route path="*" element={<ErrorPage />} />
       </Route>
     </Routes>

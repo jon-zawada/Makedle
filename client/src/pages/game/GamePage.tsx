@@ -80,7 +80,7 @@ export default function GamePage() {
         setOriginalWords(res.data.words);
         setWordOfDay(getRandomWordOfDay(res.data.words));
         setHeaders(
-          res.data.headers.map((header: Header) => header.header_name)
+          res.data.headers.map((header: Header) => header.header_name),
         );
       })
       .catch((error) => {
@@ -97,7 +97,7 @@ export default function GamePage() {
     const newGuess = findByHeaderName(words, guess);
     if (newGuess) {
       const remainingWords = words.filter(
-        (word) => word.word_id !== newGuess.word_id
+        (word) => word.word_id !== newGuess.word_id,
       );
       setWords(remainingWords);
       setGuesses([newGuess, ...guesses]);
@@ -108,23 +108,22 @@ export default function GamePage() {
   const autoCompleteOptions = words
     .filter((word) => {
       const wData = word.word_data;
-      const name = wData.find(
-        (header) => header.header_name === "Name"
-      )?.value;
+      const name = wData.find((header) => header.header_name === "Name")?.value;
       return name
         ?.split(" ")
         .some((word) => word.toLowerCase().startsWith(guess.toLowerCase()));
-    }).map((word) => {
+    })
+    .map((word) => {
       const wData = word.word_data;
       const name =
         wData.find((header) => header.header_name === "Name")?.value || "";
-      return name
+      return name;
     });
 
   const findByHeaderName = (data: WordList, guess: string) => {
     return (
       data.find((entry) =>
-        entry.word_data.some((item) => item.value === guess)
+        entry.word_data.some((item) => item.value === guess),
       ) || null
     );
   };
@@ -133,7 +132,7 @@ export default function GamePage() {
     return words[getRandomInt(words.length)];
   };
 
-  const {primary_color, secondary_color, tertiary_color} = state.gameData;
+  const { primary_color, secondary_color, tertiary_color } = state.gameData;
   return (
     <PageLayout title={name}>
       <div className="flex flex-col gap-4 p-4 items-center">

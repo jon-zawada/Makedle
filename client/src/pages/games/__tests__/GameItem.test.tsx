@@ -55,11 +55,11 @@ describe("GameItem Component", () => {
   });
 
   it("navigates to the correct game page on click", () => {
-    const {debug} = render(<GameItem game={mockGame} />);
+    const { debug } = render(<GameItem game={mockGame} />);
 
     debug();
 
-    const gameItem = screen.getByRole('img');
+    const gameItem = screen.getByRole("img");
     fireEvent.click(gameItem);
 
     expect(mockNavigate).toHaveBeenCalledWith(`/games/${mockGame.id}`, {

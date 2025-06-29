@@ -35,7 +35,7 @@ app.use(
         "img-src": ["'self'", "data:", "blob:", "https://placehold.co"],
       },
     },
-  })
+  }),
 );
 
 const apiLimiter = rateLimit({

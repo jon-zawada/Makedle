@@ -31,7 +31,7 @@ export class UserModel {
   createUser = async (
     username: string,
     email: string,
-    hashed_password: string
+    hashed_password: string,
   ): Promise<User> => {
     //TODO logic to actually hash password
     //TODO validate request fields above and
@@ -53,7 +53,10 @@ export class UserModel {
     return result.rows[0] || null;
   };
 
-  updateRefreshToken = async (id: number, refreshToken: string | null): Promise<void> => {
+  updateRefreshToken = async (
+    id: number,
+    refreshToken: string | null,
+  ): Promise<void> => {
     const query = "UPDATE users SET refresh_token = $1 WHERE id = $2";
     await this.pool.query(query, [refreshToken, id]);
   };

@@ -6,7 +6,11 @@ import { categoryOptions } from "./constants";
 interface ICreatePageForm2Props {
   category: string;
   isPrivate: boolean;
-  changeHandler: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void;
+  changeHandler: (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>,
+  ) => void;
 }
 
 export default function CreatePageForm2({
@@ -16,7 +20,7 @@ export default function CreatePageForm2({
 }: ICreatePageForm2Props) {
   const sortedOptions = useMemo(
     () => categoryOptions.sort((a, b) => a.content.localeCompare(b.content)),
-    [categoryOptions]
+    [categoryOptions],
   );
 
   return (

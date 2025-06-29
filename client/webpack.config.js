@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: "./src/index.tsx",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/'
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
+    publicPath: "/",
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: [".tsx", ".ts", ".js"],
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         use: {
-          loader: 'ts-loader',
+          loader: "ts-loader",
           options: {
             transpileOnly: isProduction,
           },
@@ -29,36 +29,36 @@ module.exports = {
       {
         test: /\.js$/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
+            presets: ["@babel/preset-env", "@babel/preset-react"],
           },
         },
         exclude: /node_modules/,
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
       {
         test: /\.(png|jpe?g|gif|svg|csv)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: "images/[name][ext]"
-        }
-      }
+          filename: "images/[name][ext]",
+        },
+      },
     ],
   },
   devServer: {
     static: {
-      directory: path.join(__dirname, 'dist'),
+      directory: path.join(__dirname, "dist"),
     },
     port: 3001,
     hot: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: "./src/index.html",
     }),
   ],
   watchOptions: {
@@ -66,6 +66,6 @@ module.exports = {
     poll: 1000,
     ignored: /node_modules/,
   },
-  mode: isProduction ? 'production' : 'development',
-  devtool: isProduction ? false : 'source-map',
+  mode: isProduction ? "production" : "development",
+  devtool: isProduction ? false : "source-map",
 };

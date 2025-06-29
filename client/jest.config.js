@@ -4,10 +4,7 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: "coverage",
   coverageReporters: ["lcov"],
-  collectCoverageFrom: [
-    "src/**/*.{js,ts,tsx}",
-    "!src/**/*.test.{js,ts,tsx}",
-  ],
+  collectCoverageFrom: ["src/**/*.{js,ts,tsx}", "!src/**/*.test.{js,ts,tsx}"],
   testEnvironment: "jest-environment-jsdom",
   transform: {
     "^.+.tsx?$": ["ts-jest", {}],

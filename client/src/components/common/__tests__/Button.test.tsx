@@ -13,7 +13,7 @@ describe("Button component", () => {
       "rounded",
       "p-2",
       "hover:bg-secondary-hover",
-      "transition-colors"
+      "transition-colors",
     );
   });
 
@@ -34,7 +34,7 @@ describe("Button component", () => {
       "flex",
       "items-center",
       "bg-secondary",
-      "hover:bg-secondary-hover"
+      "hover:bg-secondary-hover",
     );
   });
 
@@ -46,7 +46,7 @@ describe("Button component", () => {
       "bg-secondary",
       "hover:bg-secondary-hover",
       "rounded",
-      "p-2"
+      "p-2",
     );
   });
 });

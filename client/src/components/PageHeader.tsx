@@ -14,7 +14,7 @@ import {
 import logo from "../assets/logo.png";
 import { useAuth } from "../context/AuthProvider";
 import ProfileMenu from "./ProfileMenu";
-import LoginSignUpModal from "../pages/login/LoginSignUpModal"
+import LoginSignUpModal from "../pages/login/LoginSignUpModal";
 
 interface NavbarItemProps {
   Icon: LucideIcon;
@@ -41,10 +41,10 @@ function PageHeader() {
       >
         {appUser ? (
           <Box sx={{ display: "flex", flexShrink: "0", gap: 1 }}>
-            <IconButton color="inherit" sx={{width: "48px", height: "48px"}}>
+            <IconButton color="inherit" sx={{ width: "48px", height: "48px" }}>
               <CircleHelp />
             </IconButton>
-            <IconButton color="inherit" sx={{width: "48px", height: "48px"}}>
+            <IconButton color="inherit" sx={{ width: "48px", height: "48px" }}>
               <Bell />
             </IconButton>
             <ProfileMenu />

@@ -2,8 +2,8 @@ import { Router } from "express";
 import { AuthController } from "../Controllers/AuthController";
 import pool from "../db";
 
-const authController = new AuthController(pool)
-const router  = Router();
+const authController = new AuthController(pool);
+const router = Router();
 
 // GET
 router.get("/init", authController.init);

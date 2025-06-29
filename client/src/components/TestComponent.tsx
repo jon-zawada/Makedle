@@ -6,7 +6,7 @@ import React from "react";
 const TestComponent = () => {
   /* TODO -  see if we should implement setGuess onClick of autocomplete dropdown click */
 
- return <div>hello world</div>
+  return <div>hello world</div>;
 };
 
 export default TestComponent;

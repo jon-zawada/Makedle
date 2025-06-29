@@ -31,7 +31,7 @@ router.post(
     { name: "file", maxCount: 1 },
     { name: "image", maxCount: 1 },
   ]),
-  gameController.createGame
+  gameController.createGame,
 );
 
 //DELETE
