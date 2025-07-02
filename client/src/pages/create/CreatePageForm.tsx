@@ -7,7 +7,7 @@ interface ICreatePageFormProps {
   file: File | null;
   fileInputRef: LegacyRef<HTMLInputElement> | null;
   preview: string | null;
-  handleImageChange: (fevent: React.ChangeEvent<HTMLInputElement>) => void;
+  handleImageChange: (file: File, dataUrl: string) => void;
   changeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

@@ -26,8 +26,6 @@ export default function LoginForm({ showSignUp }: LoginFormProps) {
     width: 400,
     bgcolor: "background.paper",
     borderRadius: 2,
-    // border: "2px solid #000",
-    // boxShadow: 24,
     p: 4,
   };
 
@@ -61,7 +59,6 @@ export default function LoginForm({ showSignUp }: LoginFormProps) {
             onChange={handleChange}
             margin="normal"
             type="email"
-            required
           />
           <TextField
             label="Password"
@@ -70,7 +67,6 @@ export default function LoginForm({ showSignUp }: LoginFormProps) {
             onChange={handleChange}
             margin="normal"
             type="password"
-            required
           />
           <Button type="submit" variant="contained" sx={{ mt: 2 }}>
             Login

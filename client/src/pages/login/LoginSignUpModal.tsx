@@ -6,7 +6,7 @@ import SignUpForm from "./SignUpForm";
 interface LoginSignUpModalProps {
   isOpen: boolean;
   handleClose: () => void;
-  initLogin?: boolean; // Optional, defaults to true
+  initLogin?: boolean;
 }
 
 export default function LoginSignUpModal({
