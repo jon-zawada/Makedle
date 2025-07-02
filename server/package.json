@@ -32,7 +32,7 @@
     "multer": "^1.4.5-lts.1",
     "newrelic": "^12.6.1",
     "pg": "^8.13.1",
-    "pm2": "^5.4.3"
+    "pm2": "^6.0.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.14.0",
