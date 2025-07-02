@@ -65,14 +65,9 @@ export default function CreatePage() {
     }
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file && file.type.startsWith("image/")) {
-      setForm({ ...form, image: file });
-      setPreview(URL.createObjectURL(file));
-    } else {
-      alert("Please upload a valid image file.");
-    }
+  const handleImageChange = (file: File, dataUrl: string) => {
+    setForm({...form, image: file})
+    setPreview(dataUrl)
   };
 
   const submitHandler = async (
