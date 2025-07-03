@@ -15,21 +15,21 @@ const useHttpService = () => {
         }
         return config;
       },
-      (error) => Promise.reject(error),
+      (error) => Promise.reject(error)
     );
 
     const responseIntercept = httpService.interceptors.response.use(
       (response) => response,
       async (error) => {
         const prevRequest = error?.config;
-        if (error?.response?.status === 403 && !prevRequest?.sent) {
-          prevRequest.sent = true;
+        if (error?.response?.status === 403 && !prevRequest?._retry) {
+          prevRequest._retry = true;
           const newToken = await refresh();
           prevRequest.headers["Authorization"] = `Bearer ${newToken}`;
           return httpService(prevRequest);
         }
         return Promise.reject(error);
-      },
+      }
     );
 
     return () => {

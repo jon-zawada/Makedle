@@ -5,9 +5,7 @@ const useRefreshToken = () => {
   const { setAccessToken } = useAuth();
 
   const refresh = async () => {
-    const response = await refreshHttpInstance.post("/refresh-token", {
-      withCredentials: true,
-    });
+    const response = await refreshHttpInstance.post("/refresh-token");
     setAccessToken(response.data.accessToken);
     return response.data.accessToken;
   };
