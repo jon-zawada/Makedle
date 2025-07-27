@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 type User = {
   email: string;
-  password: string;
+  password: string; //TODO remove this
   username?: string;
 };
 

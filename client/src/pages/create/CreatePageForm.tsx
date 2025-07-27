@@ -1,6 +1,7 @@
 import React, { LegacyRef } from "react";
 import ImageUpload from "../../components/common/ImageUpload";
 import { buttonStyles } from "../../components/common/Button";
+import { TextField } from "@mui/material";
 
 interface ICreatePageFormProps {
   gameName: string;
@@ -21,19 +22,14 @@ export default function CreatePageForm({
 }: ICreatePageFormProps) {
   return (
     <form className="flex flex-col gap-4 p-2">
-      <div className="flex flex-col">
-        <label className="font-semibold" htmlFor="name">
-          Game Name
-        </label>
-        <input
-          name="name"
-          id="name"
-          className="px-4 py-2 border rounded"
-          type="text"
-          value={gameName}
-          onChange={changeHandler}
-        />
-      </div>
+      <TextField
+        label="Game Name"
+        name="name"
+        value={gameName}
+        onChange={changeHandler}
+        margin="normal"
+        sx={{ backgroundColor: "background.paper" }}
+      />
       <div className="mt-2 flex items-center">
         <label htmlFor="file-upload" className={buttonStyles()}>
           Choose CSV File
