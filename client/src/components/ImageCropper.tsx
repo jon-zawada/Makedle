@@ -2,8 +2,8 @@ import { Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import React, { useRef, useState, useEffect } from "react";
 
-const CANVAS_WIDTH = 400;
-const CANVAS_HEIGHT = 300;
+const CANVAS_WIDTH = 600;
+const CANVAS_HEIGHT = 450;
 const TARGET_ASPECT_RATIO = CANVAS_WIDTH / CANVAS_HEIGHT; // Must maintain 4:3 aspect ratio - add check later
 
 type Corner = "move" | "nw" | "ne" | "sw" | "se";
@@ -19,7 +19,11 @@ interface ImageCropperProps {
   handleCancelCrop: () => void;
 }
 
-const ImageCropper = ({ imageSrc, onCropComplete, handleCancelCrop }: ImageCropperProps) => {
+const ImageCropper = ({
+  imageSrc,
+  onCropComplete,
+  handleCancelCrop,
+}: ImageCropperProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [cropStart, setCropStart] = useState({ x: 100, y: 100 });
   const [cropSize, setCropSize] = useState({ width: 200, height: 150 });
@@ -334,12 +338,16 @@ const ImageCropper = ({ imageSrc, onCropComplete, handleCancelCrop }: ImageCropp
 
   const handleCrop = () => {
     if (!imgRef.current) return;
+    const scaleFactor = 2;
+    const outputWidth = cropSize.width * scaleFactor;
+    const outputHeight = cropSize.height * scaleFactor;
 
     const canvas = document.createElement("canvas");
-    canvas.width = cropSize.width;
-    canvas.height = cropSize.height;
+    canvas.width = outputWidth;
+    canvas.height = outputHeight;
     const ctx = canvas.getContext("2d");
 
+    if (!ctx) return;
     const scaleX = imgRef.current.width / imageDims.width;
     const scaleY = imgRef.current.height / imageDims.height;
     const offsetX = (CANVAS_WIDTH - imageDims.width) / 2;
@@ -350,7 +358,8 @@ const ImageCropper = ({ imageSrc, onCropComplete, handleCancelCrop }: ImageCropp
     const srcW = cropSize.width * scaleX;
     const srcH = cropSize.height * scaleY;
 
-    ctx?.drawImage(
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(
       imgRef.current,
       srcX,
       srcY,
@@ -358,13 +367,11 @@ const ImageCropper = ({ imageSrc, onCropComplete, handleCancelCrop }: ImageCropp
       srcH,
       0,
       0,
-      cropSize.width,
-      cropSize.height
+      outputWidth,
+      outputHeight
     );
 
-    const croppedDataUrl = canvas.toDataURL();
-    const img = document.createElement("img");
-    img.src = croppedDataUrl;
+    const croppedDataUrl = canvas.toDataURL("image/png");
     onCropComplete(croppedDataUrl);
   };
 
