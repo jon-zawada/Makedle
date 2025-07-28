@@ -32,7 +32,7 @@ export class GameController {
         pageNumber,
         limitNumber,
         categories as string[],
-        sort as SortOrder,
+        sort as SortOrder
       )
       .then(async ({ rows, totalCount }) => {
         const gamesWithBase64Images = await Promise.all(
@@ -42,7 +42,7 @@ export class GameController {
               return { ...game, image: `data:image/png;base64,${base64Image}` };
             }
             return game;
-          }),
+          })
         );
         res.status(200).json({ games: gamesWithBase64Images, totalCount });
       })
@@ -99,11 +99,27 @@ export class GameController {
     } = req.body;
     const userId = req.user?.id!;
 
+    if (!name) {
+      res.status(400).json({ message: "Game name is required" });
+      return;
+    }
+
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const csvFile = files?.["file"]?.[0];
     const imageFile = files?.["image"]?.[0];
-    const imageBuffer = imageFile && fs.readFileSync(imageFile.path);
+
+    if (!csvFile) {
+      res.status(400).json({ message: "CSV file is required" });
+      return;
+    }
+
+    if (!imageFile) {
+      res.status(400).json({ message: "Image file is required" });
+      return;
+    }
+
     try {
+      const imageBuffer = fs.readFileSync(imageFile.path);
       const game = await this.gameModel.createGame(
         userId,
         name,
@@ -112,18 +128,25 @@ export class GameController {
         tertiaryColor,
         imageBuffer,
         category,
-        isPrivate,
+        isPrivate
       );
       await processGameCSV(
         csvFile,
         game.id,
         this.headerModel.createHeader,
-        this.wordModel.createWord,
+        this.wordModel.createWord
       );
 
       fs.unlinkSync(imageFile.path);
       res.status(201).json(game);
     } catch (error) {
+      if (imageFile) {
+        try {
+          fs.unlinkSync(imageFile.path);
+        } catch (unlinkError) {
+          console.error("Failed to delete image file:", unlinkError);
+        }
+      }
       res
         .status(500)
         .json({ message: "An error occurred while creating a game", error });

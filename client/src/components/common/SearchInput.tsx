@@ -11,7 +11,6 @@ const SearchInput = ({ setFilters }: SearchInputProps) => {
   const [input, setInput] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log("hi", input);
     e.preventDefault();
     setFilters((prev) => ({ ...prev, keyword: input }));
   };
