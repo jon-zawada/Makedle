@@ -9,6 +9,6 @@
     "outDir": "./dist",
     "typeRoots": ["./src/types", "./node_modules/@types"]
   },
-  "include": ["src/**/*", "newrelic.js"],
+  "include": ["src/**/*"],
   "exclude": ["dist"]
 }
