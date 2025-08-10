@@ -1,4 +1,3 @@
-import "newrelic";
 import express from "express";
 import dotenv from "dotenv";
 import path from "path";
@@ -11,6 +10,7 @@ import userRoutes from "./Routes/userRoutes";
 import gameRoutes from "./Routes/gameRoutes";
 import resultRoutes from "./Routes/resultRoutes";
 import noCache from "./middleware/noCache";
+import { requestLogger } from "./middleware/requestLogger";
 
 const CLIENT_DIR = path.join(__dirname, "..", "..", "client", "dist");
 const MISSING_CLIENT_HTML = path.join(__dirname, "errors", "noclient.html");
@@ -25,6 +25,7 @@ const PORT = process.env.PORT || 3000;
 //MIDDLEWARE
 app.use(noCache);
 app.use(express.json());
+app.use(requestLogger);
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
