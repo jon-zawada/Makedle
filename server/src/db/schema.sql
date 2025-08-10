@@ -51,3 +51,20 @@ CREATE TABLE IF NOT EXISTS results (
   result BOOLEAN NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE  IF NOT EXISTS logs (
+  id SERIAL PRIMARY KEY,
+  timestamp TIMESTAMPTZ NOT NULL,
+  level TEXT NOT NULL,
+  message TEXT,
+  request_id UUID NOT NULL,
+  user_id TEXT,
+  ip TEXT,
+  endpoint TEXT,
+  method TEXT,
+  status_code INT,
+  response_time NUMERIC,
+  headers JSONB,
+  query JSONB,
+  body TEXT
+);
