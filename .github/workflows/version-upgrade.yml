@@ -1,3 +1,32 @@
+name: Conditional Version Bump
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      server_changed: ${{ steps.filter.outputs.server }}
+      client_changed: ${{ steps.filter.outputs.client }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Filter changes
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            server:
+              - 'server/**'
+            client:
+              - 'client/**'
+
   bump-server-version:
     needs: detect-changes
     if: needs.detect-changes.outputs.server_changed == 'true'
@@ -11,7 +40,7 @@
       - name: Setup Node.js for server
         uses: actions/setup-node@v3
         with:
-          node-version: '22.15.0'
+          node-version: "22.15.0"
 
       - name: Configure git user
         run: |
@@ -38,7 +67,7 @@
       - name: Setup Node.js for client
         uses: actions/setup-node@v3
         with:
-          node-version: '22.15.0'
+          node-version: "22.15.0"
 
       - name: Configure git user
         run: |
