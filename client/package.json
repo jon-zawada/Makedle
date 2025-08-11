@@ -2,7 +2,6 @@
   "name": "makedle",
   "version": "1.0.0",
   "description": "Makedle is a customizable word puzzle game inspired by Wordle",
-  "main": "index.ts",
   "scripts": {
     "build": "webpack --mode production",
     "dev": "concurrently \"npm run dev-css\" \"npm run dev-webpack\"",
