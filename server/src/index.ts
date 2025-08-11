@@ -7,6 +7,7 @@ import authRoutes from "./Routes/authRoutes";
 import userRoutes from "./Routes/userRoutes";
 import gameRoutes from "./Routes/gameRoutes";
 import resultRoutes from "./Routes/resultRoutes";
+import versionRoutes from "./Routes/versionRoutes";
 import noCache from "./middleware/noCache";
 import { requestLogger } from "./middleware/requestLogger";
 import { apiLimiter } from "./middleware/rateLimiter";
@@ -38,6 +39,7 @@ if (fs.existsSync(CLIENT_DIR)) {
 }
 
 // ROUTES
+app.use("/version", versionRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", gameRoutes);
