@@ -1,0 +1,53 @@
+  bump-server-version:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.server_changed == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js for server
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.15.0'
+
+      - name: Configure git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump server patch version
+        working-directory: ./server
+        run: |
+          npm install
+          npm version patch -m "chore(server): bump patch version to %s"
+          git push origin main --follow-tags
+
+  bump-client-version:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.client_changed == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js for client
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.15.0'
+
+      - name: Configure git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump client patch version
+        working-directory: ./client
+        run: |
+          npm install
+          npm version patch -m "chore(client): bump patch version to %s"
+          git push origin main --follow-tags
