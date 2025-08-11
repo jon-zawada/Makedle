@@ -36,16 +36,18 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Node.js for server
         uses: actions/setup-node@v3
         with:
           node-version: "22.15.0"
 
-      - name: Configure git user
+      - name: Configure git user and remote with PAT
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/jon-zawada/Makedle.git
 
       - name: Bump server patch version
         working-directory: ./server
@@ -63,16 +65,18 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Node.js for client
         uses: actions/setup-node@v3
         with:
           node-version: "22.15.0"
 
-      - name: Configure git user
+      - name: Configure git user and remote with PAT
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/jon-zawada/Makedle.git
 
       - name: Bump client patch version
         working-directory: ./client
