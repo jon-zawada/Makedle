@@ -1,24 +1,32 @@
-import { Request, Response, NextFunction } from "express";
+import { RequestHandler, Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { User } from "../Models/User";
 
-const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
+const authenticateJWT: RequestHandler = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const authHeader = req.header("Authorization");
   const token = authHeader?.startsWith("Bearer ")
     ? authHeader.split(" ")[1]
     : authHeader;
 
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET!, (err: any, user: any) => {
-      if (err) {
-        res.sendStatus(403);
-        return;
-      }
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET not set");
+  }
 
-      req.user = user;
-      next();
-    });
-  } else {
-    res.sendStatus(401);
+  if (!token) {
+    res.status(401).json({ error: "Missing authentication token" });
+    return;
+  }
+
+  try {
+    const decodedUser = jwt.verify(token, process.env.JWT_SECRET) as User;
+    req.user = decodedUser;
+    next();
+  } catch {
+    res.status(403).json({ error: "Invalid or expired token" });
     return;
   }
 };
