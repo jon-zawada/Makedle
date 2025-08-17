@@ -12,6 +12,7 @@ import noCache from "./middleware/noCache";
 import { requestLogger } from "./middleware/requestLogger";
 import { apiLimiter } from "./middleware/rateLimiter";
 import { helmetConfig } from "./middleware/helmet";
+import { corsConfig } from "./middleware/corsConfig";
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use(requestLogger);
 app.use(helmetConfig);
 app.use("/api", apiLimiter);
+app.use(corsConfig);
 
 if (fs.existsSync(CLIENT_DIR)) {
   app.use(express.static(CLIENT_DIR));
