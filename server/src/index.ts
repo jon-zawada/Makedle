@@ -28,8 +28,8 @@ app.use(helmetConfig);
 app.use(noCache);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(requestLogger);
 app.use(cookieParser());
+app.use(requestLogger);
 app.use("/api", apiLimiter);
 
 if (fs.existsSync(CLIENT_DIR)) {
