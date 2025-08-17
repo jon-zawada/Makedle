@@ -26,9 +26,9 @@ const PORT = process.env.PORT || 3000;
 app.use(corsConfig);
 app.use(helmetConfig);
 app.use(noCache);
-app.use(requestLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(requestLogger);
 app.use(cookieParser());
 app.use("/api", apiLimiter);
 
