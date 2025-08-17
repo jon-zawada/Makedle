@@ -12,6 +12,7 @@ import noCache from "./middleware/noCache";
 import { requestLogger } from "./middleware/requestLogger";
 import { apiLimiter } from "./middleware/rateLimiter";
 import { helmetConfig } from "./middleware/helmet";
+import { corsConfig } from "./middleware/corsConfig";
 
 dotenv.config();
 
@@ -22,12 +23,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // MIDDLEWARE
+app.use(corsConfig);
+app.use(helmetConfig);
 app.use(noCache);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(requestLogger);
-app.use(helmetConfig);
 app.use("/api", apiLimiter);
 
 if (fs.existsSync(CLIENT_DIR)) {
@@ -44,8 +46,6 @@ app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", gameRoutes);
 app.use("/api", resultRoutes);
-
-// MUST BE LAST ROUTE
 app.get("*", (req, res) => {
   res.sendFile(path.join(CLIENT_DIR, "index.html"));
 });
