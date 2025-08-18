@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 
@@ -22,18 +23,18 @@ export default function LoginSignUpModal({
     }
   }, [isOpen, initLogin]);
 
+  const handleShowLogin = useCallback(() => setShowLogin(true), []);
+  const handleShowSignUp = useCallback(() => setShowLogin(false), []);
+
   return (
-    <Modal
-      open={isOpen}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      {showLogin ? (
-        <LoginForm showSignUp={() => setShowLogin(false)} />
-      ) : (
-        <SignUpForm showLogin={() => setShowLogin(true)} />
-      )}
+    <Modal open={isOpen} onClose={handleClose}>
+      <Box>
+        {showLogin ? (
+          <LoginForm showSignUp={handleShowSignUp} />
+        ) : (
+          <SignUpForm showLogin={handleShowLogin} />
+        )}
+      </Box>
     </Modal>
   );
 }
