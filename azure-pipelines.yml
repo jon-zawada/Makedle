@@ -1,0 +1,27 @@
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  # Install Node.js
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "22.15.0"
+    displayName: "Install Node.js"
+
+  # Client: install dependencies, build with webpack, run tests
+  - script: |
+      cd client
+      npm ci
+      npx webpack
+      npm test
+    displayName: "Build & Test Client"
+
+  # Server: install dependencies, run tests
+  - script: |
+      cd server
+      npm ci
+      npm test
+    displayName: "Install & Test Server"
